@@ -29,7 +29,7 @@ public class Kmj {
                     System.out.print(" ");
                 }
             }
-            System.out.println();
+            System.out.println("짜란");
         }
     }
 }
