@@ -5,5 +5,3 @@ public class Jsj {
 		System.out.println("두번째입니다");
 	}
 }
-
-
