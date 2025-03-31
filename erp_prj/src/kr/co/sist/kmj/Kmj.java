@@ -1,13 +1,35 @@
 package kr.co.sist.kmj;
 
 public class Kmj {
-	public static void main(String[] args) {
-	System.out.println("허각 너를 떠나보낼 준비해둘 걸 그랬어");
-	System.out.println("로이킴 내게사랑이뭐냐고물어본다면");
-	System.out.println("조째즈 모르시나요");
-	System.out.println("임한별 9월24일");
-	System.out.println("정승환 눈사람");
-	System.out.println("신용재 첫줄");
-		
-	}//main
-}//class
+    public static void main(String[] args) {
+        int size = 10; // 패턴 크기 조절 가능
+        
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size - i; j++) {
+                System.out.print(" ");
+            }
+            for (int j = 0; j < (2 * i + 1); j++) {
+                if (j == 0 || j == 2 * i || i == size - 1) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+        
+        for (int i = size - 2; i >= 0; i--) {
+            for (int j = 0; j < size - i; j++) {
+                System.out.print(" ");
+            }
+            for (int j = 0; j < (2 * i + 1); j++) {
+                if (j == 0 || j == 2 * i) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println("짜란");
+        }
+    }
+}
