@@ -30,7 +30,7 @@ public class AdminLoginEvent extends WindowAdapter implements ActionListener {
             apf=new AdminParentFrame();
             // 이후 메인 화면으로 이동 가능
         } else {
-            JOptionPane.showMessageDialog(alf, "아이디 또는 비밀번호가 잘못되었습니다.", 
+            JOptionPane.showMessageDialog(alf, "아이디 는 비밀번호가 잘못되었습니다.", 
                                           "로그인 실패", JOptionPane.ERROR_MESSAGE);
         }
     }
