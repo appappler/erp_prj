@@ -23,13 +23,30 @@ public class AttendanceEvt {
         tableModel.setRowCount(0);
 
         int attendanceCount = 0, leaveCount = 0, absentCount = 0;
+
         for (AttendanceVO emp : employees) {
-            String status = (emp.getStatusId() == 1) ? "출근" : (emp.getStatusId() == 2) ? "퇴근" : "결근";
-            if (status.equals("출근")) attendanceCount++;
-            else if (status.equals("퇴근")) leaveCount++;
-            else absentCount++;
-            tableModel.addRow(new Object[]{emp.getEmpNo(), emp.getInTime(), emp.getOutTime(), emp.getWorkHours(), emp.getRemarks(), status});
+            String status = "결근";
+            if ("1".equals(emp.getStatus_Id())) {
+                status = "출근";
+                attendanceCount++;
+            } else if ("2".equals(emp.getStatus_Id())) {
+                status = "퇴근";
+                leaveCount++;
+            } else {
+                absentCount++;
+            }
+
+            tableModel.addRow(new Object[]{
+                    emp.getEmpno(),
+                    emp.getEmp_name(),
+                    emp.getDeptname(),
+                    emp.getPosition_name(),
+                    emp.getIn_Time(),
+                    emp.getOut_Time(),
+                    status
+            });
         }
+
         lblAttendance.setText("출근 " + attendanceCount + "명");
         lblLeave.setText("퇴근 " + leaveCount + "명");
         lblAbsent.setText("결근 " + absentCount + "명");
