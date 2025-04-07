@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * DBMS 와 연결된 Connection 얻기.
+ * DBMS 와 연결된 Connection 
  */
 public class DBConnection {
 
