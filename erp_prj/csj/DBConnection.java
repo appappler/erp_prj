@@ -5,7 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+<<<<<<< HEAD
  * DBMS 와 연결된 Connection 얻
+=======
+ * DBMS 와 연결된 Connection 
+>>>>>>> refs/heads/csj
  */
 public class DBConnection {
 
