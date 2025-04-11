@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import kr.co.sist.admin.evt.EmpTabViewEvt;
 import kr.co.sist.admin.service.EmpService;
+import sh.util.PlaceholderUtil;
 
 /**
  * 
@@ -66,6 +67,7 @@ public class AddPersonnelDialog extends JDialog {
         contentPanel.add(lblAppointmentDate);
 
         tfAppointmentDate = new JTextField("yyyy-mm-dd");
+		PlaceholderUtil.applyDatePlaceholder(tfAppointmentDate);
         tfAppointmentDate.setBounds(150, 65, 200, 24);
         contentPanel.add(tfAppointmentDate);
         tfAppointmentDate.setColumns(10);

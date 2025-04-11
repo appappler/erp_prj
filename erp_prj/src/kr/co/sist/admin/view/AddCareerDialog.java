@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import kr.co.sist.admin.evt.EmpTabViewEvt;
+import sh.util.PlaceholderUtil;
 
 /**
  * 
@@ -56,6 +57,8 @@ public class AddCareerDialog extends JDialog {
 		contentPanel.add(jlbl2);
 
 		jtfCareerDialog2 = new JTextField("yyyy-mm-dd");
+		PlaceholderUtil.applyDatePlaceholder(jtfCareerDialog2);
+
 		jtfCareerDialog2.setBounds(210, 35, 116, 21);
 		contentPanel.add(jtfCareerDialog2);
 		jtfCareerDialog2.setColumns(10);
@@ -65,6 +68,7 @@ public class AddCareerDialog extends JDialog {
 		contentPanel.add(jlbl3);
 
 		jtfCareerDialog3 = new JTextField("yyyy-mm-dd");
+		PlaceholderUtil.applyDatePlaceholder(jtfCareerDialog3);
 		jtfCareerDialog3.setBounds(210, 60, 116, 21);
 		contentPanel.add(jtfCareerDialog3);
 		jtfCareerDialog3.setColumns(10);

@@ -1,11 +1,18 @@
 package kr.co.sist.user.evt;
 
+import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.user.service.AppointmentService;
@@ -43,13 +50,7 @@ public class EmpDetailViewEvt implements ActionListener {
         } else if (src == detailView.getBtnSave()) {
         	try {
                 saveChanges();              // 기본정보 수정
-                saveEduChanges();           // 학력 수정
-                saveCareerChanges();        // 경력 수정
-                saveCertChanges();          // 자격증 수정
-                savePersonnelChanges();     // 인사발령 수정
-                saveTrainingChanges();      // 교육 수정
-                
-                JOptionPane.showMessageDialog(detailView, "✅ 모든 정보가 성공적으로 저장되었습니다.");
+             //
                 disableEditing();
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -60,18 +61,6 @@ public class EmpDetailViewEvt implements ActionListener {
 	                // 👇 핵심 추가
 	                File chosen = detailView.getSelectedFile(); // 이미 chooseImage 내부에서 설정됨
 	                detailView.setSelectedFile(chosen); // 명시적 재지정 (안 하면 null로 인식됨)
-        }else if (src == detailView.getEduTabPanel().getBtnDelete()) {
-            deleteEduRow();  // ✅ 아래에서 새로 정의할 메서드
-        }else if (src == detailView.getCareerTabPanel().getBtnDelete()) {
-            deleteCareerRow();  // ✅ 아래에서 새로 정의할 메서드
-        }else if (src == detailView.getCertTabPanel().getBtnDelete()) {
-            deleteCertRow();
-        }else if (src == detailView.getPersonnelTabPanel().getBtnDelete()) {
-            deletePersonnelRow();
-        }else if (src == detailView.getTrainingTabPanel().getBtnDelete()) {
-            deleteTrainingRow();
-        }else if (src == detailView.getJbtnEditPass()) {
-            showPasswordDialog(); // 비밀번호 수정 다이얼로그 호출
         }
 
 
@@ -106,20 +95,15 @@ public class EmpDetailViewEvt implements ActionListener {
         detailView.getJbtnResetEmp().setVisible(false);
 
         // ✅ 탭별 패널: 버튼 표시, 테이블 수정 가능
-        detailView.getEduTabPanel().setButtonsVisible(true);
-        detailView.getEduTabPanel().setTableEditable(true);
+        detailView.getEduTabPanel().setTableEditable(false);
 
-        detailView.getCareerTabPanel().setButtonsVisible(true);
-        detailView.getCareerTabPanel().setTableEditable(true);
+        detailView.getCareerTabPanel().setTableEditable(false);
 
-        detailView.getCertTabPanel().setButtonsVisible(true);
-        detailView.getCertTabPanel().setTableEditable(true);
+        detailView.getCertTabPanel().setTableEditable(false);
 
-        detailView.getPersonnelTabPanel().setButtonsVisible(true);
-        detailView.getPersonnelTabPanel().setTableEditable(true);
+        detailView.getPersonnelTabPanel().setTableEditable(false);
 
-        detailView.getTrainingTabPanel().setButtonsVisible(true);
-        detailView.getTrainingTabPanel().setTableEditable(true);
+        detailView.getTrainingTabPanel().setTableEditable(false);
 
     }
 
@@ -199,7 +183,9 @@ public class EmpDetailViewEvt implements ActionListener {
     
     
     private void showPasswordDialog() {
-        ChangePassDialog dialog = new ChangePassDialog(detailView, ChangePassDialog.Mode.CHANGE);
+    	Window parent = SwingUtilities.getWindowAncestor(detailView);
+
+        ChangePassDialog dialog = new ChangePassDialog(parent, ChangePassDialog.Mode.CHANGE);
         String currentPw = detailView.getJtfPass().getText().trim();
         dialog.setOldPassword(currentPw);
 
@@ -251,424 +237,7 @@ public class EmpDetailViewEvt implements ActionListener {
     
 
     
- // EmpDetailViewEvt.java 에 추가할 메서드
-    private void saveEduChanges() {
-    	if (detailView.getEduTabPanel().getTable().isEditing()) {
-    	    detailView.getEduTabPanel().getTable().getCellEditor().stopCellEditing();
-    	}
-        DefaultTableModel model = detailView.getEduTabPanel().getTableModel();
-        int rowCount = model.getRowCount();
-        if (rowCount == 0) return;
-
-        EduService service = new EduService();
-
-        for (int i = 0; i < rowCount; i++) {
-            try {
-                String admissionStr = model.getValueAt(i, 1).toString().trim();
-                String graduationStr = model.getValueAt(i, 2).toString().trim();
-                String school = model.getValueAt(i, 3).toString().trim();
-                String major = model.getValueAt(i, 4).toString().trim();
-                String degree = model.getValueAt(i, 5).toString().trim();
-                String gradStatus = model.getValueAt(i, 6).toString().trim();
-
-                if (admissionStr.isEmpty() || graduationStr.isEmpty() || school.isEmpty()
-                        || major.isEmpty() || degree.isEmpty() || gradStatus.isEmpty()) {
-                    throw new RuntimeException((i + 1) + "번째 학력 정보에 누락된 항목이 있습니다.");
-                }
-
-                EduVO vo = new EduVO();
-                vo.setEmpno(Integer.parseInt(detailView.getJtfEmpno().getText().trim()));
-                vo.setEdu_id(Integer.parseInt(model.getValueAt(i, 0).toString()));
-                vo.setAdmission(Date.valueOf(admissionStr));
-                vo.setGraduation(Date.valueOf(graduationStr));
-                vo.setSchoolName(school);
-                vo.setMajor(major);
-                vo.setDegree(degree);
-                vo.setGradStatus(gradStatus);
-
-                if (!service.updateEducation(vo)) {
-                    throw new RuntimeException("학력 정보 수정 실패 (id: " + vo.getEdu_id() + ")");
-                }
-
-            } catch (Exception e) {
-                throw new RuntimeException("학력 정보 수정 중 오류 발생: " + e.getMessage(), e);
-            }
-        }
-    }
-
-    
-    private void saveCareerChanges() {
-    	if (detailView.getCareerTabPanel().getTable().isEditing()) {
-    	    detailView.getCareerTabPanel().getTable().getCellEditor().stopCellEditing();
-    	}
-        DefaultTableModel model = detailView.getCareerTabPanel().getTableModel();
-        int rowCount = model.getRowCount();
-        if (rowCount == 0) return;
-
-        CareerService service = new CareerService();
-
-        for (int i = 0; i < rowCount; i++) {
-            try {
-                String company = model.getValueAt(i, 1).toString().trim();
-                String hireStr = model.getValueAt(i, 2).toString().trim();
-                String leaveStr = model.getValueAt(i, 3).toString().trim();
-                String position = model.getValueAt(i, 4).toString().trim();
-                String dept = model.getValueAt(i, 5).toString().trim();
-                String reason = model.getValueAt(i, 6).toString().trim();
-
-                if (company.isEmpty() || hireStr.isEmpty() || leaveStr.isEmpty()
-                        || position.isEmpty() || dept.isEmpty() || reason.isEmpty()) {
-                    throw new RuntimeException((i + 1) + "번째 경력 정보에 누락된 항목이 있습니다.");
-                }
-
-                CareerVO vo = new CareerVO();
-                vo.setCareer_id(Integer.parseInt(model.getValueAt(i, 0).toString()));
-                vo.setCompany(company);
-                vo.setHireDate(Date.valueOf(hireStr));
-                vo.setLeaveDate(Date.valueOf(leaveStr));
-                vo.setExPosition(position);
-                vo.setExDept(dept);
-                vo.setReason(reason);
-
-                if (service.modifyCareer(vo) == 0) {
-                    throw new RuntimeException("경력 정보 수정 실패 (id: " + vo.getCareer_id() + ")");
-                }
-
-            } catch (Exception e) {
-                throw new RuntimeException("경력 정보 수정 중 오류 발생: " + e.getMessage(), e);
-            }
-        }
-    }
-
-    
-    private void saveCertChanges() {
-    	if (detailView.getCertTabPanel().getTable().isEditing()) {
-    	    detailView.getCertTabPanel().getTable().getCellEditor().stopCellEditing();
-    	}
-        DefaultTableModel model = detailView.getCertTabPanel().getTableModel();
-        int rowCount = model.getRowCount();
-        if (rowCount == 0) return;
-
-        CertService service = new CertService();
-
-        for (int i = 0; i < rowCount; i++) {
-            try {
-                // 필수 항목 검사
-                String name = model.getValueAt(i, 1).toString().trim();
-                String issuer = model.getValueAt(i, 2).toString().trim();
-                String acqStr = model.getValueAt(i, 3).toString().trim();
-                Object expObj = model.getValueAt(i, 4);
-                String expStr = (expObj == null) ? "" : expObj.toString().trim();
-
-
-                if (name.isEmpty() || issuer.isEmpty() || acqStr.isEmpty()) {
-                    throw new RuntimeException((i + 1) + "번째 자격증 정보에 누락된 항목이 있습니다.");
-                }
-
-                // CertVO 구성
-                CertVO vo = new CertVO();
-
-                // 🔹 cert_id 안전하게 파싱
-                Object idObj = model.getValueAt(i, 0);
-                if (idObj == null || idObj.toString().isBlank()) {
-                    throw new RuntimeException((i + 1) + "번째 자격증 ID가 존재하지 않습니다.");
-                }
-                try {
-                    vo.setCert_id(Integer.parseInt(idObj.toString()));
-                } catch (NumberFormatException nfe) {
-                    throw new RuntimeException((i + 1) + "번째 자격증 ID가 올바르지 않습니다.");
-                }
-
-                vo.setCertName(name);
-                vo.setIssuer(issuer);
-
-                // 날짜 파싱
-                try {
-                    vo.setAcqDate(Date.valueOf(acqStr));
-                } catch (IllegalArgumentException e) {
-                    throw new RuntimeException((i + 1) + "번째 자격증의 취득일 형식이 잘못되었습니다. yyyy-mm-dd 형식이어야 합니다.");
-                }
-
-                Date expDate = null;
-                if (!expStr.isEmpty()) {
-                    try {
-                        expDate = Date.valueOf(expStr);
-                    } catch (IllegalArgumentException e) {
-                        throw new RuntimeException((i + 1) + "번째 자격증의 유효일 형식이 잘못되었습니다. yyyy-mm-dd 형식이어야 합니다.");
-                    }
-                }
-                vo.setExpDate(expDate);
-
-                // 수정 수행
-                service.modifyCertificate(vo);
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(detailView,
-                    "자격증 정보 수정 중 오류 발생:\n" + e.getMessage(),
-                    "오류", JOptionPane.ERROR_MESSAGE);
-                return; // 중단
-            }
-        }
-
-    }
-
-
-
-    private void savePersonnelChanges() {
-        if (detailView.getPersonnelTabPanel().getTable().isEditing()) {
-            detailView.getPersonnelTabPanel().getTable().getCellEditor().stopCellEditing();
-        }
-        DefaultTableModel model = detailView.getPersonnelTabPanel().getTableModel();
-        int rowCount = model.getRowCount();
-        if (rowCount == 0) return;
-
-        EmpService service = new EmpService(); // 매번 생성하지 않도록 바깥으로 뺌
-
-        for (int i = 0; i < rowCount; i++) {
-            try {
-                String appointment = getSafeString(model.getValueAt(i, 1));
-                String dateStr = getSafeString(model.getValueAt(i, 2));
-                String deptName = getSafeString(model.getValueAt(i, 3));
-                String positionName = getSafeString(model.getValueAt(i, 4));
-
-                if (appointment.isEmpty() || dateStr.isEmpty()) {
-                    throw new RuntimeException((i + 1) + "번째 인사발령 정보에 발령구분과 발령일자는 필수입니다.");
-                }
-
-                Integer deptno = null;
-                Integer positionId = null;
-
-                if (!"퇴사".equals(appointment)) {
-                    if (deptName.isEmpty() || positionName.isEmpty()) {
-                        throw new RuntimeException((i + 1) + "번째 인사발령 정보에 부서 또는 직급이 누락되었습니다.");
-                    }
-                    deptno = service.getDeptnoByName(deptName);
-                    positionId = service.getPositionIdByName(positionName);
-                }
-
-                AppointmentVO vo = new AppointmentVO();
-                vo.setAppoint_id(Integer.parseInt(model.getValueAt(i, 0).toString()));
-                vo.setEmpno(Integer.parseInt(detailView.getJtfEmpno().getText().trim()));
-                vo.setAppointment(appointment);
-                vo.setAppointmentDate(Date.valueOf(dateStr));
-                vo.setDeptno(deptno);               // 🔥 퇴사인 경우 null
-                vo.setPositionId(positionId);       // 🔥 퇴사인 경우 null
-
-                new AppointmentService().modifyAppointment(vo);
-
-            } catch (Exception e) {
-                throw new RuntimeException("인사발령 정보 수정 중 오류 발생: " + e.getMessage(), e);
-            }
-        }
-    }
-
-
-    private String getSafeString(Object value) {
-        return value == null ? "" : value.toString().trim();
-    }
-    
-    private void saveTrainingChanges() {
-    	if (detailView.getTrainingTabPanel().getTable().isEditing()) {
-    	    detailView.getTrainingTabPanel().getTable().getCellEditor().stopCellEditing();
-    	}
-        DefaultTableModel model = detailView.getTrainingTabPanel().getTableModel();
-        int rowCount = model.getRowCount();
-        if (rowCount == 0) return;
-
-        for (int i = 0; i < rowCount; i++) {
-            try {
-                String institution = model.getValueAt(i, 1).toString().trim();
-                String title = model.getValueAt(i, 2).toString().trim();
-                String startStr = model.getValueAt(i, 3).toString().trim();
-                String endStr = model.getValueAt(i, 4).toString().trim();
-                String completion = model.getValueAt(i, 5).toString().trim();
-
-                if (institution.isEmpty() || title.isEmpty() || startStr.isEmpty()
-                        || endStr.isEmpty() || completion.isEmpty()) {
-                    throw new RuntimeException((i + 1) + "번째 교육 정보에 누락된 항목이 있습니다.");
-                }
-
-                TrainingVO vo = new TrainingVO();
-                vo.setTraining_id(Integer.parseInt(model.getValueAt(i, 0).toString()));
-                vo.setInstitution(institution);
-                vo.setTrainingName(title);
-                vo.setStartDate(Date.valueOf(startStr));
-                vo.setEndDate(Date.valueOf(endStr));
-                vo.setComplete(completion);
-
-                new TrainingService().modifyTraining(vo);
-
-            } catch (Exception e) {
-                throw new RuntimeException("교육 정보 수정 중 오류 발생: " + e.getMessage(), e);
-            }
-        }
-    }
-
-    
-    private void deleteEduRow() {
-        int row = detailView.getEduTabPanel().getTable().getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(detailView, "삭제할 학력 정보를 선택하세요.");
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(detailView, "정말 삭제하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) return;
-
-        try {
-            int eduId = Integer.parseInt(detailView.getEduTabPanel().getTableModel().getValueAt(row, 0).toString()); // ✅ 첫 컬럼: edu_id
-
-            boolean success = new EduService().deleteEducation(eduId); // ✅ empno 없이 삭제
-
-            if (success) {
-                detailView.getEduTabPanel().getTableModel().removeRow(row);
-                JOptionPane.showMessageDialog(detailView, "학력 정보 삭제 성공");
-            } else {
-                JOptionPane.showMessageDialog(detailView, "DB 삭제 실패");
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(detailView, "삭제 중 오류 발생: " + ex.getMessage());
-        }
-    }
-
-    private void deleteCareerRow() {
-        int row = detailView.getCareerTabPanel().getTable().getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(detailView, "삭제할 경력 정보를 선택하세요.");
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(detailView, "선택한 경력 정보를 삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) return;
-
-        try {
-            Object idObj = detailView.getCareerTabPanel().getTableModel().getValueAt(row, 0);
-            if (idObj == null || idObj.toString().isBlank()) {
-                JOptionPane.showMessageDialog(detailView, "🟡 임시로 추가된 경력 정보입니다. 저장 후 다시 삭제하세요.");
-                detailView.getCareerTabPanel().getTableModel().removeRow(row);
-                return;
-            }
-
-            int careerId = Integer.parseInt(idObj.toString());
-            boolean deleted = new CareerService().deleteCareerById(careerId);
-
-            if (deleted) {
-                detailView.getCareerTabPanel().getTableModel().removeRow(row);
-                JOptionPane.showMessageDialog(detailView, "✅ 경력 정보가 삭제되었습니다.");
-            } else {
-                JOptionPane.showMessageDialog(detailView, "❌ 삭제 실패: DB 오류");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(detailView, "삭제 중 오류 발생: " + e.getMessage());
-        }
-    }
-
-    
-    private void deleteCertRow() {
-        int row = detailView.getCertTabPanel().getTable().getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(detailView, "삭제할 자격증 정보를 선택하세요.");
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(detailView, "선택한 자격증 정보를 삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) return;
-
-        try {
-            Object idObj = detailView.getCertTabPanel().getTableModel().getValueAt(row, 0);
-            if (idObj == null || idObj.toString().isBlank()) {
-                JOptionPane.showMessageDialog(detailView, "🟡 임시로 추가된 자격증 정보입니다. 저장 후 다시 삭제하세요.");
-                detailView.getCertTabPanel().getTableModel().removeRow(row);
-                return;
-            }
-
-            int certId = Integer.parseInt(idObj.toString());
-            boolean deleted = new CertService().deleteCertificateById(certId);
-
-            if (deleted) {
-                detailView.getCertTabPanel().getTableModel().removeRow(row);
-                JOptionPane.showMessageDialog(detailView, "✅ 자격증 정보가 삭제되었습니다.");
-            } else {
-                JOptionPane.showMessageDialog(detailView, "❌ 삭제 실패: DB 오류");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(detailView, "삭제 중 오류 발생: " + e.getMessage());
-        }
-    }
-
-    
-    private void deletePersonnelRow() {
-        int row = detailView.getPersonnelTabPanel().getTable().getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(detailView, "삭제할 인사발령 정보를 선택하세요.");
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(detailView, "선택한 인사 정보를 삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) return;
-
-        try {
-            Object idObj = detailView.getPersonnelTabPanel().getTableModel().getValueAt(row, 0);
-            if (idObj == null || idObj.toString().isBlank()) {
-                JOptionPane.showMessageDialog(detailView, "🟡 임시로 추가된 인사 정보입니다. 저장 후 다시 삭제하세요.");
-                detailView.getPersonnelTabPanel().getTableModel().removeRow(row);
-                return;
-            }
-
-            int appointId = Integer.parseInt(idObj.toString());
-
-            boolean deleted = new AppointmentService().deleteAppointment(appointId);
-
-            if (deleted) {
-                detailView.getPersonnelTabPanel().getTableModel().removeRow(row);
-                JOptionPane.showMessageDialog(detailView, "✅ 인사발령 정보가 삭제되었습니다.");
-            } else {
-                JOptionPane.showMessageDialog(detailView, "❌ 삭제 실패: DB 오류");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(detailView, "삭제 중 오류 발생: " + e.getMessage());
-        }
-    }
-
-
-    private void deleteTrainingRow() {
-        int row = detailView.getTrainingTabPanel().getTable().getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(detailView, "삭제할 교육 정보를 선택하세요.");
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(detailView, "선택한 교육 정보를 삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) return;
-
-        try {
-            Object idObj = detailView.getTrainingTabPanel().getTableModel().getValueAt(row, 0);
-            if (idObj == null || idObj.toString().isBlank()) {
-                JOptionPane.showMessageDialog(detailView, "🟡 임시로 추가된 교육 정보입니다. 저장 후 다시 삭제하세요.");
-                detailView.getTrainingTabPanel().getTableModel().removeRow(row);
-                return;
-            }
-
-            int trainingId = Integer.parseInt(idObj.toString());
-
-            boolean deleted = new TrainingService().deleteTrainingById(trainingId);
-
-            if (deleted) {
-                detailView.getTrainingTabPanel().getTableModel().removeRow(row);
-                JOptionPane.showMessageDialog(detailView, "✅ 교육 정보가 삭제되었습니다.");
-            } else {
-                JOptionPane.showMessageDialog(detailView, "❌ 삭제 실패: DB 오류");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(detailView, "삭제 중 오류 발생: " + e.getMessage());
-        }
-    }
+ 
 
 
 }//class

@@ -1,6 +1,7 @@
 package kr.co.sist.admin.evt;
 
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,6 +12,7 @@ import java.sql.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.admin.evt.EmpListViewEvt;
@@ -49,22 +51,55 @@ public class EmpDetailViewEvt implements ActionListener {
         } else if (src == detailView.getBtnSave()) {
         	try {
                 saveChanges();              // 기본정보 수정
-                saveEduChanges();           // 학력 수정
-                saveCareerChanges();        // 경력 수정
-                saveCertChanges();          // 자격증 수정
-                savePersonnelChanges();     // 인사발령 수정
-                saveTrainingChanges();      // 교육 수정
-
              // 🔥 사원 목록 새로고침
                 if (detailView.getListView() != null) {
                     new EmpListViewEvt(detailView.getListView()).showAllEmpList(false);
                 }
                 
-                JOptionPane.showMessageDialog(detailView, "✅ 모든 정보가 성공적으로 저장되었습니다.");
                 disableEditing();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(detailView, "❌ 저장 중 오류 발생: " + ex.getMessage());
+            }
+        }else if (src == detailView.getEduTabPanel().getBtnSave()) {
+            try {
+                saveEduChanges();
+                JOptionPane.showMessageDialog(detailView, "✅ 학력 정보가 저장되었습니다.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(detailView, "❌ 학력 정보 저장 중 오류 발생: " + ex.getMessage());
+            }
+        } else if (src == detailView.getCareerTabPanel().getBtnSave()) {
+            try {
+                saveCareerChanges();
+                JOptionPane.showMessageDialog(detailView, "✅ 경력 정보가 저장되었습니다.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(detailView, "❌ 경력 정보 저장 중 오류 발생: " + ex.getMessage());
+            }
+        } else if (src == detailView.getCertTabPanel().getBtnSave()) {
+            try {
+                saveCertChanges();
+                JOptionPane.showMessageDialog(detailView, "✅ 자격증 정보가 저장되었습니다.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(detailView, "❌ 자격증 정보 저장 중 오류 발생: " + ex.getMessage());
+            }
+        } else if (src == detailView.getPersonnelTabPanel().getBtnSave()) {
+            try {
+                savePersonnelChanges();
+                JOptionPane.showMessageDialog(detailView, "✅ 인사 정보가 저장되었습니다.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(detailView, "❌ 인사 정보 저장 중 오류 발생: " + ex.getMessage());
+            }
+        } else if (src == detailView.getTrainingTabPanel().getBtnSave()) {
+            try {
+                saveTrainingChanges();
+                JOptionPane.showMessageDialog(detailView, "✅ 교육 정보가 저장되었습니다.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(detailView, "❌ 교육 정보 저장 중 오류 발생: " + ex.getMessage());
             }
         }else if (src == detailView.getJbtnEditImg()) {
 	                detailView.chooseImage(); // 선택된 파일이 없을 때만 실행
@@ -210,7 +245,9 @@ public class EmpDetailViewEvt implements ActionListener {
     
     
     private void showPasswordDialog() {
-        ChangePassDialog dialog = new ChangePassDialog(detailView, ChangePassDialog.Mode.CHANGE);
+    	Window parent = SwingUtilities.getWindowAncestor(detailView);
+
+        ChangePassDialog dialog = new ChangePassDialog(parent, ChangePassDialog.Mode.CHANGE);
         String currentPw = detailView.getJtfPass().getText().trim();
         dialog.setOldPassword(currentPw);
 

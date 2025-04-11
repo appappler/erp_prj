@@ -26,6 +26,8 @@ public class SubTabPanel extends JPanel {
     private JTable table;
     private JButton btnAdd;
     private JButton btnDelete;
+    private JButton btnSave;  // 추가
+
 
     /**
      * 공통 탭 패널 구성자
@@ -48,7 +50,8 @@ public class SubTabPanel extends JPanel {
         jthTable.setForeground(Color.white);
         jthTable.setBackground(new Color(8, 60, 80));
         jthTable.setPreferredSize(new Dimension(jthTable.getWidth(), 30));
-        
+        jthTable.setReorderingAllowed(false);
+
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 30, 560, 80);
         add(scrollPane);
@@ -61,6 +64,8 @@ public class SubTabPanel extends JPanel {
     private void initButtons(ActionListener listener) {
         btnAdd = createButton("행 추가", 387, 5, listener);
         btnDelete = createButton("행 삭제", 487, 5, listener);
+        btnSave = createButton("저장", 487, 125, listener);  // 저장 버튼 추가
+
     }
 
     // 📌 버튼 생성 공통 메서드
@@ -94,6 +99,7 @@ public class SubTabPanel extends JPanel {
     public void setButtonsVisible(boolean visible) {
         if (btnAdd != null) btnAdd.setVisible(visible);
         if (btnDelete != null) btnDelete.setVisible(visible);
+        if (btnSave != null) btnSave.setVisible(visible);
     }
     
     public void resetTable() {
@@ -105,5 +111,7 @@ public class SubTabPanel extends JPanel {
     public JTable getTable() { return table; }
     public JButton getBtnAdd() { return btnAdd; }
     public JButton getBtnDelete() { return btnDelete; }
+    public JButton getBtnSave() { return btnSave; }
+
     
 }//class

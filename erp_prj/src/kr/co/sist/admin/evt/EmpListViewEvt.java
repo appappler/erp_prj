@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -46,12 +47,12 @@ public class EmpListViewEvt extends MouseAdapter implements ActionListener, Focu
 	                JOptionPane.showMessageDialog(elv, "사원 정보를 불러오지 못했습니다.");
 	                return;
 	            }
-	            JFrame frame = new JFrame("사원 상세정보");
-	            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	            frame.getContentPane().add(new EmpDetailView(vo));
-	            frame.pack();
-	            frame.setLocationRelativeTo(null); // 화면 중앙
-	            frame.setVisible(true);
+	            JDialog dialog = new JDialog((JFrame) null, "사원 상세정보", false); // modal dialog
+	            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	            dialog.getContentPane().add(new EmpDetailView(vo, elv)); // elv 넘겨줌
+	            dialog.pack();
+	            dialog.setLocationRelativeTo(null);
+	            dialog.setVisible(true);
 	        } catch (Exception ex) {
 	            ex.printStackTrace();
 	            JOptionPane.showMessageDialog(elv, "사원 정보를 불러오지 못했습니다.");

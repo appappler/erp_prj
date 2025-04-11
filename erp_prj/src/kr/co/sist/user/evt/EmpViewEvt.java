@@ -1,7 +1,7 @@
 package kr.co.sist.user.evt;
 
-
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import kr.co.sist.user.service.EmpService;
 import kr.co.sist.user.view.ChangePassDialog;
@@ -39,17 +40,18 @@ public class EmpViewEvt implements ActionListener {
             editImg();
         } else if (e.getSource() == empView.getJbtnInputPass()) {
             inputPass();  // ✅ 신규 메서드 추가
-        } else if (e.getSource() == empView.getJbtnAddEmp()) {
-        	addEmp();
         } else if (e.getSource() == empView.getJbtnResetEmp()) {
             resetForm();
         }
     }
 
-    private void loadDeptAndPosition() {
+    public void loadDeptAndPosition() {
         try {
             List<String> deptList = new EmpService().getAllDeptNames();      // 부서명 목록
             List<String> positionList = new EmpService().getAllPositionNames(); // 직급명 목록
+
+            empView.getJcbDept().removeAllItems();
+            empView.getJcbPosition().removeAllItems();
 
             for (String dept : deptList) {
                 empView.getJcbDept().addItem(dept);
@@ -87,7 +89,9 @@ public class EmpViewEvt implements ActionListener {
     
     // 사원의 비밀번호를 압력하는 메소드 
     private void inputPass() {
-        ChangePassDialog dialog = new ChangePassDialog(empView, ChangePassDialog.Mode.REGISTER);
+    	Window parent = SwingUtilities.getWindowAncestor(empView);
+
+        ChangePassDialog dialog = new ChangePassDialog(parent, ChangePassDialog.Mode.CHANGE);
 
         dialog.getBtnOk().addActionListener(ev -> {
             String newPw = dialog.getNewPassword();
@@ -112,75 +116,7 @@ public class EmpViewEvt implements ActionListener {
 
 
     
-    //사원을 등록하는 메소드
-    private void addEmp() {
-        EmpVO eVO = new EmpVO();
-        EmpService es = new EmpService();
-   
-
-
-        String deptName = empView.getJcbDept().getSelectedItem().toString();
-        String positionName = empView.getJcbPosition().getSelectedItem().toString();
-
-        int deptno = es.getDeptnoByName(deptName);
-        int positionId = es.getPositionIdByName(positionName);
-
-        eVO.setDept(String.valueOf(deptno)); // VO는 아직 dept(String) 타입일 경우
-        eVO.setPosition(String.valueOf(positionId));
-        if (tempPassword == null) {
-            JOptionPane.showMessageDialog(empView, "비밀번호를 먼저 입력해주세요.");
-            return;
-        }
-        eVO.setPassword(tempPassword);        
-        eVO.setEname(empView.getJtfName().getText().trim());
-        eVO.setTel(empView.getJtfContact().getText().trim());
-        eVO.setEmail(empView.getJtfEmail().getText().trim());
-        eVO.setAddress(empView.getJtfAddress().getText().trim());
-        eVO.setWorkingFlag("Y");
-
-        try {
-            eVO.setBirthDate(Date.valueOf(empView.getJtfBirthDate().getText().trim()));
-            eVO.setHireDate(Date.valueOf(empView.getJtfHireDate().getText().trim()));
-        } catch (IllegalArgumentException iae) {
-            JOptionPane.showMessageDialog(empView, "날짜 형식은 yyyy-mm-dd로 입력하세요.");
-            return;
-        }
-
-        if (selectedFile != null && selectedFile.exists()) {
-            try {
-                eVO.setImgInputStream(new FileInputStream(selectedFile));
-                eVO.setImgName(selectedFile.getName());  
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-
-        boolean flag = es.addEmployee(eVO);
-
-        String msg = "사원 등록 실패";
-        if (flag) {
-            msg = "사원 등록 성공 - 사번: " + eVO.getEmpno();
-            System.out.println("사번 세팅 전: " + empView.getJtfEmpno().getText());
-            empView.getJtfEmpno().setText(String.valueOf(eVO.getEmpno()));
-            System.out.println("사번 세팅 후: " + empView.getJtfEmpno().getText());
-            empView.getJtfEmpno().revalidate();  // layout 갱신
-            empView.getJtfEmpno().repaint();     // UI 강제 갱신
-         // 인사발령 탭에도 반영 (입사 기록)
-            empView.getPersonnelTabPanel().getTableModel().addRow(new Object[]{
-                "", // appoint_id는 생략 (숨겨진 컬럼)
-                "입사",
-                eVO.getHireDate(),
-                empView.getJcbDept().getSelectedItem(),
-                empView.getJcbPosition().getSelectedItem()
-            });
-
-        }
-
-        JOptionPane.showMessageDialog(empView, msg);
-       
-    }
+    
     
     private void resetForm() {
         empView.getJtfEmpno().setText("자동생성");

@@ -104,7 +104,24 @@ public class EmpDetailView extends EmpView {
             getJbtnEditImg().removeActionListener(al);
         }
         getJbtnEditImg().addActionListener(handler); // 📌 chooseImage() 호출
+        
+        removeAllActionListeners(getEduTabPanel().getBtnSave());
+        removeAllActionListeners(getCareerTabPanel().getBtnSave());
+        removeAllActionListeners(getCertTabPanel().getBtnSave());
+        removeAllActionListeners(getPersonnelTabPanel().getBtnSave());
+        removeAllActionListeners(getTrainingTabPanel().getBtnSave());
 
+        getEduTabPanel().getBtnSave().addActionListener(handler);
+        getCareerTabPanel().getBtnSave().addActionListener(handler);
+        getCertTabPanel().getBtnSave().addActionListener(handler);
+        getPersonnelTabPanel().getBtnSave().addActionListener(handler);
+        getTrainingTabPanel().getBtnSave().addActionListener(handler);
+    }
+    
+    private void removeAllActionListeners(JButton btn) {
+        for (ActionListener al : btn.getActionListeners()) {
+            btn.removeActionListener(al);
+        }
     }
     
     private void loadDeptAndPosition() {

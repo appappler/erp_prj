@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import kr.co.sist.admin.evt.EmpTabViewEvt;
+import sh.util.PlaceholderUtil;
 
 /**
  * 
@@ -54,12 +55,14 @@ public class AddEduDialog extends JDialog {
 		jlblEduDialog3.setBounds(121, 63, 57, 15);
 		contentPanel.add(jlblEduDialog3);
 
-		jtfEduDialog1 = new JTextField();
+		jtfEduDialog1 = new JTextField("yyyy-mm-dd");
+		PlaceholderUtil.applyDatePlaceholder(jtfEduDialog1);
 		jtfEduDialog1.setBounds(210, 10, 116, 21);
 		contentPanel.add(jtfEduDialog1);
 		jtfEduDialog1.setColumns(10);
 
-		jtfEduDialog2 = new JTextField();
+		jtfEduDialog2 = new JTextField("yyyy-mm-dd");
+		PlaceholderUtil.applyDatePlaceholder(jtfEduDialog2);
 		jtfEduDialog2.setBounds(210, 35, 116, 21);
 		contentPanel.add(jtfEduDialog2);
 		jtfEduDialog2.setColumns(10);

@@ -16,6 +16,7 @@ import javax.swing.border.TitledBorder;
 
 import kr.co.sist.admin.evt.EmpTabViewEvt;
 import kr.co.sist.admin.evt.EmpViewEvt;
+import sh.util.PlaceholderUtil;
 
 /**
  * 
@@ -61,6 +62,7 @@ public class EmpView extends JPanel {
 
     public EmpView() {
     	
+    	setOpaque(false);
     	setPreferredSize(new Dimension(1200, 900));
     	
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,11 +120,13 @@ public class EmpView extends JPanel {
         jtfName.setBounds(237, 58, 100, 24);
         panel.add(jtfName);
 
-        jtfBirthDate = new JTextField();
+        jtfBirthDate = new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(jtfBirthDate);
         jtfBirthDate.setBounds(492, 58, 100, 24);
         panel.add(jtfBirthDate);
 
-        jtfHireDate = new JTextField();
+        jtfHireDate = new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(jtfHireDate);
         jtfHireDate.setBounds(237, 152, 100, 24);
         panel.add(jtfHireDate);
 
@@ -176,6 +180,17 @@ public class EmpView extends JPanel {
         personnelTabPanel = new SubTabPanel(new String[]{"personnel_id", "발령구분", "발령일자", "발령부서", "발령직급"}, etve);
         trainingTabPanel = new SubTabPanel(new String[]{"training_id", "교육기관", "교육명", "시작일자", "종료일자", "수료여부"}, etve);
 
+        eduTabPanel.getBtnSave().setVisible(false);
+        eduTabPanel.setTableEditable(false);
+        careerTabPanel.getBtnSave().setVisible(false);
+        careerTabPanel.setTableEditable(false);
+        certTabPanel.getBtnSave().setVisible(false);
+        certTabPanel.setTableEditable(false);
+        personnelTabPanel.getBtnSave().setVisible(false);
+        personnelTabPanel.setTableEditable(false);
+        trainingTabPanel.getBtnSave().setVisible(false);
+        trainingTabPanel.setTableEditable(false);
+        
         hideIdColumn(eduTabPanel);
         hideIdColumn(careerTabPanel);
         hideIdColumn(certTabPanel);

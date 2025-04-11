@@ -1,6 +1,7 @@
 package kr.co.sist.admin.evt;
 
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import kr.co.sist.admin.service.EmpService;
 import kr.co.sist.admin.view.ChangePassDialog;
@@ -51,6 +53,8 @@ public class EmpViewEvt implements ActionListener {
             List<String> positionList = new EmpService().getAllPositionNames(); // 직급명 목록
 
             empView.getJcbDept().removeAllItems();
+            empView.getJcbPosition().removeAllItems();
+
             for (String dept : deptList) {
                 empView.getJcbDept().addItem(dept);
             }
@@ -87,7 +91,9 @@ public class EmpViewEvt implements ActionListener {
     
     // 사원의 비밀번호를 압력하는 메소드 
     private void inputPass() {
-        ChangePassDialog dialog = new ChangePassDialog(empView, ChangePassDialog.Mode.REGISTER);
+    	Window parent = SwingUtilities.getWindowAncestor(empView);
+
+        ChangePassDialog dialog = new ChangePassDialog(parent, ChangePassDialog.Mode.REGISTER);
 
         dialog.getBtnOk().addActionListener(ev -> {
             String newPw = dialog.getNewPassword();
@@ -117,11 +123,34 @@ public class EmpViewEvt implements ActionListener {
         EmpVO eVO = new EmpVO();
         EmpService es = new EmpService();
    
+        String name = empView.getJtfName().getText().trim();
+        String birth = empView.getJtfBirthDate().getText().trim();
+        String hire = empView.getJtfHireDate().getText().trim();
+        String contact = empView.getJtfContact().getText().trim();
+        String email = empView.getJtfEmail().getText().trim();
+        String address = empView.getJtfAddress().getText().trim();
+        String deptName = (String) empView.getJcbDept().getSelectedItem();
+        String positionName = (String) empView.getJcbPosition().getSelectedItem();
 
+        if (name.isEmpty() || birth.isEmpty() || hire.isEmpty() ||
+            contact.isEmpty() || email.isEmpty() || address.isEmpty() ||
+            deptName == null || positionName == null || tempPassword == null) {
 
-        String deptName = empView.getJcbDept().getSelectedItem().toString();
-        String positionName = empView.getJcbPosition().getSelectedItem().toString();
+            JOptionPane.showMessageDialog(empView, "모든 항목을 빠짐없이 입력해주세요.");
+            return;
+        }
 
+        if (!contact.matches("^010-\\d{4}-\\d{4}$")) {
+            JOptionPane.showMessageDialog(empView, "연락처는 010-XXXX-XXXX 형식으로 입력해주세요.");
+            return;
+        }
+        
+     // 📌 이메일 형식 검사
+        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            JOptionPane.showMessageDialog(empView, "유효한 이메일 형식을 입력해주세요.");
+            return;
+        }
+        
         int deptno = es.getDeptnoByName(deptName);
         int positionId = es.getPositionIdByName(positionName);
 

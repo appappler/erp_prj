@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import kr.co.sist.admin.evt.EmpTabViewEvt;
+import sh.util.PlaceholderUtil;
 
 /**
  * 
@@ -42,6 +43,7 @@ public class AddCertDialog extends JDialog {
         add(lbl3);
 
         tfIssueDate = new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(tfIssueDate);
         tfIssueDate.setBounds(150, 100, 200, 25);
         add(tfIssueDate);
 
@@ -49,7 +51,8 @@ public class AddCertDialog extends JDialog {
         lbl4.setBounds(50, 135, 100, 25);
         add(lbl4);
 
-        tfExpiryDate = new JTextField("");
+        tfExpiryDate = new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(tfExpiryDate);
         tfExpiryDate.setBounds(150, 135, 200, 25);
         add(tfExpiryDate);
 

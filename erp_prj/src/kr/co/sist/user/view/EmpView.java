@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import kr.co.sist.user.evt.EmpViewEvt;
-import kr.co.sist.user.vo.UserAccountVO;
+import sh.util.PlaceholderUtil;
 
 /**
  * 
@@ -61,23 +61,20 @@ public class EmpView extends JPanel {
 
     public EmpView() {
     	
-    	setPreferredSize(new Dimension(1200, 580));
+    	setOpaque(false);
+    	setPreferredSize(new Dimension(1200, 900));
     	
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setSize(904,599);
-//        setLocationRelativeTo(null);
+
         contentPane = new JPanel();
         contentPane.setOpaque(false);
         contentPane.setPreferredSize(new Dimension(1000, 900));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//        setContentPane(contentPane);
         contentPane.setLayout(null);
 
         JPanel panel = new JPanel();
         panel.setBounds(136, 33, 740, 505);
         panel.setBounds(70, 33, 740, 505);
         panel.setBorder(new TitledBorder("사원등록"));
-//        contentPane.add(panel);
         panel.setLayout(null);
 
         jcbPosition = new JComboBox<>();
@@ -117,11 +114,13 @@ public class EmpView extends JPanel {
         jtfName.setBounds(237, 58, 100, 24);
         panel.add(jtfName);
 
-        jtfBirthDate = new JTextField();
+        jtfBirthDate = new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(jtfBirthDate);
         jtfBirthDate.setBounds(492, 58, 100, 24);
         panel.add(jtfBirthDate);
 
-        jtfHireDate = new JTextField();
+        jtfHireDate = new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(jtfHireDate);
         jtfHireDate.setBounds(237, 152, 100, 24);
         panel.add(jtfHireDate);
 
@@ -174,7 +173,7 @@ public class EmpView extends JPanel {
         certTabPanel = new SubTabPanel(new String[]{"cert_id", "자격증명", "발급기관", "취득일자", "유효일자"}, null);
         personnelTabPanel = new SubTabPanel(new String[]{"personnel_id", "발령구분", "발령일자", "발령부서", "발령직급"}, null);
         trainingTabPanel = new SubTabPanel(new String[]{"training_id", "교육기관", "교육명", "시작일자", "종료일자", "수료여부"}, null);
-
+        
         hideIdColumn(eduTabPanel);
         hideIdColumn(careerTabPanel);
         hideIdColumn(certTabPanel);
@@ -204,7 +203,7 @@ public class EmpView extends JPanel {
         return label;
     }
 
-    private void hideIdColumn(SubTabPanel panel) {
+    public void hideIdColumn(SubTabPanel panel) {
         panel.getTable().getColumnModel().getColumn(0).setMinWidth(0);
         panel.getTable().getColumnModel().getColumn(0).setMaxWidth(0);
         panel.getTable().getColumnModel().getColumn(0).setWidth(0);

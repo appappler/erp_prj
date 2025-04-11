@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import kr.co.sist.admin.evt.EmpTabViewEvt;
+import sh.util.PlaceholderUtil;
 
 /**
  * 
@@ -41,7 +42,8 @@ public class AddTrainingDialog extends JDialog {
         lbl3.setBounds(50, 100, 100, 25);
         add(lbl3);
 
-        tfStartDate = new JTextField("yyyy-mm-dd");
+        tfStartDate =new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(tfStartDate);
         tfStartDate.setBounds(150, 100, 250, 25);
         add(tfStartDate);
 
@@ -50,6 +52,7 @@ public class AddTrainingDialog extends JDialog {
         add(lbl4);
 
         tfEndDate = new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(tfEndDate);
         tfEndDate.setBounds(150, 135, 250, 25);
         add(tfEndDate);
 

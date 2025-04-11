@@ -2,6 +2,7 @@ package kr.co.sist.user.view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Window;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -25,8 +26,8 @@ public class ChangePassDialog extends JDialog {
 
     private Mode mode;
 
-    public ChangePassDialog(JPanel owner, Mode mode) {
-//        super(owner, mode == Mode.REGISTER ? "비밀번호 입력" : "비밀번호 변경", true);
+    public ChangePassDialog(Window owner, Mode mode) {
+        super(owner, mode == Mode.REGISTER ? "비밀번호 입력" : "비밀번호 변경", ModalityType.APPLICATION_MODAL);
         this.mode = mode;
 
         JLabel lblOld = new JLabel("현재 비밀번호:");

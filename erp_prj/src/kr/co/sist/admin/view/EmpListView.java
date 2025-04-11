@@ -35,10 +35,12 @@ public class EmpListView extends JPanel {
 	private EmpListViewEvt elve; // ← 필드로 이벤트 객체 추가
 	private JButton jbtnSearch;
 
+	@SuppressWarnings("serial")
 	public EmpListView() {
 		
 	    setLayout(null);
 	    
+    	setOpaque(false);
     	setPreferredSize(new Dimension(1000, 900));
 	    
 	    jcbDept = new JComboBox<>();
@@ -67,7 +69,12 @@ public class EmpListView extends JPanel {
 
 	    // 🔹 테이블 설정
 	    String[] columnName = {"사원번호", "사원명", "부서", "직급", "생년월일", "연락처", "이메일", "재직여부"};
-	    dtm = new DefaultTableModel(columnName, 0);
+	    dtm = new DefaultTableModel(columnName, 0){
+	        @Override
+	        public boolean isCellEditable(int row, int column) {
+	            return false; // 모든 셀 수정 불가
+	        }
+	    };
 	    jtbEmpList = new JTable(dtm);
 	    jtbEmpList.setRowHeight(30);
 	    

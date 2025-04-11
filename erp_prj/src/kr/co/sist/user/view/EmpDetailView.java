@@ -1,9 +1,9 @@
 package kr.co.sist.user.view;
 
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,7 +25,6 @@ import kr.co.sist.user.vo.CertVO;
 import kr.co.sist.user.vo.EduVO;
 import kr.co.sist.user.vo.EmpVO;
 import kr.co.sist.user.vo.TrainingVO;
-import kr.co.sist.user.vo.UserAccountVO;
 
 
 /**
@@ -41,17 +40,12 @@ public class EmpDetailView extends EmpView {
     private JButton jbtnEditPass;
 
 
-//    // 📌 VO 기반 생성자
-//    public EmpDetailView(EmpVO vo) {
-//        this(vo.getEmpno());
-//        System.out.println(vo.toString());
-//    }
-    	
     // 📌 VO 기반 생성자
-    public EmpDetailView(UserAccountVO uaVO) {
-    	this(Integer.parseInt(uaVO.getUserId()));
-    	System.out.println(Integer.parseInt(uaVO.getUserId()));
+    public EmpDetailView(EmpVO vo) {
+        this(vo.getEmpno());
     }
+    
+  
 
     // 📌 empno 기반 생성자
     public EmpDetailView(int empno) {
@@ -60,8 +54,7 @@ public class EmpDetailView extends EmpView {
 //        setTitle("사원 상세조회 - 사원번호: " + empno);
 //        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //        getContentPane().setLayout(null);
-        setPreferredSize(new Dimension(1100, 570));
-        
+
         initDetailView();
         loadEmployeeInfo();
         loadEduInfo();
@@ -97,7 +90,7 @@ public class EmpDetailView extends EmpView {
         jbtnEditPass.setVisible(false);              // 기본 노출
         getMainPanel().add(jbtnEditPass);
 
-        ActionListener handler = new EmpDetailViewEvt(this);
+        ActionListener handler = new kr.co.sist.user.evt.EmpDetailViewEvt(this);
         btnModify.addActionListener(handler);
         btnSave.addActionListener(handler);
         jbtnEditPass.addActionListener(handler);
@@ -105,7 +98,7 @@ public class EmpDetailView extends EmpView {
             getJbtnEditImg().removeActionListener(al);
         }
         getJbtnEditImg().addActionListener(handler); // 📌 chooseImage() 호출
-
+        
     }
     
     private void loadDeptAndPosition() {
@@ -196,6 +189,7 @@ public class EmpDetailView extends EmpView {
                     vo.getSchoolName(), vo.getMajor(), vo.getDegree(), vo.getGradStatus()
                 });
             }
+
             hideIdColumn(getEduTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -212,6 +206,7 @@ public class EmpDetailView extends EmpView {
                     vo.getLeaveDate(), vo.getExPosition(), vo.getExDept(), vo.getReason()
                 });
             }
+
             hideIdColumn(getCareerTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -228,6 +223,7 @@ public class EmpDetailView extends EmpView {
                     vo.getAcqDate(), vo.getExpDate()
                 });
             }
+
             hideIdColumn(getCertTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -244,6 +240,7 @@ public class EmpDetailView extends EmpView {
                     vo.getDeptName(), vo.getPositionName()
                 });
             }
+
             hideIdColumn(getPersonnelTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -260,6 +257,7 @@ public class EmpDetailView extends EmpView {
                     vo.getStartDate(), vo.getEndDate(), vo.getComplete()
                 });
             }
+
             hideIdColumn(getTrainingTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -267,7 +265,7 @@ public class EmpDetailView extends EmpView {
     }
 
     // 📌 ID 컬럼 숨김 처리 (재사용)
-    private void hideIdColumn(SubTabPanel panel) {
+    private void hideIdColumn(kr.co.sist.admin.view.SubTabPanel panel) {
         panel.getTable().getColumnModel().getColumn(0).setMinWidth(0);
         panel.getTable().getColumnModel().getColumn(0).setMaxWidth(0);
         panel.getTable().getColumnModel().getColumn(0).setWidth(0);
