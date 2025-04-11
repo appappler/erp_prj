@@ -12,7 +12,7 @@ public class AdminLoginDAO {
     }
 
     public boolean selectLogin(AdminAccountVO aav) {
-        // 실제 DB 연동 부분 (하드코딩 해야됨)
+        // 실제 DB 연동 부분 (하드코딩 
         return "admin".equals(aav.getAdminId()) && "123".equals(aav.getAdminPass());
     }
 }//class
