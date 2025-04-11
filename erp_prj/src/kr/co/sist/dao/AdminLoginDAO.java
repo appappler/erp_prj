@@ -4,7 +4,7 @@ import kr.co.sist.vo.AdminAccountVO;
 
 public class AdminLoginDAO {
     private static AdminLoginDAO alDAO = new AdminLoginDAO();
-
+    //ddd
     private AdminLoginDAO() {}
 
     public static AdminLoginDAO getInstance() {
