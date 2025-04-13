@@ -82,17 +82,17 @@ public class EmpDetailView extends EmpView {
 
 
         btnModify = new JButton("수정하기");
-        btnModify.setBounds(630, 420, 100, 30);
+        btnModify.setBounds(660, 295, 100, 30); // 하단 여백 고려하여 y=610
         btnModify.setVisible(true);
         getMainPanel().add(btnModify);
 
-        btnSave = new JButton("저장");
-        btnSave.setBounds(630, 480, 100, 30);
+        btnSave = new JButton("기본정보 저장");
+        btnSave.setBounds(637, 295, 123, 30);
         btnSave.setVisible(false);
         getMainPanel().add(btnSave);
         
         jbtnEditPass = new JButton("비밀번호 수정");
-        jbtnEditPass.setBounds(469, 256, 123, 23);
+        jbtnEditPass.setBounds(500, 295, 123, 30);
         jbtnEditPass.setVisible(false);              // 기본 노출
         getMainPanel().add(jbtnEditPass);
 

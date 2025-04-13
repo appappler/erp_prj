@@ -33,11 +33,15 @@ public class AddCareerDialog extends JDialog {
 	private JButton careerDialogCancel;
 
 	public AddCareerDialog(EmpView ev, EmpTabViewEvt etve) {
-		super(SwingUtilities.getWindowAncestor(ev), "경력 정보 추가", ModalityType.APPLICATION_MODAL); 
-		this.ev = ev;
+	    super(SwingUtilities.getWindowAncestor(ev), "경력 추가", ModalityType.APPLICATION_MODAL);
+	    this.ev = ev;
+	    setLayout(null);
+	    setSize(498, 291);
+	    setLocationRelativeTo(SwingUtilities.getWindowAncestor(ev));
 		etve.setCareerDialog(this);
+		
 
-		setBounds(100, 100, 498, 291);
+
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

@@ -50,8 +50,12 @@ public class EmpViewEvt implements ActionListener {
             List<String> deptList = new EmpService().getAllDeptNames();      // 부서명 목록
             List<String> positionList = new EmpService().getAllPositionNames(); // 직급명 목록
 
-            empView.getJcbDept().removeAllItems();
-            empView.getJcbPosition().removeAllItems();
+            if( empView.getJcbDept()!=null) {
+            	empView.getJcbDept().removeAllItems();
+            }
+            if( empView.getJcbPosition()!=null) {
+            	empView.getJcbPosition().removeAllItems();
+            }
 
             for (String dept : deptList) {
                 empView.getJcbDept().addItem(dept);

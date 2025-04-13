@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import kr.co.sist.admin.evt.EmpTabViewEvt;
 import sh.util.PlaceholderUtil;
@@ -18,9 +19,11 @@ public class AddTrainingDialog extends JDialog {
     private JButton btnOK, btnCancel;
 
     public AddTrainingDialog(EmpView ev, EmpTabViewEvt evt) {
-//        super(ev, "교육 이력 추가", ModalityType.APPLICATION_MODAL);
-        setLayout(null);
-        setBounds(100, 100, 480, 310);
+    	 super(SwingUtilities.getWindowAncestor(ev), "교육 이력 추가", ModalityType.APPLICATION_MODAL);
+    	 setLayout(null);
+    	 setSize(480, 310);
+    	 setLocationRelativeTo(SwingUtilities.getWindowAncestor(ev));
+        
 
         JLabel lbl1 = new JLabel("교육기관");
         lbl1.setBounds(50, 30, 100, 25);

@@ -36,10 +36,14 @@ public class AddPersonnelDialog extends JDialog {
     private JButton btnCancel;
 
     public AddPersonnelDialog(EmpView ev, EmpTabViewEvt etve) {
-        super(SwingUtilities.getWindowAncestor(ev), "인사 발령 정보 추가", ModalityType.APPLICATION_MODAL);
+    	 super(SwingUtilities.getWindowAncestor(ev), "인사 이력 추가", ModalityType.APPLICATION_MODAL);
+    	    setLayout(null);
+    	    setSize(450, 300);
+    	    setLocationRelativeTo(SwingUtilities.getWindowAncestor(ev));        
+        
         etve.setPersonnelDialog(this);
 
-        setBounds(100, 100, 450, 300);
+
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         getContentPane().add(contentPanel, BorderLayout.CENTER);

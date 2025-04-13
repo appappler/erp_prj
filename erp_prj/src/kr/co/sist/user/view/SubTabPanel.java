@@ -24,9 +24,6 @@ public class SubTabPanel extends JPanel {
 	private static final long serialVersionUID = 13660220831488592L;
 	private DefaultTableModel tableModel;
     private JTable table;
-    private JButton btnAdd;
-    private JButton btnDelete;
-    private JButton btnSave;  // 추가
 
 
     /**
@@ -88,13 +85,6 @@ public class SubTabPanel extends JPanel {
     public void setTableEditable(boolean editable) {
         table.setDefaultEditor(Object.class, editable ? new DefaultCellEditor(new JTextField()) : null);
     }
-
-    // 📌 버튼 표시 여부 일괄 설정
-    public void setButtonsVisible(boolean visible) {
-        if (btnAdd != null) btnAdd.setVisible(visible);
-        if (btnDelete != null) btnDelete.setVisible(visible);
-        if (btnSave != null) btnSave.setVisible(visible);
-    }
     
     public void resetTable() {
         tableModel.setRowCount(0);
@@ -103,9 +93,6 @@ public class SubTabPanel extends JPanel {
     // ✅ Getter 메서드들
     public DefaultTableModel getTableModel() { return tableModel; }
     public JTable getTable() { return table; }
-    public JButton getBtnAdd() { return btnAdd; }
-    public JButton getBtnDelete() { return btnDelete; }
-    public JButton getBtnSave() { return btnSave; }
 
     
 }//class

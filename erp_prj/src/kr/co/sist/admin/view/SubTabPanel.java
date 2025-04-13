@@ -46,14 +46,14 @@ public class SubTabPanel extends JPanel {
         table = new JTable(tableModel);
         
         JTableHeader jthTable = table.getTableHeader();
-        jthTable.setFont(new Font("Dialog", Font.BOLD, 14));
+        jthTable.setFont(new Font("Dialog", Font.BOLD, 16));
         jthTable.setForeground(Color.white);
         jthTable.setBackground(new Color(8, 60, 80));
         jthTable.setPreferredSize(new Dimension(jthTable.getWidth(), 30));
         jthTable.setReorderingAllowed(false);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 30, 560, 80);
+        scrollPane.setBounds(10, 30, 500, 80);
         add(scrollPane);
         
         centerTableCells(table);
@@ -62,9 +62,9 @@ public class SubTabPanel extends JPanel {
 
     // 📌 버튼 초기화 및 이벤트 연결
     private void initButtons(ActionListener listener) {
-        btnAdd = createButton("행 추가", 387, 5, listener);
-        btnDelete = createButton("행 삭제", 487, 5, listener);
-        btnSave = createButton("저장", 487, 125, listener);  // 저장 버튼 추가
+        btnAdd = createButton("행 추가", 467, 5, listener);
+        btnDelete = createButton("행 삭제", 567, 5, listener);
+        btnSave = createButton("저장", 567, 165, listener);  // 저장 버튼 추가
 
     }
 

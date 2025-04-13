@@ -1,38 +1,245 @@
 package kr.co.sist.admin.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 import kr.co.sist.admin.evt.EmpTabViewEvt;
 import kr.co.sist.admin.evt.EmpViewEvt;
 import sh.util.PlaceholderUtil;
 
-/**
- * 
- */
 public class EmpView extends JPanel {
 
-	private static final long serialVersionUID = 1916152364214019354L;
-	private JPanel contentPane;
+    private static final long serialVersionUID = 1916152364214019354L;
+    private JPanel contentPane;
     private JTextField jtfEmpno, jtfPass, jtfContact, jtfEmail, jtfAddress, jtfName, jtfBirthDate, jtfHireDate;
     private JButton jbtnEditImg, jbtnAddEmp, jbtnInputPass, jbtnResetEmp;
     private JComboBox<String> jcbDept, jcbPosition;
     private JLabel jlblImg;
-
-    // 공통 탭 패널
     private SubTabPanel eduTabPanel, careerTabPanel, certTabPanel, personnelTabPanel, trainingTabPanel;
 
+    public EmpView() {
+        setOpaque(false);
+        setPreferredSize(new Dimension(1560, 1170));
+
+        contentPane = new JPanel();
+        contentPane.setOpaque(false);
+        contentPane.setPreferredSize(new Dimension(1300, 1170));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(null);
+
+        JPanel panel = new JPanel();
+        panel.setBounds(200, 10, 960, 650); // ⬅ 위로 40px 올림
+        panel.setLayout(null);
+
+        Font font = new Font("Dialog", Font.BOLD, 16);
+
+        EmpViewEvt eve = new EmpViewEvt(this);
+        EmpTabViewEvt etve = new EmpTabViewEvt(this);
+
+        jcbPosition = new JComboBox<>();
+        jcbPosition.setBounds(640, 120, 130, 30); // ⬅ 기존보다 40px 위로
+        jcbPosition.setFont(font);
+        panel.add(jcbPosition);
+
+        jcbDept = new JComboBox<>();
+        jcbDept.setBounds(310, 120, 130, 30);
+        jcbDept.setFont(font);
+        panel.add(jcbDept);
+
+        jlblImg = new JLabel("증명사진");
+        jlblImg.setHorizontalAlignment(SwingConstants.CENTER);
+        jlblImg.setBounds(20, 45, 165, 200);
+        jlblImg.setFont(font);
+        ImageIcon defaultIcon = new ImageIcon("src/default.png");
+        Image scaled = defaultIcon.getImage().getScaledInstance(135, 160, Image.SCALE_SMOOTH);
+        jlblImg.setIcon(new ImageIcon(scaled));
+        panel.add(jlblImg);
+
+        jtfEmpno = new JTextField("자동생성");
+        jtfEmpno.setBounds(310, 75, 130, 30);
+        jtfEmpno.setEditable(false);
+        jtfEmpno.setBackground(Color.white);
+        jtfEmpno.setFont(font);
+        panel.add(jtfEmpno);
+
+        jbtnEditImg = new JButton("수정하기");
+        jbtnEditImg.setBounds(50, 255, 110, 30);
+        jbtnEditImg.setFont(font);
+        jbtnEditImg.addActionListener(eve);
+        panel.add(jbtnEditImg);
+
+        jtfPass = new JTextField();
+        jtfPass.setBounds(640, 75, 130, 30);
+        jtfPass.setEditable(false);
+        jtfPass.setBackground(Color.white);
+        jtfPass.setFont(font);
+        panel.add(jtfPass);
+
+        jtfName = new JTextField();
+        jtfName.setBounds(310, 35, 130, 30);
+        jtfName.setBackground(Color.white);
+        jtfName.setFont(font);
+        panel.add(jtfName);
+
+        jtfBirthDate = new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(jtfBirthDate);
+        jtfBirthDate.setBounds(640, 35, 130, 30);
+        jtfBirthDate.setBackground(Color.white);
+        jtfBirthDate.setFont(font);
+        panel.add(jtfBirthDate);
+
+        jtfHireDate = new JTextField("yyyy-mm-dd");
+        PlaceholderUtil.applyDatePlaceholder(jtfHireDate);
+        jtfHireDate.setBounds(310, 160, 130, 30);
+        jtfHireDate.setBackground(Color.white);
+        jtfHireDate.setFont(font);
+        panel.add(jtfHireDate);
+
+        jtfContact = new JTextField();
+        jtfContact.setBounds(640, 160, 130, 30);
+        jtfContact.setBackground(Color.white);
+        jtfContact.setFont(font);
+        panel.add(jtfContact);
+
+        jtfEmail = new JTextField();
+        jtfEmail.setBounds(310, 215, 460, 30);
+        jtfEmail.setFont(font);
+        panel.add(jtfEmail);
+
+        jtfAddress = new JTextField();
+        jtfAddress.setBounds(310, 255, 460, 30);
+        jtfAddress.setFont(font);
+        panel.add(jtfAddress);
+
+        jbtnAddEmp = new JButton("사원 등록");
+        jbtnAddEmp.setBounds(660, 305, 110, 30);
+        jbtnAddEmp.setFont(font);
+        jbtnAddEmp.addActionListener(eve);
+        panel.add(jbtnAddEmp);
+
+        jbtnInputPass = new JButton("비밀번호 입력");
+        jbtnInputPass.setBounds(490, 305, 150, 30);
+        jbtnInputPass.setFont(font);
+        jbtnInputPass.addActionListener(eve);
+        panel.add(jbtnInputPass);
+
+        jbtnResetEmp = new JButton("초기화");
+        jbtnResetEmp.setBounds(800, 570, 100, 30);
+        jbtnResetEmp.setFont(font);
+        jbtnResetEmp.addActionListener(eve);
+        panel.add(jbtnResetEmp);
+
+        panel.add(makeLabel("이름", 210, 35, font));
+        panel.add(makeLabel("사원번호", 210, 75, font));
+        panel.add(makeLabel("비밀번호", 560, 75, font));
+        panel.add(makeLabel("생년월일", 560, 35, font));
+        panel.add(makeLabel("부서", 210, 120, font));
+        panel.add(makeLabel("직급", 560, 120, font));
+        panel.add(makeLabel("입사일", 210, 160, font));
+        panel.add(makeLabel("연락처", 560, 160, font));
+        panel.add(makeLabel("이메일", 210, 215, font));
+        panel.add(makeLabel("주소", 210, 255, font));
+
+        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane.setBounds(20, 360, 760, 240);
+        tabbedPane.setFont(font);
+        panel.add(tabbedPane);
+
+        eduTabPanel = new SubTabPanel(new String[]{"edu_id", "입학년월", "졸업년월", "학교명", "전공", "학위", "졸업구분"}, etve);
+        careerTabPanel = new SubTabPanel(new String[]{"career_id", "회사명", "입사일자", "퇴사일자", "직급", "근무부서", "사유"}, etve);
+        certTabPanel = new SubTabPanel(new String[]{"cert_id", "자격증명", "발급기관", "취득일자", "유효일자"}, etve);
+        personnelTabPanel = new SubTabPanel(new String[]{"personnel_id", "발령구분", "발령일자", "발령부서", "발령직급"}, etve);
+        trainingTabPanel = new SubTabPanel(new String[]{"training_id", "교육기관", "교육명", "시작일자", "종료일자", "수료여부"}, etve);
+
+     // 저장 버튼만 숨김
+        eduTabPanel.getBtnSave().setVisible(false);
+        careerTabPanel.getBtnSave().setVisible(false);
+        certTabPanel.getBtnSave().setVisible(false);
+        personnelTabPanel.getBtnSave().setVisible(false);
+        trainingTabPanel.getBtnSave().setVisible(false);
+        
+        hideIdColumn(eduTabPanel);
+        hideIdColumn(careerTabPanel);
+        hideIdColumn(certTabPanel);
+        hideIdColumn(personnelTabPanel);
+        hideIdColumn(trainingTabPanel);
+        
+        scaleSubTabPanel(eduTabPanel);
+        scaleSubTabPanel(careerTabPanel);
+        scaleSubTabPanel(certTabPanel);
+        scaleSubTabPanel(personnelTabPanel);
+        scaleSubTabPanel(trainingTabPanel);
+
+        tabbedPane.addTab("학력", eduTabPanel);
+        tabbedPane.addTab("경력", careerTabPanel);
+        tabbedPane.addTab("자격증", certTabPanel);
+        tabbedPane.addTab("인사", personnelTabPanel);
+        tabbedPane.addTab("교육", trainingTabPanel);
+
+        contentPane.add(panel);
+        add(contentPane, BorderLayout.CENTER);
+
+        contentPane.setOpaque(false);
+        panel.setOpaque(false);
+        setVisible(true);
+    }
+
+    private JLabel makeLabel(String text, int x, int y, Font font) {
+        JLabel label = new JLabel(text);
+        label.setBounds(x, y, 90, 30);
+        label.setFont(font);
+        return label;
+    }
+
+    private void scaleSubTabPanel(SubTabPanel panel) {
+        Font font = new Font("Dialog", Font.BOLD, 15);
+        JTable table = panel.getTable();
+        table.setFont(font);
+        table.setRowHeight(24);
+
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Dialog", Font.BOLD, 15));
+
+        panel.getBtnAdd().setFont(font);
+        panel.getBtnDelete().setFont(font);
+        panel.getBtnSave().setFont(font);
+
+        panel.getBtnAdd().setBounds(530, 5, 100, 30);
+        panel.getBtnDelete().setBounds(640, 5, 100, 30);
+        panel.getBtnSave().setBounds(640, 160, 100, 30);
+
+        JScrollPane scrollPane = (JScrollPane) panel.getComponent(0);
+        scrollPane.setBounds(10, 40, 730, 80);
+    }
+
+    private void hideIdColumn(SubTabPanel panel) {
+        panel.getTable().getColumnModel().getColumn(0).setMinWidth(0);
+        panel.getTable().getColumnModel().getColumn(0).setMaxWidth(0);
+        panel.getTable().getColumnModel().getColumn(0).setWidth(0);
+        panel.getTable().getColumnModel().getColumn(0).setPreferredWidth(0);
+    }
+
+    public SubTabPanel getEduTabPanel() { return eduTabPanel; }
+    public SubTabPanel getCareerTabPanel() { return careerTabPanel; }
+    public SubTabPanel getCertTabPanel() { return certTabPanel; }
+    public SubTabPanel getPersonnelTabPanel() { return personnelTabPanel; }
+    public SubTabPanel getTrainingTabPanel() { return trainingTabPanel; }
+    public JPanel getMainPanel() {
+        return contentPane.getComponentCount() > 0 ? (JPanel) contentPane.getComponent(0) : null;
+    }// class
+
+
+    
     public JTextField getJtfEmpno() { return jtfEmpno; }
     public JTextField getJtfPass() { return jtfPass; }
     public JTextField getJtfContact() { return jtfContact; }
@@ -48,184 +255,6 @@ public class EmpView extends JPanel {
     public JComboBox<String> getJcbDept() { return jcbDept; }
     public JComboBox<String> getJcbPosition() { return jcbPosition; }
     public JLabel getJlblImg() { return jlblImg; }
-    
-    // 공통 탭 접근자
-    public SubTabPanel getEduTabPanel() { return eduTabPanel; }
-    public SubTabPanel getCareerTabPanel() { return careerTabPanel; }
-    public SubTabPanel getCertTabPanel() { return certTabPanel; }
-    public SubTabPanel getPersonnelTabPanel() { return personnelTabPanel; }
-    public SubTabPanel getTrainingTabPanel() { return trainingTabPanel; }
-
-    public JPanel getMainPanel() {
-        return contentPane.getComponentCount() > 0 ? (JPanel) contentPane.getComponent(0) : null;
-    }
-
-    public EmpView() {
-    	
-    	setOpaque(false);
-    	setPreferredSize(new Dimension(1200, 900));
-    	
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setSize(904,599);
-//        setLocationRelativeTo(null);
-        contentPane = new JPanel();
-        contentPane.setOpaque(false);
-        contentPane.setPreferredSize(new Dimension(1000, 900));
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//        setContentPane(contentPane);
-        contentPane.setLayout(null);
-
-        JPanel panel = new JPanel();
-        panel.setBounds(136, 33, 740, 505);
-        panel.setBounds(70, 33, 740, 505);
-        panel.setBorder(new TitledBorder("사원등록"));
-//        contentPane.add(panel);
-        panel.setLayout(null);
-
-        jcbPosition = new JComboBox<>();
-        jcbPosition.setBounds(492, 123, 100, 24);
-        panel.add(jcbPosition);
-
-        jcbDept = new JComboBox<>();
-        jcbDept.setBounds(237, 123, 100, 24);
-        panel.add(jcbDept);
-
-        EmpViewEvt eve = new EmpViewEvt(this);
-        EmpTabViewEvt etve = new EmpTabViewEvt(this);
-
-        jlblImg = new JLabel("증명사진");
-        jlblImg.setBounds(31, 58, 105, 125);
-     // 👉 기본 이미지 세팅
-        ImageIcon defaultIcon = new ImageIcon("src/default.png"); 
-        Image scaled = defaultIcon.getImage().getScaledInstance(105, 125, Image.SCALE_SMOOTH);
-        jlblImg.setIcon(new ImageIcon(scaled));
-        panel.add(jlblImg);
-
-        jtfEmpno = new JTextField("자동생성");
-        jtfEmpno.setBounds(237, 89, 100, 24);
-        jtfEmpno.setEditable(false);
-        panel.add(jtfEmpno);
-
-        jbtnEditImg = new JButton("수정하기");
-        jbtnEditImg.setBounds(42, 193, 97, 23);
-        jbtnEditImg.addActionListener(eve);
-        panel.add(jbtnEditImg);
-
-        jtfPass = new JTextField();
-        jtfPass.setBounds(492, 89, 100, 24);
-        jtfPass.setEditable(false);
-        panel.add(jtfPass);
-
-        jtfName = new JTextField();
-        jtfName.setBounds(237, 58, 100, 24);
-        panel.add(jtfName);
-
-        jtfBirthDate = new JTextField("yyyy-mm-dd");
-        PlaceholderUtil.applyDatePlaceholder(jtfBirthDate);
-        jtfBirthDate.setBounds(492, 58, 100, 24);
-        panel.add(jtfBirthDate);
-
-        jtfHireDate = new JTextField("yyyy-mm-dd");
-        PlaceholderUtil.applyDatePlaceholder(jtfHireDate);
-        jtfHireDate.setBounds(237, 152, 100, 24);
-        panel.add(jtfHireDate);
-
-        jtfContact = new JTextField();
-        jtfContact.setBounds(492, 152, 100, 24);
-        panel.add(jtfContact);
-
-        jtfEmail = new JTextField();
-        jtfEmail.setBounds(237, 193, 355, 24);
-        panel.add(jtfEmail);
-
-        jtfAddress = new JTextField();
-        jtfAddress.setBounds(237, 220, 355, 24);
-        panel.add(jtfAddress);
-
-        jbtnAddEmp = new JButton("사원 등록");
-        jbtnAddEmp.setBounds(500, 256, 87, 23);
-        jbtnAddEmp.addActionListener(eve);
-        panel.add(jbtnAddEmp);
-
-        jbtnInputPass = new JButton("비밀번호 입력");
-        jbtnInputPass.setBounds(364, 256, 123, 23);
-        jbtnInputPass.addActionListener(eve);
-        panel.add(jbtnInputPass);
-        
-        jbtnResetEmp = new JButton("초기화"); 
-        jbtnResetEmp.setBounds(640,460, 87,23);
-        jbtnResetEmp.addActionListener(eve);
-        panel.add(jbtnResetEmp);
-
-        // 라벨들
-        panel.add(makeLabel("이름", 168, 58));
-        panel.add(makeLabel("사원번호", 168, 88));
-        panel.add(makeLabel("비밀번호", 423, 88));
-        panel.add(makeLabel("생년월일", 423, 58));
-        panel.add(makeLabel("부서", 168, 122));
-        panel.add(makeLabel("직급", 423, 122));
-        panel.add(makeLabel("입사일", 168, 151));
-        panel.add(makeLabel("연락처", 423, 151));
-        panel.add(makeLabel("이메일", 168, 192));
-        panel.add(makeLabel("주소", 168, 219));
-
-        // 탭 구성
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(46, 277, 585, 179);
-        panel.add(tabbedPane);
-
-        eduTabPanel = new SubTabPanel(new String[]{"edu_id", "입학년월", "졸업년월", "학교명", "전공", "학위", "졸업구분"}, etve);
-        careerTabPanel = new SubTabPanel(new String[]{"career_id", "회사명", "입사일자", "퇴사일자", "직급", "근무부서", "사유"}, etve);
-        certTabPanel = new SubTabPanel(new String[]{"cert_id", "자격증명", "발급기관", "취득일자", "유효일자"}, etve);
-        personnelTabPanel = new SubTabPanel(new String[]{"personnel_id", "발령구분", "발령일자", "발령부서", "발령직급"}, etve);
-        trainingTabPanel = new SubTabPanel(new String[]{"training_id", "교육기관", "교육명", "시작일자", "종료일자", "수료여부"}, etve);
-
-        eduTabPanel.getBtnSave().setVisible(false);
-        eduTabPanel.setTableEditable(false);
-        careerTabPanel.getBtnSave().setVisible(false);
-        careerTabPanel.setTableEditable(false);
-        certTabPanel.getBtnSave().setVisible(false);
-        certTabPanel.setTableEditable(false);
-        personnelTabPanel.getBtnSave().setVisible(false);
-        personnelTabPanel.setTableEditable(false);
-        trainingTabPanel.getBtnSave().setVisible(false);
-        trainingTabPanel.setTableEditable(false);
-        
-        hideIdColumn(eduTabPanel);
-        hideIdColumn(careerTabPanel);
-        hideIdColumn(certTabPanel);
-        hideIdColumn(personnelTabPanel);
-        hideIdColumn(trainingTabPanel);
-
-        tabbedPane.addTab("학력", eduTabPanel);
-        tabbedPane.addTab("경력", careerTabPanel);
-        tabbedPane.addTab("자격증", certTabPanel);
-        tabbedPane.addTab("인사", personnelTabPanel);
-        tabbedPane.addTab("교육", trainingTabPanel);
-        
-        contentPane.add(panel);
-        add(contentPane, BorderLayout.CENTER);
-        
-        contentPane.setOpaque(false);
-        panel.setOpaque(false);
-        setVisible(true);
-//        contentPane.setBackground(Color.red);
-//        contentPane.add(panel);
-//        add(contentPane);
-    }
-
-    private JLabel makeLabel(String text, int x, int y) {
-        JLabel label = new JLabel(text);
-        label.setBounds(x, y, 57, 24);
-        return label;
-    }
-
-    private void hideIdColumn(SubTabPanel panel) {
-        panel.getTable().getColumnModel().getColumn(0).setMinWidth(0);
-        panel.getTable().getColumnModel().getColumn(0).setMaxWidth(0);
-        panel.getTable().getColumnModel().getColumn(0).setWidth(0);
-        panel.getTable().getColumnModel().getColumn(0).setPreferredWidth(0);
-    }
 
     public void setFieldsEditable(boolean editable) {
         jtfEmpno.setEditable(editable);

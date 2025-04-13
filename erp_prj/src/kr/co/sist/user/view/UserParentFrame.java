@@ -221,7 +221,7 @@ public class UserParentFrame extends JFrame{
 	    jbtnLogout.addActionListener(ume);
 	    
 		setResizable(false);
-		setBounds(50, 50, 1330, 700);
+		setBounds(50, 50, 1330, 900);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    

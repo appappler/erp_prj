@@ -13,7 +13,7 @@ public class MainFrame extends JPanel {
 	public MainFrame(UserAccountVO uaVO) {
 //        setTitle("급여관리 시스템 - 사원 전용");
 		setPreferredSize(new Dimension(1200, 600));
-        setSize(1200, 800);
+        setSize(1200, 1000);
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        setLocationRelativeTo(null);
 

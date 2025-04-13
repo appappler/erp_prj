@@ -33,11 +33,16 @@ public class AddEduDialog extends JDialog {
 	private JButton eduDialogCancel;
 
 	public AddEduDialog(EmpView ev, EmpTabViewEvt etve) {
-		super(SwingUtilities.getWindowAncestor(ev), "교육 정보 추가", ModalityType.APPLICATION_MODAL);
+		super(SwingUtilities.getWindowAncestor(ev), "학력 정보 추가", ModalityType.APPLICATION_MODAL);
 		this.ev = ev;
+	    setLayout(null);
+	    setSize(498, 291);
+	    setLocationRelativeTo(SwingUtilities.getWindowAncestor(ev));
+
+
 		etve.setEduDialog(this);
 
-		setBounds(100, 100, 498, 291);
+
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

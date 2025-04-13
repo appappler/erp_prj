@@ -45,7 +45,6 @@ public class EmpDetailView extends EmpView {
         this(vo.getEmpno());
     }
     
-  
 
     // 📌 empno 기반 생성자
     public EmpDetailView(int empno) {
@@ -76,21 +75,21 @@ public class EmpDetailView extends EmpView {
 
 
         btnModify = new JButton("수정하기");
-        btnModify.setBounds(630, 420, 100, 30);
+        btnModify.setBounds(660, 295, 100, 30); // 하단 여백 고려하여 y=610
         btnModify.setVisible(true);
         getMainPanel().add(btnModify);
 
-        btnSave = new JButton("저장");
-        btnSave.setBounds(630, 480, 100, 30);
+        btnSave = new JButton("기본정보 저장");
+        btnSave.setBounds(637, 295, 123, 30);
         btnSave.setVisible(false);
         getMainPanel().add(btnSave);
         
         jbtnEditPass = new JButton("비밀번호 수정");
-        jbtnEditPass.setBounds(469, 256, 123, 23);
+        jbtnEditPass.setBounds(500, 295, 123, 30);
         jbtnEditPass.setVisible(false);              // 기본 노출
         getMainPanel().add(jbtnEditPass);
 
-        ActionListener handler = new kr.co.sist.user.evt.EmpDetailViewEvt(this);
+        ActionListener handler = new EmpDetailViewEvt(this);
         btnModify.addActionListener(handler);
         btnSave.addActionListener(handler);
         jbtnEditPass.addActionListener(handler);
@@ -98,7 +97,12 @@ public class EmpDetailView extends EmpView {
             getJbtnEditImg().removeActionListener(al);
         }
         getJbtnEditImg().addActionListener(handler); // 📌 chooseImage() 호출
-        
+    }
+    
+    private void removeAllActionListeners(JButton btn) {
+        for (ActionListener al : btn.getActionListeners()) {
+            btn.removeActionListener(al);
+        }
     }
     
     private void loadDeptAndPosition() {
@@ -189,7 +193,6 @@ public class EmpDetailView extends EmpView {
                     vo.getSchoolName(), vo.getMajor(), vo.getDegree(), vo.getGradStatus()
                 });
             }
-
             hideIdColumn(getEduTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -206,7 +209,6 @@ public class EmpDetailView extends EmpView {
                     vo.getLeaveDate(), vo.getExPosition(), vo.getExDept(), vo.getReason()
                 });
             }
-
             hideIdColumn(getCareerTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -223,7 +225,6 @@ public class EmpDetailView extends EmpView {
                     vo.getAcqDate(), vo.getExpDate()
                 });
             }
-
             hideIdColumn(getCertTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -240,7 +241,6 @@ public class EmpDetailView extends EmpView {
                     vo.getDeptName(), vo.getPositionName()
                 });
             }
-
             hideIdColumn(getPersonnelTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -257,7 +257,6 @@ public class EmpDetailView extends EmpView {
                     vo.getStartDate(), vo.getEndDate(), vo.getComplete()
                 });
             }
-
             hideIdColumn(getTrainingTabPanel());
         } catch (SQLException e) {
             e.printStackTrace();

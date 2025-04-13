@@ -47,11 +47,16 @@ public class EmpListViewEvt extends MouseAdapter implements ActionListener, Focu
 	                JOptionPane.showMessageDialog(elv, "사원 정보를 불러오지 못했습니다.");
 	                return;
 	            }
-	            JDialog dialog = new JDialog((JFrame) null, "사원 상세정보", false); // modal dialog
-	            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	            dialog.getContentPane().add(new EmpDetailView(vo, elv)); // elv 넘겨줌
-	            dialog.pack();
+	            JDialog dialog = new JDialog((JFrame) null, "사원 상세정보", true); // true: modal
+	            dialog.setLayout(null); // 패널 위치 조정 가능하도록 null layout 사용
+
+	            EmpDetailView edv = new EmpDetailView(vo, elv);
+	            edv.setBounds(80, 0, 900, 700); // ← 오른쪽으로 50px 밀고 크기 지정
+	            dialog.add(edv);
+
+	            dialog.setSize(1000, 720);
 	            dialog.setLocationRelativeTo(null);
+	            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	            dialog.setVisible(true);
 	        } catch (Exception ex) {
 	            ex.printStackTrace();

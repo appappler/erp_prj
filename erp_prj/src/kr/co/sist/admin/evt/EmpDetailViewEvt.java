@@ -1,5 +1,6 @@
 package kr.co.sist.admin.evt;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -137,14 +138,28 @@ public class EmpDetailViewEvt implements ActionListener {
 
         // ❌ 나머지 필드는 수정 불가
         detailView.getJtfEmpno().setEditable(false);
+        detailView.getJtfEmpno().setBackground(Color.white);
+
        
         detailView.getJtfName().setEditable(false);
+        detailView.getJtfName().setBackground(Color.white);
+
         detailView.getJtfBirthDate().setEditable(false);
+        detailView.getJtfBirthDate().setBackground(Color.white);
+
         detailView.getJtfHireDate().setEditable(false);
+        detailView.getJtfHireDate().setBackground(Color.white);
+
         
         detailView.getJtfPass().setEditable(false);
+        detailView.getJtfPass().setBackground(Color.white);
+
         detailView.getJcbDept().setEnabled(false);
+        detailView.getJcbDept().setBackground(Color.white);
+
         detailView.getJcbPosition().setEnabled(false);
+        detailView.getJcbPosition().setBackground(Color.white);
+
 
         // ✅ 하단 버튼
         detailView.getBtnModify().setVisible(false);
@@ -237,6 +252,7 @@ public class EmpDetailViewEvt implements ActionListener {
         detailView.setTabEditable(false);                  // ✅ 테이블 편집 비활성화
         detailView.setButtonsVisible(false);               // ✅ 버튼 숨김
         detailView.getJbtnEditImg().setVisible(false);
+        detailView.getJbtnEditPass().setVisible(false);
 
         detailView.getBtnModify().setVisible(true);
         detailView.getBtnSave().setVisible(false);
