@@ -1,6 +1,6 @@
 package kr.co.sist.dao;
 
-import kr.co.sist.vo.AdminAccountVO;
+import kr.co.sist.admin.vo.AdminAccountVO;
 
 public class AdminLoginDAO {
     private static AdminLoginDAO alDAO = new AdminLoginDAO();

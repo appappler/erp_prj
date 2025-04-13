@@ -34,16 +34,17 @@ public class AttendanceEvt implements Runnable{
         int attendanceCount = 0, leaveCount = 0, absentCount = 0;
 
         for (AttendanceVO emp : employees) {
-            String status = "결근";
-            if ("1".equals(emp.getStatus_Id())) {
-                status = "출근";
-                attendanceCount++;
-            } else if ("2".equals(emp.getStatus_Id())) {
-                status = "퇴근";
-                leaveCount++;
-            } else {
-                absentCount++;
-            }
+        	String status = "결근";
+        	if ("출근".equals(emp.getStatus_Id())) {
+        	    status = "출근";
+        	    attendanceCount++;
+        	} else if ("퇴근".equals(emp.getStatus_Id())) {
+        	    status = "퇴근";
+        	    leaveCount++;
+        	} else {
+        	    absentCount++;
+        	}
+
 
             tableModel.addRow(new Object[]{
                     emp.getEmpno(),
