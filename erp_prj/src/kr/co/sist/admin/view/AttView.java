@@ -132,18 +132,18 @@ public class AttView extends JPanel {
         scrollPane.setBounds(20, 100, 730, 200);
         centerPanel.add(scrollPane);
 
-        // 하단 상태 라벨
-        lblAttendance = new JLabel("출근 0명");
-        lblAttendance.setBounds(20, 310, 100, 30);
-        centerPanel.add(lblAttendance);
-
-        lblLeave = new JLabel("퇴근 0명");
-        lblLeave.setBounds(120, 310, 100, 30);
-        centerPanel.add(lblLeave);
-
-        lblAbsent = new JLabel("결근 0명");
-        lblAbsent.setBounds(220, 310, 100, 30);
-        centerPanel.add(lblAbsent);
+//        // 하단 상태 라벨
+//        lblAttendance = new JLabel("출근 0명");
+//        lblAttendance.setBounds(20, 310, 100, 30);
+//        centerPanel.add(lblAttendance);
+//
+//        lblLeave = new JLabel("퇴근 0명");
+//        lblLeave.setBounds(120, 310, 100, 30);
+//        centerPanel.add(lblLeave);
+//
+//        lblAbsent = new JLabel("결근 0명");
+//        lblAbsent.setBounds(220, 310, 100, 30);
+//        centerPanel.add(lblAbsent);
 
 //        // 저장 버튼
 //        btnSave = new JButton("저장");
