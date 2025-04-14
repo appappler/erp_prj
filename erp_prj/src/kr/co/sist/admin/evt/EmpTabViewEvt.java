@@ -408,7 +408,7 @@ public class EmpTabViewEvt extends MouseAdapter implements ActionListener {
                     ev.getJcbDept().setSelectedItem(deptName);
                     ev.getJcbPosition().setSelectedItem(positionName);
                 }
-                String flag = "퇴사".equals(appointment) ? "N" : "Y";
+                String flag = "퇴사".equals(appointment) ? "퇴사" : "재직";
 
                 JOptionPane.showMessageDialog(ev, "인사발령 정보 저장 완료");
                 personnelDialog.dispose();

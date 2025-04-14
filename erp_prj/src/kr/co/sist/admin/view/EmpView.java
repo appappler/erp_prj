@@ -220,7 +220,7 @@ public class EmpView extends JPanel {
         panel.getBtnSave().setBounds(640, 160, 100, 30);
 
         JScrollPane scrollPane = (JScrollPane) panel.getComponent(0);
-        scrollPane.setBounds(10, 40, 730, 80);
+        scrollPane.setBounds(10, 40, 730, 120);
     }
 
     private void hideIdColumn(SubTabPanel panel) {

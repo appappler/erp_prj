@@ -146,7 +146,7 @@ public class EmpView extends JPanel {
         panel.add(makeLabel("주소", 210, 255, font));
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(20, 360, 760, 240);
+        tabbedPane.setBounds(20, 360, 760, 280);
         tabbedPane.setFont(font);
         panel.add(tabbedPane);
 
@@ -207,7 +207,7 @@ public class EmpView extends JPanel {
         header.setFont(new Font("Dialog", Font.BOLD, 15));
 
         JScrollPane scrollPane = (JScrollPane) panel.getComponent(0);
-        scrollPane.setBounds(10, 40, 730, 80);
+        scrollPane.setBounds(10, 40, 730, 120);
     }
 
     public void hideIdColumn(SubTabPanel panel) {

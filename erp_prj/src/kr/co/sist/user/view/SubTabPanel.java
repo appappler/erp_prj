@@ -50,7 +50,7 @@ public class SubTabPanel extends JPanel {
         jthTable.setReorderingAllowed(false);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 30, 560, 80);
+        scrollPane.setBounds(10, 30, 560, 120);
         add(scrollPane);
         
         centerTableCells(table);
