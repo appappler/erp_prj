@@ -313,10 +313,10 @@ public class EmpTabViewEvt extends MouseAdapter implements ActionListener {
             vo.setCertName(name);
             vo.setIssuer(issuer);
             vo.setAcqDate(Date.valueOf(acq));
-            if (!exp.isEmpty()) {
+            if (!exp.equals("yyyy-mm-dd") && !exp.isEmpty()) {
                 vo.setExpDate(Date.valueOf(exp));
             } else {
-                vo.setExpDate(null); // 🔹 유효일자 입력 안 하면 null 저장
+                vo.setExpDate(null);
             }
 
             boolean success = new CertService().addCertificate(vo);
@@ -408,11 +408,7 @@ public class EmpTabViewEvt extends MouseAdapter implements ActionListener {
                     ev.getJcbDept().setSelectedItem(deptName);
                     ev.getJcbPosition().setSelectedItem(positionName);
                 }
-
-                // ✅ 3. 재직여부 반영 (옵션)
-                if ("퇴사".equals(appointment)) {
-                    ev.getJtfPass().setText("퇴사"); // 또는 JTF 상태 표시용 필드가 있다면 거기에
-                }
+                String flag = "퇴사".equals(appointment) ? "N" : "Y";
 
                 JOptionPane.showMessageDialog(ev, "인사발령 정보 저장 완료");
                 personnelDialog.dispose();

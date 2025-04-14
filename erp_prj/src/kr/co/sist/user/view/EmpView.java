@@ -20,7 +20,8 @@ public class EmpView extends JPanel {
 
     private static final long serialVersionUID = 1916152364214019354L;
     private JPanel contentPane;
-    private JTextField jtfEmpno, jtfPass, jtfContact, jtfEmail, jtfAddress, jtfName, jtfBirthDate, jtfHireDate;
+    private JTextField jtfEmpno, jtfContact, jtfEmail, jtfAddress, jtfName, jtfBirthDate, jtfHireDate;
+    private JPasswordField jpfPass;
     private JButton jbtnEditImg, jbtnAddEmp, jbtnInputPass, jbtnResetEmp;
     private JComboBox<String> jcbDept, jcbPosition;
     private JLabel jlblImg;
@@ -75,12 +76,12 @@ public class EmpView extends JPanel {
         jbtnEditImg.setFont(font);
         panel.add(jbtnEditImg);
 
-        jtfPass = new JTextField();
-        jtfPass.setBounds(640, 75, 130, 30);
-        jtfPass.setEditable(false);
-        jtfPass.setBackground(Color.white);
-        jtfPass.setFont(font);
-        panel.add(jtfPass);
+        jpfPass = new JPasswordField();
+        jpfPass.setBounds(640, 75, 130, 30);
+        jpfPass.setEditable(false);
+        jpfPass.setBackground(Color.white);
+        jpfPass.setFont(font);
+        panel.add(jpfPass);
 
         jtfName = new JTextField();
         jtfName.setBounds(310, 35, 130, 30);
@@ -228,7 +229,7 @@ public class EmpView extends JPanel {
 
     
     public JTextField getJtfEmpno() { return jtfEmpno; }
-    public JTextField getJtfPass() { return jtfPass; }
+    public JPasswordField getJpfPass() { return jpfPass; }
     public JTextField getJtfContact() { return jtfContact; }
     public JTextField getJtfEmail() { return jtfEmail; }
     public JTextField getJtfAddress() { return jtfAddress; }
@@ -245,7 +246,7 @@ public class EmpView extends JPanel {
 
     public void setFieldsEditable(boolean editable) {
         jtfEmpno.setEditable(editable);
-        jtfPass.setEditable(editable);
+        jpfPass.setEditable(editable);
         jtfName.setEditable(editable);
         jtfBirthDate.setEditable(editable);
         jtfHireDate.setEditable(editable);

@@ -62,7 +62,7 @@ public class AppointmentDAO {
 
 	        // 🔹 2. employee 테이블 자동 반영
 	        if ("입사".equals(aVO.getAppointment()) || "부서이동".equals(aVO.getAppointment()) || "승진".equals(aVO.getAppointment())) {
-	            String sql2 = "UPDATE employee SET deptno = ?, position_id = ? WHERE empno = ?";
+	            String sql2 = "UPDATE employee SET deptno = ?, position_id = ?, emp_status = 'Y' WHERE empno = ?";
 	            pstmt2 = con.prepareStatement(sql2);
 	            pstmt2.setInt(1, aVO.getDeptno());
 	            pstmt2.setInt(2, aVO.getPositionId());
