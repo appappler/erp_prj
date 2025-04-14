@@ -113,7 +113,7 @@ public class SalaryParticularView extends JPanel {
 
         DefaultTableModel payModel = (DefaultTableModel) tablePayment.getModel();
         payModel.setRowCount(0);
-        payModel.addRow(new Object[]{"급여", vo.getBaseSalary()});
+        payModel.addRow(new Object[]{"급여", vo.getSalary()});
         payModel.addRow(new Object[]{"상여금", vo.getBonus()});
 
         lblTotalDeduction.setText(String.format("%,d 원", vo.getTotal_deduction()));

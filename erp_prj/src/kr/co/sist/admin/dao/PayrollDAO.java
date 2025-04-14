@@ -1,10 +1,17 @@
 package kr.co.sist.admin.dao;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.co.sist.admin.vo.PayrollVO;
 
+/**
+ * 
+ */
 public class PayrollDAO {
     private static final PayrollDAO instance = new PayrollDAO();
     private List<PayrollVO> cachedList = new ArrayList<>();
@@ -13,27 +20,32 @@ public class PayrollDAO {
         return instance;
     }
 
-    private PayrollDAO() {}
+    private PayrollDAO() {
+    	
+    }
 
+    // 🔹 조건 검색 (JOIN 포함)
     public List<PayrollVO> selectSalarySearch(String dept, String pos, String year, String name) {
         List<PayrollVO> list = new ArrayList<>();
+       
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT TO_CHAR(s.payday, 'YYYY-MM-DD') AS payday, e.empno, e.emp_name, d.deptname, p.position_name, ")
-           .append("NVL(s.base_salary, p.salary) AS salary, ")
-           .append("(CASE WHEN TO_CHAR(s.payday, 'MM') = '04' ")
-           .append(" THEN NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100 ELSE 0 END) AS bonus, ")
-           .append("s.actual_salary, ")
-           .append("e.hire_date, ")
-           .append("t.income_tax, t.local_tax, t.national_tax, t.health_tax, t.emp_tax, t.longterm_tax, ")
-           .append("(NVL(s.base_salary, p.salary) * (t.income_tax + t.local_tax + t.national_tax + t.health_tax + t.emp_tax + t.longterm_tax) / 100) AS total_deduction ")
-           .append("FROM salary s ")
-           .append("JOIN employee e ON s.empno = e.empno ")
-           .append("JOIN department d ON e.deptno = d.deptno ")
-           .append("JOIN position p ON e.position_id = p.position_id ")
-           .append("JOIN tax_rate t ON 1 = 1 ");
+//        sql.append("SELECT * FROM v_salary_report WHERE 1=1 ");
+        sql.append("SELECT s.payday, e.empno, e.emp_name, d.deptname, p.position_name, ")
+        .append("p.salary, (p.salary * NVL(d.bonus_rate,0) / 100) AS bonus, ")
+        .append("p.income_tax, p.local_tax, p.national_tax, p.health_tax, p.emp_tax, p.longterm_tax, ")
+        .append("(p.income_tax + p.local_tax + p.national_tax + p.health_tax + ")
+        .append("p.emp_tax + p.longterm_tax) AS total_deduction, ")
+        .append("s.actual_salary, ")
+        .append("e.hire_date ")
+        .append("FROM salary s, employee e, department d, position p ")
+        .append("WHERE s.empno = e.empno ")
+        .append("AND e.deptno = d.deptno ")
+        .append("AND e.position_id = p.position_id ");
 
 
+
+        // 조건에 따라 SQL 구성
         if (dept != null && !dept.equals("부서") && !dept.trim().isEmpty()) {
             sql.append(" AND deptname = ? ");
         }
@@ -46,8 +58,8 @@ public class PayrollDAO {
         if (name != null && !name.equals("이름") && !name.trim().isEmpty()) {
             sql.append(" AND REPLACE(LOWER(e.emp_name), ' ', '') LIKE ? ");
         }
-        
-        sql.append("ORDER BY s.payday desc, e.empno asc");
+       
+      
 
         try (Connection conn = DbConnection.getInstance().getConn();
              PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
@@ -73,6 +85,7 @@ public class PayrollDAO {
         return list;
     }
 
+    // 🔹 캐시에서 단건 조회
     public PayrollVO getPayrollDetailFromCache(String empno, String payDate) {
         for (PayrollVO vo : cachedList) {
             if (vo.getEmpno().equals(empno) && vo.getPayDate().equals(payDate)) {
@@ -82,35 +95,18 @@ public class PayrollDAO {
         return null;
     }
 
-    public List<PayrollVO> getMonthlyPayrollFromDB(String empno) {
-        List<PayrollVO> list = new ArrayList<>();
-        String sql = "SELECT TO_CHAR(s.payday, 'YYYY-MM-DD') AS payday, e.empno, e.emp_name, d.deptname, p.position_name, " +
-                "NVL(s.base_salary, p.salary) AS salary, " +
-                "(CASE WHEN TO_CHAR(s.payday, 'MM') = '04' THEN NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100 ELSE 0 END) AS bonus, " +
-                "s.actual_salary, e.hire_date, " +
-                "t.income_tax, t.local_tax, t.national_tax, t.health_tax, t.emp_tax, t.longterm_tax, " +
-                "(NVL(s.base_salary, p.salary) * (t.income_tax + t.local_tax + t.national_tax + t.health_tax + t.emp_tax + t.longterm_tax) / 100) AS total_deduction " +
-                "FROM salary s " +
-                "JOIN employee e ON s.empno = e.empno " +
-                "JOIN department d ON e.deptno = d.deptno " +
-                "JOIN position p ON e.position_id = p.position_id " +
-                "JOIN tax_rate t ON 1 = 1 " +
-                "WHERE e.empno = ? ORDER BY s.payday desc, e.empno asc";
-
-
-        try (Connection conn = DbConnection.getInstance().getConn();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, empno);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                list.add(extractVO(rs));
+    // 🔹 캐시에서 월별 급여 조회
+    public List<PayrollVO> getMonthlyPayrollFromCache(String empno) {
+        List<PayrollVO> result = new ArrayList<>();
+        for (PayrollVO vo : cachedList) {
+            if (vo.getEmpno().equals(empno)) {
+                result.add(vo);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return list;
+        return result;
     }
 
+    // 🔹 VO 생성
     private PayrollVO extractVO(ResultSet rs) throws SQLException {
         PayrollVO vo = new PayrollVO();
         vo.setEmpno(rs.getString("empno"));
@@ -119,7 +115,7 @@ public class PayrollDAO {
         vo.setPosition_name(rs.getString("position_name"));
         vo.setHireDate(rs.getString("hire_date"));
         vo.setPayDate(rs.getString("payday"));
-        vo.setBaseSalary(rs.getInt("salary"));
+        vo.setSalary(rs.getInt("salary"));
         vo.setBonus(rs.getInt("bonus"));
         vo.setIncomeTax(rs.getInt("income_tax"));
         vo.setLocalIncomeTax(rs.getInt("local_tax"));
@@ -132,65 +128,7 @@ public class PayrollDAO {
         return vo;
     }
 
-    public PayrollVO selectPayrollDirect(String empno, String payday) {
-        PayrollVO vo = null;
-
-        // ★ 시간 제거
-        if (payday.contains(" ")) {
-            payday = payday.split(" ")[0];
-        }
-
-        String sql = "SELECT TO_CHAR(s.payday, 'YYYY-MM-DD') AS payday, e.empno, e.emp_name, d.deptname, p.position_name, " +
-        	    "NVL(s.base_salary, p.salary) AS salary, " +
-        	    "(CASE WHEN TO_CHAR(s.payday, 'MM') = '04' THEN NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100 ELSE 0 END) AS bonus, " +
-        	    "s.income_tax, s.local_tax, s.national_tax, " +
-        	    "s.health_tax, s.emp_tax, s.longterm_tax, " +
-        	    "s.total_deduction, s.actual_salary, e.hire_date " +
-        	    "FROM salary s " +
-        	    "JOIN employee e ON s.empno = e.empno " +
-        	    "JOIN department d ON e.deptno = d.deptno " +
-        	    "JOIN position p ON e.position_id = p.position_id " +
-        	    "WHERE e.empno = ? AND TRUNC(s.payday) = TO_DATE(?, 'YYYY-MM-DD') " +
-        	    "ORDER BY s.payday desc, e.empno asc";
-
-
-        try (Connection conn = DbConnection.getInstance().getConn();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, empno);
-            pstmt.setString(2, payday); // ← 이미 yyyy-MM-dd 형식으로 보장됨
-
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                vo = extractVO(rs);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return vo;
-    }
-
-
-    public boolean updateBaseSalary(String empno, String payDate, int baseSalary) {
-        String sql = "UPDATE salary SET base_salary = ? WHERE empno = ? AND payday = TO_DATE(?, 'YYYY-MM-DD')";
-
-        try (Connection conn = DbConnection.getInstance().getConn();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, baseSalary);
-            pstmt.setString(2, empno);
-            pstmt.setString(3, payDate);
-
-            int rows = pstmt.executeUpdate();
-            return rows > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
+    // 🔹 콤보박스용 목록
     public List<String> getAllDepartments() {
         return getDistinct("department", "deptname");
     }
@@ -219,7 +157,7 @@ public class PayrollDAO {
     private List<String> getDistinct(String table, String column) {
         List<String> list = new ArrayList<>();
         String sql = "SELECT DISTINCT " + column + " FROM " + table + " ORDER BY " + column;
-
+  
         try (Connection conn = DbConnection.getInstance().getConn();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -230,25 +168,4 @@ public class PayrollDAO {
         return list;
     }
     
-    public List<String> getYearsByEmpno(String empno) {
-        List<String> list = new ArrayList<>();
-        String sql = "SELECT DISTINCT TO_CHAR(payday, 'YYYY') AS year "
-                   + "FROM salary WHERE empno = ? ORDER BY year DESC";
-
-        try (Connection conn = DbConnection.getInstance().getConn();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, empno);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                list.add(rs.getString("year"));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
-
-}
+}//class

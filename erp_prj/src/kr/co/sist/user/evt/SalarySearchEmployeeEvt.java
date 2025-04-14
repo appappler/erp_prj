@@ -63,7 +63,7 @@ public class SalarySearchEmployeeEvt implements ActionListener {
                 vo.getEmp_name(),
                 vo.getDeptname(),
                 vo.getPosition_name(),
-                vo.getBaseSalary(),
+                vo.getSalary(),
                 vo.getBonus(),
                 vo.getTotal_deduction(),
                 vo.getActualSalary()

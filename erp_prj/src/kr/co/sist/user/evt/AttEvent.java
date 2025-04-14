@@ -1,6 +1,9 @@
 package kr.co.sist.user.evt;
 
-import java.awt.event.ActionEvent; import java.awt.event.ActionListener; import java.time.LocalDateTime; import java.time.format.DateTimeFormatter; import javax.swing.JOptionPane; import kr.co.sist.user.service.AttService; import kr.co.sist.user.view.AttView;
+import java.awt.event.ActionEvent; import java.awt.event.ActionListener; import java.time.LocalDateTime; import java.time.format.DateTimeFormatter; import javax.swing.JOptionPane;
+
+import kr.co.sist.user.dao.AttDAO;
+import kr.co.sist.user.service.AttService; import kr.co.sist.user.view.AttView;
 
 public class AttEvent { private AttView view;
 
@@ -35,10 +38,31 @@ private void handleAttendance(String status, String message) {
     LocalDateTime now = LocalDateTime.now();
     String currentTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     String currentDate = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    
+    
+    
+    
+    
     String empName = view.getEmpName();
+    int idToInt = Integer.parseInt(empName);
+    AttDAO aDAO = new AttDAO();
+    String empRealName=aDAO.convertToName(idToInt);
+    System.out.println(empName+"번의 사원 이름은 : "+empRealName);
+    
+    
+    
+    
+    
+    
+    String displayMsg = empRealName + "님 " + currentTime + " " + message;
+    
+    
+    
+    
+    
     
     // 메시지 구성: "사원이름님 현재시간 상태하셨습니다."
-    String displayMsg = empName + "님 " + currentTime + " " + message;
+//    String displayMsg = empName + "님 " + currentTime + " " + message;
     view.getLblMessage().setText(displayMsg);
     view.getLblMessage().revalidate();
     view.getLblMessage().repaint();

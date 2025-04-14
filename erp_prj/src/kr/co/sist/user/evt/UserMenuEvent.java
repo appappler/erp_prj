@@ -32,7 +32,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 		changeSubTitle();
 		
 		upf.setResizable(true);
-		upf.setSize(1330, 800);
+		upf.setSize(1530, 800);
 		upf.setResizable(false);
 		
 		upf.getJpTitleSquare().setSize(1100, 60);
@@ -51,7 +51,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 		upf.getJpAttView().setVisible(true);//바로 근태 보이게~
 		upf.getJpEmpDetailView().setVisible(false);
 		upf.getJpPayrollView().setVisible(false);
-//		upf.getJpDocumnetShareView().setVisible(false);
+		upf.getJpDocumnetShareView().setVisible(false);
 		
 //		System.out.println(getSelection().toString());
 		System.out.println("사원프로그램의 로그인 성공 후 첫 화면");
@@ -111,7 +111,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			upf.getJpAttView().setVisible(true);
 			upf.getJpEmpDetailView().setVisible(false);
 			upf.getJpPayrollView().setVisible(false);
-//			upf.getJpDocumnetShareView().setVisible(false);
+			upf.getJpDocumnetShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -138,7 +138,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			upf.getJpAttView().setVisible(false);
 			upf.getJpEmpDetailView().setVisible(true);
 			upf.getJpPayrollView().setVisible(false);
-//			upf.getJpDocumnetShareView().setVisible(false);
+			upf.getJpDocumnetShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -164,7 +164,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			upf.getJpAttView().setVisible(false);
 			upf.getJpEmpDetailView().setVisible(false);
 			upf.getJpPayrollView().setVisible(true);
-//			upf.getJpDocumnetShareView().setVisible(false);
+			upf.getJpDocumnetShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -191,7 +191,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			upf.getJpAttView().setVisible(false);
 			upf.getJpEmpDetailView().setVisible(false);
 			upf.getJpPayrollView().setVisible(false);
-//			upf.getJpDocumnetShareView().setVisible(true);
+			upf.getJpDocumnetShareView().setVisible(true);
 			
 			System.out.println(getSelection().toString());
 		}//end if

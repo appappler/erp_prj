@@ -26,7 +26,7 @@ public class DeptInfoView extends JPanel {
 	@SuppressWarnings("serial")
 	public DeptInfoView() {
 
-    	setPreferredSize(new Dimension(720, 500));
+    	setPreferredSize(new Dimension(900, 800));
 		setLayout(null);
 
 		jtfSearch = new JTextField();
@@ -40,7 +40,7 @@ public class DeptInfoView extends JPanel {
 		add(jbtSearch);
 
 		deptScroll = new JScrollPane();
-		deptScroll.setBounds(50, 80, 600, 250);
+		deptScroll.setBounds(50, 80, 800, 400);
 		add(deptScroll);
 
 		jtDept = new JTable(new DefaultTableModel(
@@ -53,9 +53,11 @@ public class DeptInfoView extends JPanel {
 		});
 		
         JTableHeader jthTable = jtDept.getTableHeader();
-        jthTable.setFont(new Font("Dialog", Font.BOLD, 12));
+        jthTable.setFont(new Font("Dialog", Font.BOLD, 16));
         jthTable.setForeground(Color.white);
         jthTable.setBackground(new Color(8, 60, 80));
+        jthTable.setPreferredSize(new Dimension(jthTable.getWidth(), 36));
+        jtDept.setRowHeight(30);
 
 		deptScroll.setViewportView(jtDept);
 

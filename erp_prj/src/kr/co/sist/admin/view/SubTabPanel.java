@@ -53,7 +53,7 @@ public class SubTabPanel extends JPanel {
         jthTable.setReorderingAllowed(false);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 30, 500, 120);
+        scrollPane.setBounds(10, 30, 500, 80);
         add(scrollPane);
         
         centerTableCells(table);
@@ -64,7 +64,7 @@ public class SubTabPanel extends JPanel {
     private void initButtons(ActionListener listener) {
         btnAdd = createButton("행 추가", 467, 5, listener);
         btnDelete = createButton("행 삭제", 567, 5, listener);
-        btnSave = createButton("저장", 567, 195, listener);  // 저장 버튼 추가
+        btnSave = createButton("저장", 567, 165, listener);  // 저장 버튼 추가
 
     }
 

@@ -124,8 +124,6 @@ public class AddPersonnelDialog extends JDialog {
             e.printStackTrace();
         }
     }
-    
-    
 
     // Getter methods
     public String getSelectedAppointment() {

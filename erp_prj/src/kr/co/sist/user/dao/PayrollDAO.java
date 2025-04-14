@@ -25,29 +25,21 @@ public class PayrollDAO {
         
 
         StringBuilder sql = new StringBuilder();
-
-        sql.append("SELECT TO_CHAR(s.payday, 'YYYY-MM-DD') AS payday, ")
-        .append("e.empno, e.emp_name, d.deptname, p.position_name, ")
-        .append("NVL(s.base_salary, p.salary) AS salary, ")
-        .append("(CASE WHEN TO_CHAR(s.payday, 'MM') = '04' ")
-        .append(" THEN NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100 ELSE 0 END) AS bonus, ")
+//        sql.append("SELECT * FROM v_salary_report WHERE 1=1 ");
+        sql.append("SELECT s.payday, e.empno, e.emp_name, d.deptname, p.position_name, ")
+        .append("p.salary, (p.salary * NVL(d.bonus_rate,0) / 100) AS bonus, ")
+        .append("p.income_tax, p.local_tax, p.national_tax, p.health_tax, p.emp_tax, p.longterm_tax, ")
+        .append("(p.income_tax + p.local_tax + p.national_tax + p.health_tax + ")
+        .append("p.emp_tax + p.longterm_tax) AS total_deduction, ")
         .append("s.actual_salary, ")
-        .append("e.hire_date, ")
-        .append("s.income_tax, s.local_tax, s.national_tax, ")
-        .append("s.health_tax, s.emp_tax, s.longterm_tax, ")
-        .append("s.total_deduction ")
-        .append("FROM salary s ")
-        .append("JOIN employee e ON s.empno = e.empno ")
-        .append("JOIN department d ON e.deptno = d.deptno ")
-        .append("JOIN position p ON e.position_id = p.position_id ")
-        .append("WHERE s.empno = ? ")
-        .append("AND TO_CHAR(s.payday, 'YYYY') = ? ")
-        .append("ORDER BY s.payday DESC");
-
-
-
-
-
+        .append("e.hire_date ")
+        .append("FROM salary s, employee e, department d, position p ")
+        .append("WHERE s.empno = e.empno ")
+        .append("AND e.deptno = d.deptno ")
+        .append("AND e.position_id = p.position_id ")
+        .append("AND s.empno = ? ")
+        .append("AND TO_CHAR(payday, 'YYYY') = ? ")
+        .append(" Order by payday DESC");
         
        
 
@@ -91,7 +83,7 @@ public class PayrollDAO {
         vo.setPosition_name(rs.getString("position_name"));
         vo.setHireDate(rs.getString("hire_date"));
         vo.setPayDate(rs.getString("payday"));
-        vo.setBaseSalary(rs.getInt("salary"));
+        vo.setSalary(rs.getInt("salary"));
         vo.setBonus(rs.getInt("bonus"));
         vo.setIncomeTax(rs.getInt("income_tax"));
         vo.setLocalIncomeTax(rs.getInt("local_tax"));

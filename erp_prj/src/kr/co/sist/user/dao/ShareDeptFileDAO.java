@@ -46,7 +46,6 @@ public class ShareDeptFileDAO {
 			pstmt.setInt(3, dfVO.getSenderDeptID());
 			
 			
-			
 			pstmt.executeUpdate();
 			
 		}finally {
@@ -99,7 +98,7 @@ public class ShareDeptFileDAO {
 //		
 //	}//insertALL
 	
-	public List<DeptFileVO> selectAllShareFile() throws SQLException{
+	public List<DeptFileVO> selectAllShareFile(int userId) throws SQLException{
 		List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -115,9 +114,10 @@ public class ShareDeptFileDAO {
 			.append(" join docum_info doc on ds.doc_id = doc.doc_id")
 			.append(" join employee e on doc.empno = e.empno ")
 			.append(" join department dp on e.deptno = dp.deptno")
-			.append(" where ds.deptno = 103 ");
+			.append(" where ds.deptno = (select deptno from employee where empno = ? ) ");
 			
 			pstmt = con.prepareStatement(selectSB.toString());
+			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();
 			DeptFileVO dfVO = null;
 			while(rs.next()) {
@@ -135,7 +135,7 @@ public class ShareDeptFileDAO {
 	}//selectAllShareFile
 	
 	//찾기
-	public List<DeptFileVO> searchShareFile(String search) throws SQLException{
+	public List<DeptFileVO> searchShareFile(String search, int userId) throws SQLException{
 		List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -151,11 +151,12 @@ public class ShareDeptFileDAO {
 			.append(" join docum_info doc on ds.doc_id = doc.doc_id")
 			.append(" join employee e on doc.empno = e.empno ")
 			.append(" join department dp on e.deptno = dp.deptno")
-			.append(" where doc.doc_name like ? ");
+			.append(" where doc.doc_name like ? and")
+			.append(" ds.deptno = (select deptno from employee where empno = ? )");
 			
 			pstmt = con.prepareStatement(searchSB.toString());
 			pstmt.setString(1, "%" + search + "%");
-			
+			pstmt.setInt(2, userId);
 			rs = pstmt.executeQuery();
 			DeptFileVO dfVO = null;
 			while(rs.next()) {
@@ -175,7 +176,7 @@ public class ShareDeptFileDAO {
 	}//search
 	
 	//정렬
-	public List<DeptFileVO> shareFileSort(String options) throws SQLException{
+	public List<DeptFileVO> shareFileSort(String options, int userId) throws SQLException{
 		List<DeptFileVO> shareSortList = new ArrayList<DeptFileVO>();
 		Connection con = null;
 		ResultSet rs = null;
@@ -193,9 +194,11 @@ public class ShareDeptFileDAO {
 			.append(" join docum_info doc on ds.doc_id = doc.doc_id ")
 			.append(" join employee e on doc.empno = e.empno ")
 			.append(" join department dp on e.deptno = dp.deptno")
+			.append(" where ds.deptno = (select deptno from employee where empno = ? )")
 			.append(" order by ds.share_date ").append(sortOptions);
 			
 			pstmt = con.prepareStatement(sortSB.toString());
+			pstmt.setInt(1, userId);
 			
 			rs=pstmt.executeQuery();
 			

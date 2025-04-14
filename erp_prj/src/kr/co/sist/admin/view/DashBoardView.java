@@ -105,7 +105,6 @@ public class DashBoardView extends JPanel{
         jthTable.setFont(new Font("Dialog", Font.BOLD, 12));
         jthTable.setForeground(Color.white);
         jthTable.setBackground(new Color(8, 60, 80));
-        jthTable.setPreferredSize(new Dimension(jthTable.getWidth(), 24));
         
         TableColumn tc0= table.getColumnModel().getColumn(0);
         tc0.setMinWidth(90);//사번

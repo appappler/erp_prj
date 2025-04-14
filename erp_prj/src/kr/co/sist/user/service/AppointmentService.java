@@ -6,6 +6,7 @@ import java.util.List;
 import kr.co.sist.user.dao.AppointmentDAO;
 import kr.co.sist.user.vo.AppointmentVO;
 
+
 /**
  * 인사 발령(Appointment / Personnel) 관련 비즈니스 로직 처리 클래스
  */

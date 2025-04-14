@@ -1,5 +1,6 @@
 package kr.co.sist.user.service;
 
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,7 +9,6 @@ import java.util.Set;
 
 import kr.co.sist.user.dao.ShareDeptFileDAO;
 import kr.co.sist.user.vo.DeptFileVO;
-
 
 
 public class ShareDeptFileService {
@@ -35,12 +35,12 @@ public class ShareDeptFileService {
 	
 	
 	//공유테이블 출력
-	public List<DeptFileVO> showShareTable(){
+	public List<DeptFileVO> showShareTable(int userId){
 		List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		ShareDeptFileDAO sdfDAO = ShareDeptFileDAO.getInstance();
 		
 		try {
-			list = sdfDAO.selectAllShareFile();
+			list = sdfDAO.selectAllShareFile(userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -49,12 +49,12 @@ public class ShareDeptFileService {
 	}//showsharetable
 	
 	//문서찾기
-	public List<DeptFileVO> serachShareTable(String search){
+	public List<DeptFileVO> serachShareTable(String search, int userId){
 		List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		ShareDeptFileDAO sdfDAO = ShareDeptFileDAO.getInstance();
 		
 		try {
-			list = sdfDAO.searchShareFile(search);
+			list = sdfDAO.searchShareFile(search, userId);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,11 +63,11 @@ public class ShareDeptFileService {
 		return list;
 	}//searchShareTable
 	
-	public List<DeptFileVO> sortShareTable(String options){
+	public List<DeptFileVO> sortShareTable(String options, int userId){
 		List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		ShareDeptFileDAO sdfDAO = ShareDeptFileDAO.getInstance();
 		try {
-			list = sdfDAO.shareFileSort(options);
+			list = sdfDAO.shareFileSort(options, userId);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

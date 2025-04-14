@@ -52,7 +52,7 @@ public class UserParentFrame extends JFrame{
 	public AttView jpAttView;
 	public EmpDetailView jpEmpDetailView;
 	public MainFrame jpPayrollView;
-//	public DocumentShareView jpDocumnetShareView;
+	public DocumentShareView jpDocumnetShareView;
 	
 	private int currentUserIdToInt;
 	
@@ -139,18 +139,18 @@ public class UserParentFrame extends JFrame{
 		jpLeft.setLayout(null);
 		
 		jpView.setOpaque(false);
-		jpView.setBounds(190, 75, 1100, 642);
+		jpView.setBounds(190, 75, 1300, 642);
 		
 		
 		jpAttView = new AttView(inputVO);
 		jpEmpDetailView = new EmpDetailView(currentUserIdToInt);
 		jpPayrollView = new MainFrame(inputVO);
-//		jpDocumnetShareView = new DocumentShareView();
-	
+		jpDocumnetShareView = new DocumentShareView(currentUserIdToInt);
+		
 		jpView.add(jpAttView);
 		jpView.add(jpEmpDetailView);
 		jpView.add(jpPayrollView);
-//		jpView.add(jpDocumnetShareView);
+		jpView.add(jpDocumnetShareView);
 
 		jpMenuForDashBoard = new JPanel();
 		jpMenuForDashBoard.setLayout(new GridLayout(1, 1));
@@ -231,6 +231,14 @@ public class UserParentFrame extends JFrame{
 
 	    
 	}//UserParentFrame
+
+	public DocumentShareView getJpDocumnetShareView() {
+		return jpDocumnetShareView;
+	}
+
+	public void setJpDocumnetShareView(DocumentShareView jpDocumnetShareView) {
+		this.jpDocumnetShareView = jpDocumnetShareView;
+	}
 
 	public AttView getJpAttView() {
 		return jpAttView;

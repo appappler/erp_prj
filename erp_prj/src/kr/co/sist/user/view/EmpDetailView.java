@@ -143,8 +143,8 @@ public class EmpDetailView extends EmpView {
         }
 
         getJtfEmpno().setText(String.valueOf(vo.getEmpno()));
-        getJpfPass().setText(vo.getPassword());
-        getJpfPass().setEditable(false);
+        getJtfPass().setText(vo.getPassword());
+        getJtfPass().setEditable(false);
         getJtfName().setText(vo.getEname());
         getJtfBirthDate().setText(vo.getBirthDate().toString());
         getJtfHireDate().setText(vo.getHireDate().toString());

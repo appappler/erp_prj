@@ -275,13 +275,13 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 		if(ae.getSource() == apf.getJbtnMenuDept()) {
 			
 			apf.setResizable(true);
-			apf.setSize(1030, 810);
+			apf.setSize(1170, 810);
 			apf.setResizable(false);
 			
-			apf.getJpTitleSquare().setSize(800, 60);
-			apf.getJpView().setSize(800, 642);
+			apf.getJpTitleSquare().setSize(940, 60);
+			apf.getJpView().setSize(940, 642);
 			
-			apf.getJbtnLogout().setBounds(880, 35, 90, 30);
+			apf.getJbtnLogout().setBounds(1020, 35, 90, 30);
 			
 			apf.getJpTitleSquareBottom().setBounds(0, 741, 1330, 30);
 			

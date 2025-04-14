@@ -1,6 +1,12 @@
 package kr.co.sist.user.dao;
 
-import java.sql.Connection; import java.sql.PreparedStatement; import java.sql.ResultSet; import java.sql.SQLException; import kr.co.sist.user.vo.AttVO; import java.util.ArrayList; import java.util.List;
+import java.sql.Connection; import java.sql.PreparedStatement; import java.sql.ResultSet; import java.sql.SQLException;
+
+import kr.co.sist.admin.vo.AdminAccountVO;
+import kr.co.sist.user.vo.AttVO;
+import kr.co.sist.user.vo.UserAccountVO;
+
+import java.util.ArrayList; import java.util.List;
 
 public class AttDAO {
 	// 기존 조회 메서드 (생략된 나머지 코드는 그대로 유지)
@@ -127,5 +133,60 @@ public class AttDAO {
 	    }
 	    return exists;
 	}
+	
+	
+	public String convertToName(int inputId) {
+		
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    
+	    String outputEmpName=null;
+	    
+	    try {
+	        conn = DbConnection.getInstance().getConn();
+	        StringBuilder sb = new StringBuilder();
+	        
+	        sb.append("	select	EMP_NAME	")
+	        .append("	from	employee	")
+	        .append("	where	EMPNO	=	?")
+	        ;
+	        pstmt = conn.prepareStatement(sb.toString());
+	        pstmt.setInt(1, inputId);
+	        rs = pstmt.executeQuery();
+	        
+	        if(rs.next()){outputEmpName = rs.getString("emp_name");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try { if(rs != null) rs.close(); } catch(Exception e) {}
+	        try { if(pstmt != null) pstmt.close(); } catch(Exception e) {}
+	        try { if(conn != null) conn.close(); } catch(Exception e) {}
+	    }
+	    
+	    return outputEmpName;
+
+	}//convertToName
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

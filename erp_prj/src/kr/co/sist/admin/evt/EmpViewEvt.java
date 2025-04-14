@@ -105,7 +105,7 @@ public class EmpViewEvt implements ActionListener {
                 JOptionPane.showMessageDialog(empView, "비밀번호가 일치하지 않습니다.");
             } else {
                 tempPassword = newPw;
-                empView.getJpfPass().setText(tempPassword); // ✅ 뷰에 비밀번호 표시
+                empView.getJtfPass().setText(tempPassword); // ✅ 뷰에 비밀번호 표시
                 JOptionPane.showMessageDialog(empView, "비밀번호가 설정되었습니다.");
                 dialog.dispose();
             }
@@ -220,7 +220,7 @@ public class EmpViewEvt implements ActionListener {
         empView.getJtfAddress().setText("");
         empView.getJtfHireDate().setText("");
         empView.getJlblImg().setIcon(null);
-        empView.getJpfPass().setText("");
+        empView.getJtfPass().setText("");
 
         empView.getJbtnAddEmp().setEnabled(true);
 

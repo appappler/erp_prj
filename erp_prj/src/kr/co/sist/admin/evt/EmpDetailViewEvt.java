@@ -89,9 +89,6 @@ public class EmpDetailViewEvt implements ActionListener {
         } else if (src == detailView.getPersonnelTabPanel().getBtnSave()) {
             try {
                 savePersonnelChanges();
-                if (detailView.getListView() != null) {
-                    new EmpListViewEvt(detailView.getListView()).showAllEmpList(false);
-                }
                 JOptionPane.showMessageDialog(detailView, "✅ 인사 정보가 저장되었습니다.");
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -154,8 +151,8 @@ public class EmpDetailViewEvt implements ActionListener {
         detailView.getJtfHireDate().setBackground(Color.white);
 
         
-        detailView.getJpfPass().setEditable(false);
-        detailView.getJpfPass().setBackground(Color.white);
+        detailView.getJtfPass().setEditable(false);
+        detailView.getJtfPass().setBackground(Color.white);
 
         detailView.getJcbDept().setEnabled(false);
         detailView.getJcbDept().setBackground(Color.white);
@@ -190,7 +187,7 @@ public class EmpDetailViewEvt implements ActionListener {
     private void saveChanges() {
         try {
             String empnoStr = detailView.getJtfEmpno().getText().trim();
-            String pass = new String(detailView.getJpfPass().getPassword()).trim();
+            String pass = detailView.getJtfPass().getText().trim();
             String contact = detailView.getJtfContact().getText().trim();
             String email = detailView.getJtfEmail().getText().trim();
             String address = detailView.getJtfAddress().getText().trim();
@@ -267,7 +264,7 @@ public class EmpDetailViewEvt implements ActionListener {
     	Window parent = SwingUtilities.getWindowAncestor(detailView);
 
         ChangePassDialog dialog = new ChangePassDialog(parent, ChangePassDialog.Mode.CHANGE);
-        String currentPw = new String(detailView.getJpfPass().getPassword()).trim();
+        String currentPw = detailView.getJtfPass().getText().trim();
         dialog.setOldPassword(currentPw);
 
         dialog.getBtnOk().addActionListener(e -> {
@@ -299,7 +296,7 @@ public class EmpDetailViewEvt implements ActionListener {
                 boolean changed = service.changePassword(empno, newPw);
                 if (changed) {
                     JOptionPane.showMessageDialog(detailView, "비밀번호가 성공적으로 변경되었습니다.");
-                    detailView.getJpfPass().setText(newPw); // ✅ 화면 반영
+                    detailView.getJtfPass().setText(newPw); // ✅ 화면 반영
                     dialog.dispose();
                 } else {
                     JOptionPane.showMessageDialog(detailView, "비밀번호 변경 실패: DB 오류");

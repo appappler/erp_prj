@@ -41,6 +41,7 @@ public class UserLoginEvent extends WindowAdapter implements ActionListener, Key
 			String inputId = alf.getJtfInputId().getText().toString();
 			String inputPass = new String(alf.getJpfInputPass().getPassword());
 			UserAccountVO inputVO = new UserAccountVO(inputId, inputPass);
+			
 			try {
 				loginEventToService(inputVO);
 			} catch (SQLException se) {

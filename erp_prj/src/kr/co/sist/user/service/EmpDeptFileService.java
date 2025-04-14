@@ -1,12 +1,12 @@
 package kr.co.sist.user.service;
 
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.sist.user.dao.EmpDeptFileDAO;
 import kr.co.sist.user.vo.DeptFileVO;
-
 
 
 public class EmpDeptFileService {
@@ -30,11 +30,11 @@ public class EmpDeptFileService {
 		return flag;
 	}//addDocumentFile
 	
-	  public List<DeptFileVO> showAllFile() {
+	  public List<DeptFileVO> showAllFile(int userId) {
 	        List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 	        EmpDeptFileDAO edfDAO = EmpDeptFileDAO.getInstance();
 	        try {
-	            list = edfDAO.selectAllFile();
+	            list = edfDAO.selectAllFile(userId);
 	        } catch (SQLException e) {
 	            System.out.println("문서 조회 실패");
 	            e.printStackTrace();
@@ -57,12 +57,12 @@ public class EmpDeptFileService {
 		  return flag;
 	  }//removeFile
 	  
-	  public List<DeptFileVO> searchAllFile(String criteria) {
+	  public List<DeptFileVO> searchAllFile(String criteria, int userId) {
 		  List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		
 		  EmpDeptFileDAO epfDAO = EmpDeptFileDAO.getInstance();
 		  try {
-			list = epfDAO.searchFile(criteria);
+			list = epfDAO.searchFile(criteria, userId);
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -70,12 +70,12 @@ public class EmpDeptFileService {
 		  return list;
 	  }//searchAllfile
 	  
-	  public List<DeptFileVO> sortAllFile(String option){
+	  public List<DeptFileVO> sortAllFile(String option, int userId){
 		  List<DeptFileVO> sortList = new ArrayList<DeptFileVO>();
 		  EmpDeptFileDAO epfDAO = EmpDeptFileDAO.getInstance();
 		  
 		  try {
-			sortList = epfDAO.docuFileSort(option);
+			sortList = epfDAO.docuFileSort(option, userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}//sortallfile

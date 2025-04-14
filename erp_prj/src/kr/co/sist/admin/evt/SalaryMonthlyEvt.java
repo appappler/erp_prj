@@ -1,9 +1,14 @@
 package kr.co.sist.admin.evt;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.admin.service.PayrollService;
 import kr.co.sist.admin.view.SalaryMonthlyView;
@@ -18,18 +23,8 @@ public class SalaryMonthlyEvt implements ActionListener {
         this.view = view;
         this.empno = empno;
 
-        // 콤보박스 초기화
-        List<String> years = PayrollService.getInstance().getYearsByEmpno(empno);
-        view.populateYearComboBox(years);
-
-        // 리스너 등록
         view.getCbYear().addActionListener(this);
-        registerTableDoubleClick();
-
-        // 기본값 자동 선택
-        if (!years.isEmpty()) {
-            view.getCbYear().setSelectedIndex(0); // 자동 조회
-        }
+        registerTableDoubleClick(); // 추가
     }
 
     @Override
@@ -37,7 +32,7 @@ public class SalaryMonthlyEvt implements ActionListener {
         String selectedYear = (String) view.getCbYear().getSelectedItem();
         if (selectedYear == null) return;
 
-        List<PayrollVO> fullList = PayrollService.getInstance().getMonthlyPayrollFromDB(empno);
+        List<PayrollVO> fullList = PayrollService.getInstance().getMonthlyPayroll(empno);
 
         DefaultTableModel model = view.getTableModel();
         model.setRowCount(0);
@@ -47,7 +42,7 @@ public class SalaryMonthlyEvt implements ActionListener {
                 String month = vo.getPayDate().substring(5, 7) + "월";
                 model.addRow(new Object[]{
                     month,
-                    vo.getBaseSalary(),
+                    vo.getSalary(),
                     vo.getBonus(),
                     vo.getTotal_deduction(),
                     vo.getActualSalary()
@@ -56,25 +51,28 @@ public class SalaryMonthlyEvt implements ActionListener {
         }
     }
 
+    // 🔹 테이블 더블 클릭 리스너
     private void registerTableDoubleClick() {
         view.getTable().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && view.getTable().getSelectedRow() != -1) {
                     int row = view.getTable().getSelectedRow();
-                    String monthText = view.getTable().getValueAt(row, 0).toString();
+
+                    String monthText = view.getTable().getValueAt(row, 0).toString(); // "04월"
                     String payMonth = monthText.replace("월", "");
                     if (payMonth.length() == 1) payMonth = "0" + payMonth;
 
                     String selectedYear = (String) view.getCbYear().getSelectedItem();
                     String payDatePrefix = selectedYear + "-" + payMonth;
 
-                    List<PayrollVO> list = PayrollService.getInstance().getMonthlyPayrollFromDB(empno);
+                    // 🔍 캐시에서 정확한 payDate 찾기
+                    List<PayrollVO> list = PayrollService.getInstance().getMonthlyPayroll(empno);
                     String matchedPayDate = null;
 
                     for (PayrollVO vo : list) {
                         if (vo.getPayDate().startsWith(payDatePrefix)) {
-                            matchedPayDate = vo.getPayDate();
+                            matchedPayDate = vo.getPayDate(); // 예: "2025-04-01"
                             break;
                         }
                     }
@@ -84,10 +82,10 @@ public class SalaryMonthlyEvt implements ActionListener {
                         return;
                     }
 
-                    PayrollVO vo = PayrollService.getInstance().getPayrollDetailFreshFromDB(empno, matchedPayDate);
+                    PayrollVO vo = PayrollService.getInstance().getPayrollDetail(empno, matchedPayDate);
 
                     SalaryParticularView detailView = new SalaryParticularView(e1 -> {
-                        List<PayrollVO> newList = PayrollService.getInstance().getMonthlyPayrollFromDB(empno);
+                        List<PayrollVO> newList = PayrollService.getInstance().getMonthlyPayroll(empno);
                         SalaryMonthlyView monthlyView = new SalaryMonthlyView();
                         monthlyView.loadData(newList);
                         new SalaryMonthlyEvt(monthlyView, empno);
@@ -100,7 +98,6 @@ public class SalaryMonthlyEvt implements ActionListener {
                         monthlyFrame.setVisible(true);
                     });
 
-                    new SalaryParticularEvt(detailView, empno);
                     detailView.loadData(vo);
 
                     JFrame frame = new JFrame("급여 상세 보기");
@@ -113,4 +110,65 @@ public class SalaryMonthlyEvt implements ActionListener {
             }
         });
     }
+
 }
+
+
+
+
+
+/*
+
+package kr.co.sist.admin.evt;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.table.DefaultTableModel;
+
+import kr.co.sist.admin.service.PayrollService;
+import kr.co.sist.admin.view.SalaryMonthlyView;
+import kr.co.sist.admin.vo.PayrollVO;
+
+
+public class SalaryMonthlyEvt implements ActionListener {
+    private SalaryMonthlyView view;
+    private String empno;
+
+    public SalaryMonthlyEvt(SalaryMonthlyView view, String empno) {
+        this.view = view;
+        this.empno = empno;
+
+        view.getCbYear().addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String selectedYear = (String) view.getCbYear().getSelectedItem();
+        if (selectedYear == null) return;
+
+        // 🔹 전체 리스트 가져오기 (DAO 캐시에서)
+        List<PayrollVO> fullList = PayrollService.getInstance().getMonthlyPayroll(empno);
+
+        // 🔹 해당 연도 데이터만 필터링
+        DefaultTableModel model = view.getTableModel();
+        model.setRowCount(0);
+
+        for (PayrollVO vo : fullList) {
+            if (vo.getPayDate().startsWith(selectedYear)) {
+                String month = vo.getPayDate().substring(5, 7) + "월";
+                model.addRow(new Object[]{
+                    month,
+                    vo.getSalary(),
+                    vo.getBonus(),
+                    vo.getTotal_deduction(),
+                    vo.getActualSalary()
+                });
+            }
+        }
+    }
+    
+}//class
+
+*/

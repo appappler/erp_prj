@@ -85,7 +85,7 @@ public class EmpDetailViewEvt implements ActionListener {
         detailView.getJtfBirthDate().setEditable(false);
         detailView.getJtfHireDate().setEditable(false);
         
-        detailView.getJpfPass().setEditable(false);
+        detailView.getJtfPass().setEditable(false);
         detailView.getJcbDept().setEnabled(false);
         detailView.getJcbPosition().setEnabled(false);
 
@@ -110,7 +110,7 @@ public class EmpDetailViewEvt implements ActionListener {
     private void saveChanges() {
         try {
             String empnoStr = detailView.getJtfEmpno().getText().trim();
-            String pass = new String(detailView.getJpfPass().getPassword()).trim();
+            String pass = detailView.getJtfPass().getText().trim();
             String contact = detailView.getJtfContact().getText().trim();
             String email = detailView.getJtfEmail().getText().trim();
             String address = detailView.getJtfAddress().getText().trim();
@@ -186,7 +186,7 @@ public class EmpDetailViewEvt implements ActionListener {
     	Window parent = SwingUtilities.getWindowAncestor(detailView);
 
         ChangePassDialog dialog = new ChangePassDialog(parent, ChangePassDialog.Mode.CHANGE);
-        String currentPw = new String(detailView.getJpfPass().getPassword()).trim();
+        String currentPw = detailView.getJtfPass().getText().trim();
         dialog.setOldPassword(currentPw);
 
         dialog.getBtnOk().addActionListener(e -> {
@@ -218,7 +218,7 @@ public class EmpDetailViewEvt implements ActionListener {
                 boolean changed = service.changePassword(empno, newPw);
                 if (changed) {
                     JOptionPane.showMessageDialog(detailView, "비밀번호가 성공적으로 변경되었습니다.");
-                    detailView.getJpfPass().setText(newPw); // ✅ 화면 반영
+                    detailView.getJtfPass().setText(newPw); // ✅ 화면 반영
                     dialog.dispose();
                 } else {
                     JOptionPane.showMessageDialog(detailView, "비밀번호 변경 실패: DB 오류");

@@ -8,7 +8,7 @@ public class PayrollVO {
     private String hireDate;
     private String payDate;
 
-    private int baseSalary;
+    private int salary;
     private int bonus;
 
     private int incomeTax;
@@ -70,12 +70,12 @@ public class PayrollVO {
         this.payDate = payDate;
     }
 
-    public int getBaseSalary() {
-        return baseSalary;
+    public int getSalary() {
+        return salary;
     }
 
-    public void setBaseSalary(int baseSalary) {
-    	 this.baseSalary = baseSalary;
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 
     public int getBonus() {

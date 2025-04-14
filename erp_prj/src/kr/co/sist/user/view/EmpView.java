@@ -5,12 +5,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 import kr.co.sist.user.evt.EmpViewEvt;
@@ -20,8 +26,7 @@ public class EmpView extends JPanel {
 
     private static final long serialVersionUID = 1916152364214019354L;
     private JPanel contentPane;
-    private JTextField jtfEmpno, jtfContact, jtfEmail, jtfAddress, jtfName, jtfBirthDate, jtfHireDate;
-    private JPasswordField jpfPass;
+    private JTextField jtfEmpno, jtfPass, jtfContact, jtfEmail, jtfAddress, jtfName, jtfBirthDate, jtfHireDate;
     private JButton jbtnEditImg, jbtnAddEmp, jbtnInputPass, jbtnResetEmp;
     private JComboBox<String> jcbDept, jcbPosition;
     private JLabel jlblImg;
@@ -76,12 +81,12 @@ public class EmpView extends JPanel {
         jbtnEditImg.setFont(font);
         panel.add(jbtnEditImg);
 
-        jpfPass = new JPasswordField();
-        jpfPass.setBounds(640, 75, 130, 30);
-        jpfPass.setEditable(false);
-        jpfPass.setBackground(Color.white);
-        jpfPass.setFont(font);
-        panel.add(jpfPass);
+        jtfPass = new JTextField();
+        jtfPass.setBounds(640, 75, 130, 30);
+        jtfPass.setEditable(false);
+        jtfPass.setBackground(Color.white);
+        jtfPass.setFont(font);
+        panel.add(jtfPass);
 
         jtfName = new JTextField();
         jtfName.setBounds(310, 35, 130, 30);
@@ -146,7 +151,7 @@ public class EmpView extends JPanel {
         panel.add(makeLabel("주소", 210, 255, font));
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(20, 360, 760, 280);
+        tabbedPane.setBounds(20, 360, 760, 240);
         tabbedPane.setFont(font);
         panel.add(tabbedPane);
 
@@ -207,7 +212,7 @@ public class EmpView extends JPanel {
         header.setFont(new Font("Dialog", Font.BOLD, 15));
 
         JScrollPane scrollPane = (JScrollPane) panel.getComponent(0);
-        scrollPane.setBounds(10, 40, 730, 120);
+        scrollPane.setBounds(10, 40, 730, 80);
     }
 
     public void hideIdColumn(SubTabPanel panel) {
@@ -229,7 +234,7 @@ public class EmpView extends JPanel {
 
     
     public JTextField getJtfEmpno() { return jtfEmpno; }
-    public JPasswordField getJpfPass() { return jpfPass; }
+    public JTextField getJtfPass() { return jtfPass; }
     public JTextField getJtfContact() { return jtfContact; }
     public JTextField getJtfEmail() { return jtfEmail; }
     public JTextField getJtfAddress() { return jtfAddress; }
@@ -246,7 +251,7 @@ public class EmpView extends JPanel {
 
     public void setFieldsEditable(boolean editable) {
         jtfEmpno.setEditable(editable);
-        jpfPass.setEditable(editable);
+        jtfPass.setEditable(editable);
         jtfName.setEditable(editable);
         jtfBirthDate.setEditable(editable);
         jtfHireDate.setEditable(editable);

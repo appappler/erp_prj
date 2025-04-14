@@ -1,7 +1,10 @@
 package kr.co.sist.user.view;
 
 import javax.swing.*;
-import java.awt.*; 
+import java.awt.*;
+
+import kr.co.sist.user.dao.AttDAO;
+import kr.co.sist.user.dao.UserLoginDAO;
 import kr.co.sist.user.evt.AttEvent;
 import kr.co.sist.user.vo.UserAccountVO;
 
@@ -18,6 +21,11 @@ public class AttView extends JPanel {
 		
 	    this.empName = uaVO.getUserId();
 	    this.uaVO = uaVO;
+	    
+	    AttDAO aDAO = new AttDAO();
+	   
+
+	    
 	    
 		Color MainColor = new Color(8, 60, 80);
 		Color SubColor = new Color(226,240,248);

@@ -1,24 +1,38 @@
 package kr.co.sist.user.view;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.table.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.user.service.PayrollService;
 
 public class SalarySearchEmployeeView extends JPanel {
 
-    private static final long serialVersionUID = 6533950438745559910L;
-    private JComboBox<String> cbYear;
+	private static final long serialVersionUID = 6533950438745559910L;
+	private JComboBox<String> cbYear;
     private JButton btnConfirm;
     private JTable table;
     private DefaultTableModel model;
     private String loginEmpno;
 
     public SalarySearchEmployeeView(String empno) {
+    	setPreferredSize(new Dimension(1000, 500));
         this.loginEmpno = empno;
-        setLayout(new BorderLayout(10, 10));
-        setPreferredSize(new Dimension(900, 480)); // 패널 크기 동일
+        setLayout(new BorderLayout(15, 15));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         add(createTopPanel(), BorderLayout.NORTH);
@@ -27,26 +41,22 @@ public class SalarySearchEmployeeView extends JPanel {
 
     private JPanel createTopPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setOpaque(false);
         panel.setBorder(BorderFactory.createTitledBorder("급여 검색"));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // 라벨
-        JLabel lblYear = new JLabel("년도");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(lblYear, gbc);
-
-        // 콤보박스
         cbYear = new JComboBox<>();
         cbYear.addItem("년도");
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(new JLabel("년도 선택"), gbc);
+
         gbc.gridx = 1;
         panel.add(cbYear, gbc);
 
-        // 버튼
         btnConfirm = new JButton("조회");
         gbc.gridx = 2;
         panel.add(btnConfirm, gbc);
@@ -63,26 +73,29 @@ public class SalarySearchEmployeeView extends JPanel {
         };
 
         table = new JTable(model);
-        table.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
         table.setRowHeight(24);
+        table.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+        table.getTableHeader().setFont(new Font("맑은 고딕", Font.BOLD, 13));
         table.setDefaultEditor(Object.class, null);
 
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Dialog", Font.BOLD, 14));
-        header.setForeground(Color.white);
-        header.setBackground(new Color(8, 60, 80));
-        header.setPreferredSize(new Dimension(header.getWidth(), 30));
-
+        // 셀 정렬
         DefaultTableCellRenderer center = new DefaultTableCellRenderer();
         center.setHorizontalAlignment(SwingConstants.CENTER);
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(center);
         }
 
+        // 컬럼 너비 조금 조정
+        table.getColumnModel().getColumn(0).setPreferredWidth(90);  // 지급일자
+        table.getColumnModel().getColumn(1).setPreferredWidth(80);  // 사원번호
+        table.getColumnModel().getColumn(2).setPreferredWidth(90);  // 성명
+        table.getColumnModel().getColumn(3).setPreferredWidth(100); // 부서
+        table.getColumnModel().getColumn(4).setPreferredWidth(90);  // 직급
+
         return new JScrollPane(table);
     }
 
-    // 콤보박스 세팅
+    // 🔹 연도 콤보박스 세팅
     public void populateYearComboBox(PayrollService service) {
         cbYear.removeAllItems();
         cbYear.addItem("년도");
@@ -91,7 +104,7 @@ public class SalarySearchEmployeeView extends JPanel {
         }
     }
 
-    // Getter
+    // 🔹 Getter
     public JComboBox<String> getCbYear() {
         return cbYear;
     }

@@ -9,8 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.sist.user.view.DocumentShareView;
 import kr.co.sist.user.vo.DeptFileVO;
-
 
 
 public class EmpDeptFileDAO {
@@ -57,14 +57,14 @@ public class EmpDeptFileDAO {
 	}// insertDocuTable
 
 	
-	public List<DeptFileVO> selectAllFile() throws SQLException {
+	public List<DeptFileVO> selectAllFile(int userId) throws SQLException {
 		List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		DbConnection dbCon = DbConnection.getInstance();
 		DeptFileVO dfVO = null;
-
+		
 		try {
 			con = dbCon.getConn();
 			StringBuilder selectSB = new StringBuilder();
@@ -73,11 +73,12 @@ public class EmpDeptFileDAO {
 			.append(" docum_info di ")
 			.append(" join employee e on di.empno = e.empno ")
 			.append(" join department dp on e.deptno = dp.deptno")
-			.append(" where e.empno = 1002 "); //여기수정
+			.append(" where e.empno = ? "); //여기수정
 	
+		
 			pstmt = con.prepareStatement(selectSB.toString());
+			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();
-
 			while (rs.next()) {
 				dfVO = new DeptFileVO();
 				dfVO.setNum(rs.getInt("doc_id"));
@@ -116,7 +117,7 @@ public class EmpDeptFileDAO {
 
 	}// deleteFile
 
-	public List<DeptFileVO> searchFile(String criteria) throws SQLException {
+	public List<DeptFileVO> searchFile(String criteria, int userId) throws SQLException {
 		List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -132,11 +133,12 @@ public class EmpDeptFileDAO {
 			.append(" join employee e on di.empno = e.empno ")
 			.append(" join department dp on e.deptno = dp.deptno")
 			.append(" where di.doc_name like ? ")
-			.append(" and e.empno = 1002");
+			.append(" and e.empno = ? ");
 
 			pstmt = con.prepareStatement(searchSB.toString());
 
 			pstmt.setString(1, "%" + criteria + "%");
+			pstmt.setInt(2, userId);
 
 			rs = pstmt.executeQuery();
 			DeptFileVO dfVO = null;
@@ -158,7 +160,7 @@ public class EmpDeptFileDAO {
 		return list;
 	}
 	
-	public List<DeptFileVO> docuFileSort(String options) throws SQLException{
+	public List<DeptFileVO> docuFileSort(String options, int userId) throws SQLException{
 		List<DeptFileVO> sortList = new ArrayList<DeptFileVO>();
 		Connection con = null;
 		ResultSet rs = null;
@@ -178,11 +180,11 @@ public class EmpDeptFileDAO {
 			.append(" docum_info di ")
 			.append(" join employee e on di.empno = e.empno ")
 			.append(" join department dp on e.deptno = dp.deptno")
-			.append(" where e.empno = 1002")
+			.append(" where e.empno = ? ")
 			.append(" order by di.upload_date ")
 			.append(sortOption);
 			pstmt = con.prepareStatement(sortSB.toString());
-			
+			pstmt.setInt(1, userId);
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
