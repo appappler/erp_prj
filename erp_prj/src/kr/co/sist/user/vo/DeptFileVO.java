@@ -1,6 +1,7 @@
 package kr.co.sist.user.vo;
 
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class DeptFileVO {
@@ -17,9 +18,11 @@ public class DeptFileVO {
 	private int deptID;
 	private Date shareData;
 
+	private int senderDeptID;
+	
 	
 	public DeptFileVO(int num, int empId, String empName, String deptName, Date inputDate, String fileName,
-			String criteria, byte[] fileData, int docID, int deptID, Date shareData) {
+			String criteria, byte[] fileData, int docID, int deptID, Date shareData, int senderDeptID) {
 		super();
 		this.num = num;
 		this.empId = empId;
@@ -32,6 +35,7 @@ public class DeptFileVO {
 		this.docID = docID;
 		this.deptID = deptID;
 		this.shareData = shareData;
+		this.senderDeptID = senderDeptID;
 	}
 
 	@Override
@@ -47,6 +51,13 @@ public class DeptFileVO {
 	    }
 	    return false;
 	}
+//@Override
+//public boolean equals(Object obj) {
+//    if (this == obj) return true;
+//    if (obj == null || getClass() != obj.getClass()) return false;
+//    DeptFileVO other = (DeptFileVO) obj;
+//    return docID == other.docID && deptID == other.deptID;
+//}
 
 	@Override
 	public int hashCode() {
@@ -55,6 +66,15 @@ public class DeptFileVO {
 	
 
 	public DeptFileVO() {
+	}
+
+	
+	public int getSenderDeptID() {
+		return senderDeptID;
+	}
+
+	public void setSenderDeptID(int senderDeptID) {
+		this.senderDeptID = senderDeptID;
 	}
 
 	public int getDocID() {

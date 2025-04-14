@@ -54,7 +54,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 		apf.getJpSalaryView().setVisible(false);//연봉관리JPanel
 		apf.getJpRankView().setVisible(false);//직급관리JPanel
 		apf.getJpDeptView().setVisible(false);//부서관리JPanel
-//		apf.getJpXxxView().setVisible(false);//문서관리JPanel
+		apf.getJpAdminShareView().setVisible(false);
 		
 		System.out.println(getSelection().toString());
 	}//AdminMenuEvent
@@ -88,7 +88,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpSalaryView().setVisible(false);//연봉관리JPanel
 			apf.getJpRankView().setVisible(false);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
-//			apf.getJpXxxView().setVisible(false);//문서관리JPanel
+			apf.getJpAdminShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if  
@@ -119,7 +119,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpSalaryView().setVisible(false);//연봉관리JPanel
 			apf.getJpRankView().setVisible(false);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
-//			apf.getJpXxxView().setVisible(false);//문서관리JPanel
+			apf.getJpAdminShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -149,7 +149,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpSalaryView().setVisible(false);//연봉관리JPanel
 			apf.getJpRankView().setVisible(false);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
-//			apf.getJpXxxView().setVisible(false);//문서관리JPanel
+			apf.getJpAdminShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if  
@@ -178,7 +178,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpSalaryView().setVisible(false);//연봉관리JPanel
 			apf.getJpRankView().setVisible(false);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
-//			apf.getJpXxxView().setVisible(false);//문서관리JPanel
+			apf.getJpAdminShareView().setVisible(false);
 	
 			
 			System.out.println(getSelection().toString());
@@ -209,7 +209,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpSalaryView().setVisible(false);//연봉관리JPanel
 			apf.getJpRankView().setVisible(false);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
-//			apf.getJpXxxView().setVisible(false);//문서관리JPanel
+			apf.getJpAdminShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -238,7 +238,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpSalaryView().setVisible(true);//연봉관리JPanel
 			apf.getJpRankView().setVisible(false);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
-//			apf.getJpXxxView().setVisible(false);//문서관리JPanel
+			apf.getJpAdminShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -267,7 +267,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpSalaryView().setVisible(false);//연봉관리JPanel
 			apf.getJpRankView().setVisible(true);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
-//			apf.getJpXxxView().setVisible(false);//문서관리JPanel
+			apf.getJpAdminShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -298,7 +298,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpSalaryView().setVisible(false);//연봉관리JPanel
 			apf.getJpRankView().setVisible(false);//직급관리JPanel
 			apf.getJpDeptView().setVisible(true);//부서관리JPanel
-//			apf.getJpXxxView().setVisible(false);//문서관리JPanel
+			apf.getJpAdminShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -327,7 +327,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpSalaryView().setVisible(false);//연봉관리JPanel
 			apf.getJpRankView().setVisible(false);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
-//			apf.getJpXxxView().setVisible(true);//문서관리JPanel
+			apf.getJpAdminShareView().setVisible(true);
 			
 			System.out.println(getSelection().toString());
 		}//end if

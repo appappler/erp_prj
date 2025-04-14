@@ -19,10 +19,15 @@ public class AttView extends JPanel {
 	    this.empName = uaVO.getUserId();
 	    this.uaVO = uaVO;
 	    
-	    
-	    setLayout(new BorderLayout());
-	    setPreferredSize(new Dimension(600, 400));
+		Color MainColor = new Color(8, 60, 80);
+		Color SubColor = new Color(226,240,248);
+		Font MenuFont = new Font("Dialog", Font.BOLD, 24);
+		
+	    setLayout(null);
+	    setPreferredSize(new Dimension(1100, 600));
 
+	    /*
+	    
 	    // 중앙 패널: 버튼 배치
 	    JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 80));
 	    btnCheckIn = new JButton("출근");
@@ -36,7 +41,19 @@ public class AttView extends JPanel {
 	    centerPanel.add(btnCheckOut);
 	    centerPanel.add(btnEarlyLeave);
 	    add(centerPanel, BorderLayout.CENTER);
-
+	    
+	    btnCheckIn.setBackground(MainColor);
+	    btnCheckIn.setForeground(Color.white);
+	    btnCheckIn.setFont(new Font("Dialog", Font.BOLD, 36));
+	    
+	    btnCheckOut.setBackground(MainColor);
+	    btnCheckOut.setForeground(Color.white);
+	    btnCheckOut.setFont(new Font("Dialog", Font.BOLD, 36));
+	    
+	    btnEarlyLeave.setBackground(MainColor);
+	    btnEarlyLeave.setForeground(Color.white);
+	    btnEarlyLeave.setFont(new Font("Dialog", Font.BOLD, 36));
+	    
 	    // 하단 패널: 메시지 라벨
 	    lblMessage = new JLabel(" ", SwingConstants.CENTER);
 	    lblMessage.setOpaque(true);
@@ -45,6 +62,67 @@ public class AttView extends JPanel {
 	    lblMessage.setPreferredSize(new Dimension(600, 50));
 	    lblMessage.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 	    add(lblMessage, BorderLayout.SOUTH);
+	    
+	    */
+	    
+	    JPanel centerPanel = new JPanel();
+	    btnCheckIn = new JButton("출근");
+	    btnCheckOut = new JButton("퇴근");
+	    btnEarlyLeave = new JButton("조퇴");
+	    
+	    centerPanel.setBounds(0, 80, 1100, 200);
+	    centerPanel.add(btnCheckIn);
+	    centerPanel.add(btnCheckOut);
+	    centerPanel.add(btnEarlyLeave);
+	    
+//	    centerPanel.setBackground(Color.red);
+	    
+	    Dimension btnSize = new Dimension(220, 160);
+	    btnCheckIn.setPreferredSize(btnSize);
+	    btnCheckOut.setPreferredSize(btnSize);
+	    btnEarlyLeave.setPreferredSize(btnSize);
+	    
+//	    btnCheckIn.setBounds(20,100,300,100);
+//	    btnCheckOut.setBounds(120,100,300,100);
+//	    btnEarlyLeave.setBounds(320,100,300,100);
+	    
+	    add(centerPanel);
+	    
+	    JPanel bottomPanel = new JPanel();
+	    lblMessage = new JLabel(" ", SwingConstants.CENTER);
+	    lblMessage.setOpaque(true);
+//	    lblMessage.setBackground(Color.YELLOW);
+	    lblMessage.setBackground(new Color(158,249,202));
+//	    lblMessage.setFont(new Font("Malgun Gothic", Font.PLAIN, 16));  // 윈도우라면
+	    lblMessage.setFont(new Font("Malgun Gothic", Font.BOLD, 32));  // 윈도우라면
+	    lblMessage.setForeground(MainColor);
+	    lblMessage.setPreferredSize(new Dimension(800, 140));
+	    lblMessage.setBorder(BorderFactory.createLineBorder(MainColor, 2));
+	    
+	    bottomPanel.add(lblMessage);
+	    bottomPanel.setBounds(0, 300, 1100, 500);
+	    add(bottomPanel);
+	    
+	    btnCheckIn.setBackground(MainColor);
+	    btnCheckIn.setForeground(Color.white);
+	    btnCheckIn.setFont(new Font("Dialog", Font.BOLD, 36));
+	    
+	    btnCheckOut.setBackground(MainColor);
+	    btnCheckOut.setForeground(Color.white);
+	    btnCheckOut.setFont(new Font("Dialog", Font.BOLD, 36));
+	    
+	    btnEarlyLeave.setBackground(MainColor);
+	    btnEarlyLeave.setForeground(Color.white);
+	    btnEarlyLeave.setFont(new Font("Dialog", Font.BOLD, 36));
+	    
+	    
+	    setVisible(true);
+	    
+//	    add(lblMessage, BorderLayout.SOUTH);
+	    
+	    
+	    
+	    
 
 	    // AttEvent 등록: 버튼 클릭 시 이벤트 핸들링
 	    new AttEvent(this);

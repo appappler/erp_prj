@@ -11,6 +11,7 @@ import java.util.Set;
 
 import kr.co.sist.user.vo.DeptFileVO;
 
+
 public class ShareDeptFileDAO {
 
 	private static ShareDeptFileDAO sdfDAO;
@@ -35,13 +36,15 @@ public class ShareDeptFileDAO {
 			con=dbConn.getConn();
 			StringBuilder insertSB = new StringBuilder();
 			insertSB
-			.append("insert into docum_share(share_doc_id, doc_id, deptno, share_date) ")
-			.append(" values(share_seq.nextval, ?, ?, sysdate)");
+			.append("insert into docum_share(share_doc_id, doc_id, deptno, sender_deptno, share_date) ")
+			.append(" values(share_seq.nextval, ?, ?, ?, sysdate)");
 				
 			pstmt = con.prepareStatement(insertSB.toString());
 			
 			pstmt.setInt(1, dfVO.getDocID());
 			pstmt.setInt(2, dfVO.getDeptID());
+			pstmt.setInt(3, dfVO.getSenderDeptID());
+			
 			
 			
 			pstmt.executeUpdate();
@@ -111,7 +114,8 @@ public class ShareDeptFileDAO {
 			.append(" FROM docum_share ds ")
 			.append(" join docum_info doc on ds.doc_id = doc.doc_id")
 			.append(" join employee e on doc.empno = e.empno ")
-			.append(" join department dp on e.deptno = dp.deptno");
+			.append(" join department dp on e.deptno = dp.deptno")
+			.append(" where ds.deptno = 103 ");
 			
 			pstmt = con.prepareStatement(selectSB.toString());
 			rs = pstmt.executeQuery();
@@ -269,7 +273,7 @@ public class ShareDeptFileDAO {
 	public Set<Integer> getAllSharedDocIds() {
 	    Set<Integer> sharedDocIds = new HashSet<Integer>();
 	    String sql = "SELECT DISTINCT doc_id FROM docum_share";
-
+	    
 	    try (Connection con = DbConnection.getInstance().getConn();
 	         PreparedStatement pstmt = con.prepareStatement(sql);
 	         ResultSet rs = pstmt.executeQuery()) {
@@ -284,19 +288,22 @@ public class ShareDeptFileDAO {
 	    return sharedDocIds;
 	}
 	
-	public List<DeptFileVO> getAllDepartments() throws SQLException {
+	
+	//db에 저장된 모든 부서들
+	public List<DeptFileVO> getAllDepartments(int senderDept) throws SQLException {
 	    List<DeptFileVO> list = new ArrayList<>();
 	    Connection con = null;
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 	    DbConnection dbConn = DbConnection.getInstance();
-
+	    
 	    try {
 	        con = dbConn.getConn();
-	        String sql = "SELECT deptno, deptname FROM department ORDER BY deptno";
+	        String sql = "SELECT deptno, deptname FROM department where deptno != ? ORDER BY deptno";
 	        pstmt = con.prepareStatement(sql);
+	        pstmt.setInt(1, senderDept);
 	        rs = pstmt.executeQuery();
-
+	       
 	        while (rs.next()) {
 	            DeptFileVO vo = new DeptFileVO();
 	            vo.setDeptID(rs.getInt("deptno"));

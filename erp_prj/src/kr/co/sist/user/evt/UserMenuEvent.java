@@ -23,11 +23,16 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 	public UserMenuEvent(UserParentFrame upf) {
 		
 		this.upf = upf;
-		String selection = "대시보드"; 
+		String selection = "사원 로그인 첫화면"; 
 		this.selection=selection;
 		
+		setSelection("나의 근태");
+		switchOfState(upf);
+		showCurrentState(upf.getJbtnMenuMyAttend());
+		changeSubTitle();
+		
 		upf.setResizable(true);
-		upf.setSize(1330, 700);
+		upf.setSize(1330, 800);
 		upf.setResizable(false);
 		
 		upf.getJpTitleSquare().setSize(1100, 60);
@@ -35,20 +40,21 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 		
 		upf.getJbtnLogout().setBounds(1180, 35, 90, 30);
 		
-		upf.getJpTitleSquareBottom().setBounds(0, 631, 1330, 30);
+		upf.getJpTitleSquareBottom().setBounds(0, 731, 1330, 30);
 		
-		upf.getJlblCurrentUserIDWellcom().setBounds(21, 615, 300, 60);
-		upf.getJlblCurrentUserIDWellcomShadow().setBounds(22, 616, 300, 60);
+		upf.getJlblCurrentUserIDWellcom().setBounds(21, 715, 300, 60);
+		upf.getJlblCurrentUserIDWellcomShadow().setBounds(22, 716, 300, 60);
 		
-		upf.getJlblCurrentUserID().setBounds(60, 615, 300, 60);
-		upf.getJlblCurrentUserIDShadow().setBounds(61, 616, 300, 60);
+		upf.getJlblCurrentUserID().setBounds(60, 715, 300, 60);
+		upf.getJlblCurrentUserIDShadow().setBounds(61, 716, 300, 60);
 		
-		upf.getJpAttView().setVisible(false);
+		upf.getJpAttView().setVisible(true);//바로 근태 보이게~
 		upf.getJpEmpDetailView().setVisible(false);
 		upf.getJpPayrollView().setVisible(false);
-		upf.getJpDocumnetShareView().setVisible(false);
+//		upf.getJpDocumnetShareView().setVisible(false);
 		
-		System.out.println(getSelection().toString());
+//		System.out.println(getSelection().toString());
+		System.out.println("사원프로그램의 로그인 성공 후 첫 화면");
 	}//UserMenuEvent
 	
 	@Override
@@ -56,8 +62,9 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 		
 		if(ae.getSource() == upf.getJbtnMenuHome()) {
 			
+			/*
 			upf.setResizable(true);
-			upf.setSize(1330, 700);
+			upf.setSize(1330, 800);
 			upf.setResizable(false);
 			
 			upf.getJpTitleSquare().setSize(1100, 60);
@@ -65,7 +72,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			
 			upf.getJbtnLogout().setBounds(1180, 35, 90, 30);
 			
-			upf.getJpTitleSquareBottom().setBounds(0, 631, 1330, 30);
+			upf.getJpTitleSquareBottom().setBounds(0, 731, 1330, 30);
 			
 			setSelection("사원 메뉴");
 			switchOfState(upf);
@@ -76,15 +83,17 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			upf.getJpEmpDetailView().setVisible(false);
 			upf.getJpPayrollView().setVisible(false);
 			upf.getJpDocumnetShareView().setVisible(false);
+			*/
 			
-			System.out.println(getSelection().toString());
+//			System.out.println(getSelection().toString());
+			System.out.println("사원 메뉴 클릭");
 		}//end if  
 		
 		
 		if(ae.getSource() == upf.getJbtnMenuMyAttend()) {
 			
 			upf.setResizable(true);
-			upf.setSize(1330, 700);
+			upf.setSize(1330, 800);
 			upf.setResizable(false);
 			
 			upf.getJpTitleSquare().setSize(1100, 60);
@@ -92,7 +101,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			
 			upf.getJbtnLogout().setBounds(1180, 35, 90, 30);
 			
-			upf.getJpTitleSquareBottom().setBounds(0, 631, 1330, 30);
+			upf.getJpTitleSquareBottom().setBounds(0, 731, 1330, 30);
 			
 			setSelection("나의 근태");
 			switchOfState(upf);
@@ -102,7 +111,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			upf.getJpAttView().setVisible(true);
 			upf.getJpEmpDetailView().setVisible(false);
 			upf.getJpPayrollView().setVisible(false);
-			upf.getJpDocumnetShareView().setVisible(false);
+//			upf.getJpDocumnetShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -110,7 +119,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 		if(ae.getSource() == upf.getJbtnMenuMyInfo()) {
 			
 			upf.setResizable(true);
-			upf.setSize(1330, 700);
+			upf.setSize(1330, 800);
 			upf.setResizable(false);
 			
 			upf.getJpTitleSquare().setSize(1100, 60);
@@ -118,7 +127,8 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			
 			upf.getJbtnLogout().setBounds(1180, 35, 90, 30);
 			
-			upf.getJpTitleSquareBottom().setBounds(0, 631, 1330, 30);
+			upf.getJpTitleSquareBottom().setBounds(0, 731, 1330, 30);
+			
 			
 			setSelection("나의 정보");
 			switchOfState(upf);
@@ -128,7 +138,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			upf.getJpAttView().setVisible(false);
 			upf.getJpEmpDetailView().setVisible(true);
 			upf.getJpPayrollView().setVisible(false);
-			upf.getJpDocumnetShareView().setVisible(false);
+//			upf.getJpDocumnetShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -136,7 +146,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 		if(ae.getSource() == upf.getJbtnMenuMyPay()) {
 			
 			upf.setResizable(true);
-			upf.setSize(1330, 700);
+			upf.setSize(1330, 800);
 			upf.setResizable(false);
 			
 			upf.getJpTitleSquare().setSize(1100, 60);
@@ -144,7 +154,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			
 			upf.getJbtnLogout().setBounds(1180, 35, 90, 30);
 			
-			upf.getJpTitleSquareBottom().setBounds(0, 631, 1330, 30);
+			upf.getJpTitleSquareBottom().setBounds(0, 731, 1330, 30);
 			
 			setSelection("나의 급여");
 			switchOfState(upf);
@@ -154,7 +164,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			upf.getJpAttView().setVisible(false);
 			upf.getJpEmpDetailView().setVisible(false);
 			upf.getJpPayrollView().setVisible(true);
-			upf.getJpDocumnetShareView().setVisible(false);
+//			upf.getJpDocumnetShareView().setVisible(false);
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -162,7 +172,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 		if(ae.getSource() == upf.getJbtnMenuMyShare()) {
 			
 			upf.setResizable(true);
-			upf.setSize(1330, 700);
+			upf.setSize(1330, 800);
 			upf.setResizable(false);
 			
 			upf.getJpTitleSquare().setSize(1100, 60);
@@ -170,7 +180,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			
 			upf.getJbtnLogout().setBounds(1180, 35, 90, 30);
 			
-			upf.getJpTitleSquareBottom().setBounds(0, 631, 1400, 30);
+			upf.getJpTitleSquareBottom().setBounds(0, 731, 1400, 30);
 			
 			
 			setSelection("나의 공유");
@@ -181,7 +191,7 @@ public class UserMenuEvent extends WindowAdapter implements ActionListener{
 			upf.getJpAttView().setVisible(false);
 			upf.getJpEmpDetailView().setVisible(false);
 			upf.getJpPayrollView().setVisible(false);
-			upf.getJpDocumnetShareView().setVisible(true);
+//			upf.getJpDocumnetShareView().setVisible(true);
 			
 			System.out.println(getSelection().toString());
 		}//end if

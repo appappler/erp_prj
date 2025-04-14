@@ -55,8 +55,8 @@ public class AdminParentFrame extends JFrame{
 	public MainFrame jpPayrollViewFrame;//급여관리
 	public RankView jpRankView;//직급관리
 	public SalaryView jpSalaryView;//연봉관리
-//	public DeptInfoView jpDeptView;//부서관리
 	public DeptRun jpDeptView;//부서관리
+	public DocumentManagerView jpAdminShareView;//문서공유
 	
 	
 	private String currentAdminID;
@@ -146,6 +146,7 @@ public class AdminParentFrame extends JFrame{
 		jpRankView = new RankView();
 		jpAttView = new AttView();
 		jpDeptView = new DeptRun();
+		jpAdminShareView = new DocumentManagerView();
 
 		jpView.add(jpDashBoardView);
 		jpView.add(jpAttView);//근태
@@ -155,8 +156,7 @@ public class AdminParentFrame extends JFrame{
 		jpView.add(jpSalaryView);//연봉
 		jpView.add(jpRankView);//직급
 		jpView.add(jpDeptView);//부서
-//		jpView.add(jpXxxView);//문서
-
+		jpView.add(jpAdminShareView);//문서
 		
 		jpMenuForDashBoard = new JPanel();
 		jpMenuForDashBoard.setLayout(new GridLayout(1, 1));
@@ -266,6 +266,14 @@ public class AdminParentFrame extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    
 	}//AdminParentFrame
+
+	public DocumentManagerView getJpAdminShareView() {
+		return jpAdminShareView;
+	}
+
+	public void setJpAdminShareView(DocumentManagerView jpAdminShareView) {
+		this.jpAdminShareView = jpAdminShareView;
+	}
 
 	public JPanel getJpParent() {
 		return jpParent;

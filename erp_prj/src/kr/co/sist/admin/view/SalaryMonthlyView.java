@@ -1,3 +1,5 @@
+
+
 package kr.co.sist.admin.view;
 
 import java.awt.BorderLayout;
@@ -104,12 +106,16 @@ public class SalaryMonthlyView extends JPanel {
         }
     }
 
-    public JComboBox<String> getCbYear() {
-        return cbYear;
+    public JComboBox getCbYear() {
+    	return cbYear;
     }
 
     public DefaultTableModel getTableModel() {
-        return model;
+    	return model;
+    }
+
+    public JTable getTable() {
+    	return table;
     }
     
 }//class

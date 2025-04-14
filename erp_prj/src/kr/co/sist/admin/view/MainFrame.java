@@ -5,8 +5,36 @@ import javax.swing.*;
 import kr.co.sist.admin.evt.SalarySearchEvt;
 
 /**
- * 
- */
+*
+*/
+public class MainFrame extends JPanel {
+
+    private static final long serialVersionUID = 2466076878779159402L;
+
+    public MainFrame() {
+        setSize(1000, 900);
+        salarySearchView = new SalarySearchView();
+        new SalarySearchEvt(salarySearchView);
+        add(salarySearchView);
+        setVisible(true);
+    }
+
+   private SalarySearchView salarySearchView;
+
+   public SalarySearchView getSalarySearchView() {
+       return salarySearchView;
+   }
+   
+}//class
+
+/*
+package kr.co.sist.admin.view;
+
+import javax.swing.*;
+
+import kr.co.sist.admin.evt.SalarySearchEvt;
+
+
 public class MainFrame extends JPanel {
 
     private static final long serialVersionUID = 2466076878779159402L;
@@ -30,3 +58,5 @@ public class MainFrame extends JPanel {
     }
     
 }//class
+
+*/

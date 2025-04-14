@@ -5,10 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.sist.user.vo.DeptFileVO;
+
+
 
 public class EmpDeptFileDAO {
 
@@ -53,6 +56,7 @@ public class EmpDeptFileDAO {
 		}
 	}// insertDocuTable
 
+	
 	public List<DeptFileVO> selectAllFile() throws SQLException {
 		List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		Connection con = null;
@@ -68,7 +72,8 @@ public class EmpDeptFileDAO {
 			.append("SELECT di.doc_id, e.emp_name, dp.deptname, di.doc_name, di.upload_date FROM ")
 			.append(" docum_info di ")
 			.append(" join employee e on di.empno = e.empno ")
-			.append(" join department dp on e.deptno = dp.deptno");
+			.append(" join department dp on e.deptno = dp.deptno")
+			.append(" where e.empno = 1002 "); //여기수정
 	
 			pstmt = con.prepareStatement(selectSB.toString());
 			rs = pstmt.executeQuery();
@@ -126,7 +131,8 @@ public class EmpDeptFileDAO {
 			.append(" docum_info di ")
 			.append(" join employee e on di.empno = e.empno ")
 			.append(" join department dp on e.deptno = dp.deptno")
-			.append(" where di.doc_name like ? ");
+			.append(" where di.doc_name like ? ")
+			.append(" and e.empno = 1002");
 
 			pstmt = con.prepareStatement(searchSB.toString());
 
@@ -172,6 +178,7 @@ public class EmpDeptFileDAO {
 			.append(" docum_info di ")
 			.append(" join employee e on di.empno = e.empno ")
 			.append(" join department dp on e.deptno = dp.deptno")
+			.append(" where e.empno = 1002")
 			.append(" order by di.upload_date ")
 			.append(sortOption);
 			pstmt = con.prepareStatement(sortSB.toString());
@@ -227,9 +234,7 @@ public class EmpDeptFileDAO {
 	    ResultSet rs = null;
 	    DbConnection dbConn = DbConnection.getInstance();
 	    boolean exists = false;
-
-	    
-	    
+    
 	    
 	    try {
 	        con = dbConn.getConn();

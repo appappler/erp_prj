@@ -9,6 +9,8 @@ import java.util.Set;
 import kr.co.sist.user.dao.ShareDeptFileDAO;
 import kr.co.sist.user.vo.DeptFileVO;
 
+
+
 public class ShareDeptFileService {
 	
 	public ShareDeptFileService() {
@@ -85,8 +87,7 @@ public class ShareDeptFileService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+	
 		return flag;
 	}
 	
@@ -129,12 +130,12 @@ public class ShareDeptFileService {
 		return set;
 	}
 	
-	public List<DeptFileVO> getAllDepartment(){
+	public List<DeptFileVO> getAllDepartment(int senderDept){
 		List<DeptFileVO> list = new ArrayList<DeptFileVO>();
 		ShareDeptFileDAO sdfDAO = ShareDeptFileDAO.getInstance();
 		
 		try {
-			list = sdfDAO.getAllDepartments();
+			list = sdfDAO.getAllDepartments(senderDept);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

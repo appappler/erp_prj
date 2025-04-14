@@ -52,7 +52,7 @@ public class UserParentFrame extends JFrame{
 	public AttView jpAttView;
 	public EmpDetailView jpEmpDetailView;
 	public MainFrame jpPayrollView;
-	public DocumentShareView jpDocumnetShareView;
+//	public DocumentShareView jpDocumnetShareView;
 	
 	private int currentUserIdToInt;
 	
@@ -70,7 +70,7 @@ public class UserParentFrame extends JFrame{
 		
 		jpParent = new JPanel();
 		jpParent.setLayout(null);
-		jpParent.setBounds(0, 0, 1100, 700); 
+		jpParent.setBounds(0, 0, 1100, 800); 
 		
 		jpTitleWithLogout = new JPanel();
 		jpTitleSquare = new JPanel();
@@ -106,49 +106,51 @@ public class UserParentFrame extends JFrame{
 		jpTitleSquare.setForeground(MainColor);
 		
 		jpTitleSquareBottom.setBackground(MainColor);
-		jpTitleSquareBottom.setBounds(0, 631, 1330, 30);
+		jpTitleSquareBottom.setBounds(0, 731, 1330, 30);
 		
 		jlblCurrentUserIDWellcom = new JLabel("접속:");
-		jlblCurrentUserIDWellcom.setBounds(20, 615, 300, 60);
+		jlblCurrentUserIDWellcom.setBounds(20, 715, 300, 60);
 		jlblCurrentUserIDWellcom.setForeground(new Color(127,188,209));
 		jlblCurrentUserIDWellcom.setFont(new Font("Dialog", Font.BOLD, 14));
 		
 		jlblCurrentUserIDWellcomShadow = new JLabel("접속:");
-		jlblCurrentUserIDWellcomShadow.setBounds(21, 616, 300, 60);
+		jlblCurrentUserIDWellcomShadow.setBounds(21, 716, 300, 60);
 		jlblCurrentUserIDWellcomShadow.setForeground(Color.black);
 		jlblCurrentUserIDWellcomShadow.setFont(new Font("Dialog", Font.BOLD, 14));
 		
 		jlblCurrentUserID = new JLabel(currentUserID+"님");
-		jlblCurrentUserID.setBounds(60, 615, 300, 60);
+		jlblCurrentUserID.setBounds(60, 715, 300, 60);
 		jlblCurrentUserID.setForeground(Color.WHITE);
 		jlblCurrentUserID.setFont(new Font("Dialog", Font.BOLD, 14));
 		
 		jlblCurrentUserIDShadow = new JLabel(currentUserID+"님") ;
-		jlblCurrentUserIDShadow.setBounds(61, 616, 300, 60);
+		jlblCurrentUserIDShadow.setBounds(61, 716, 300, 60);
 		jlblCurrentUserIDShadow.setForeground(Color.black);
 		jlblCurrentUserIDShadow.setFont(new Font("Dialog", Font.BOLD, 14));
 		
-		jbtnLogout.setBounds(880, 35, 90, 30);
+		jbtnLogout.setBounds(1180, 35, 90, 30);
 		jbtnLogout.setBackground(new Color(22,48,59));
 		jbtnLogout.setForeground(Color.white);
 		jbtnLogout.setFont(new Font("Dialog", Font.PLAIN, 12));
+
 		
 		jpLeft.setBounds(15, 15, 160, 705);
 		jpLeft.setOpaque(false);
 		jpLeft.setLayout(null);
 		
 		jpView.setOpaque(false);
-		jpView.setBounds(190, 75, 1100, 710);
+		jpView.setBounds(190, 75, 1100, 642);
+		
 		
 		jpAttView = new AttView(inputVO);
 		jpEmpDetailView = new EmpDetailView(currentUserIdToInt);
 		jpPayrollView = new MainFrame(inputVO);
-		jpDocumnetShareView = new DocumentShareView();
+//		jpDocumnetShareView = new DocumentShareView();
 	
 		jpView.add(jpAttView);
 		jpView.add(jpEmpDetailView);
 		jpView.add(jpPayrollView);
-		jpView.add(jpDocumnetShareView);
+//		jpView.add(jpDocumnetShareView);
 
 		jpMenuForDashBoard = new JPanel();
 		jpMenuForDashBoard.setLayout(new GridLayout(1, 1));
@@ -221,9 +223,12 @@ public class UserParentFrame extends JFrame{
 	    jbtnLogout.addActionListener(ume);
 	    
 		setResizable(false);
-		setBounds(50, 50, 1330, 900);
+		setBounds(50, 50, 1330, 800);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		
+
 	    
 	}//UserParentFrame
 
@@ -443,14 +448,7 @@ public class UserParentFrame extends JFrame{
 		this.jpPayrollView = jpPayrollView;
 	}
 
-	public DocumentShareView getJpDocumnetShareView() {
-		return jpDocumnetShareView;
-	}
-
-	public void setJpDocumnetShareView(DocumentShareView jpDocumnetShareView) {
-		this.jpDocumnetShareView = jpDocumnetShareView;
-	}
-
+	
 
 
 
