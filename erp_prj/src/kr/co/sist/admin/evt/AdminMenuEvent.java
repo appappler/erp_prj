@@ -269,6 +269,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpRankView().setVisible(true);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
 			apf.getJpAdminShareView().setVisible(false);
+			new RankEvt(apf.getJpRankView()).loadRankTable();
 			
 			System.out.println(getSelection().toString());
 		}//end if
