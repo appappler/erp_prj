@@ -56,4 +56,9 @@ public class PayrollService {
     public boolean updateBaseSalary(String empno, String payDate, int baseSalary) {
         return dao.updateBaseSalary(empno, payDate, baseSalary);
     }
+    
+    public List<String> getYearsByEmpno(String empno) {
+        return PayrollDAO.getInstance().getYearsByEmpno(empno);
+    }
+
 }

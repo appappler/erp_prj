@@ -20,17 +20,19 @@ public class PayrollDAO {
 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT TO_CHAR(s.payday, 'YYYY-MM-DD') AS payday, e.empno, e.emp_name, d.deptname, p.position_name, ")
-        .append("NVL(s.base_salary, p.salary) AS salary, ")
-        .append("(NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100) AS bonus, ")
-        .append("s.actual_salary, ")
-        .append("e.hire_date, ")
-        .append("t.income_tax, t.local_tax, t.national_tax, t.health_tax, t.emp_tax, t.longterm_tax, ")
-        .append("(NVL(s.base_salary, p.salary) * (t.income_tax + t.local_tax + t.national_tax + t.health_tax + t.emp_tax + t.longterm_tax) / 100) AS total_deduction ")
-        .append("FROM salary s ")
-        .append("JOIN employee e ON s.empno = e.empno ")
-        .append("JOIN department d ON e.deptno = d.deptno ")
-        .append("JOIN position p ON e.position_id = p.position_id ")
-        .append("JOIN tax_rate t ON 1 = 1 ");
+           .append("NVL(s.base_salary, p.salary) AS salary, ")
+           .append("(CASE WHEN TO_CHAR(s.payday, 'MM') = '04' ")
+           .append(" THEN NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100 ELSE 0 END) AS bonus, ")
+           .append("s.actual_salary, ")
+           .append("e.hire_date, ")
+           .append("t.income_tax, t.local_tax, t.national_tax, t.health_tax, t.emp_tax, t.longterm_tax, ")
+           .append("(NVL(s.base_salary, p.salary) * (t.income_tax + t.local_tax + t.national_tax + t.health_tax + t.emp_tax + t.longterm_tax) / 100) AS total_deduction ")
+           .append("FROM salary s ")
+           .append("JOIN employee e ON s.empno = e.empno ")
+           .append("JOIN department d ON e.deptno = d.deptno ")
+           .append("JOIN position p ON e.position_id = p.position_id ")
+           .append("JOIN tax_rate t ON 1 = 1 ");
+
 
         if (dept != null && !dept.equals("부서") && !dept.trim().isEmpty()) {
             sql.append(" AND deptname = ? ");
@@ -83,17 +85,18 @@ public class PayrollDAO {
     public List<PayrollVO> getMonthlyPayrollFromDB(String empno) {
         List<PayrollVO> list = new ArrayList<>();
         String sql = "SELECT TO_CHAR(s.payday, 'YYYY-MM-DD') AS payday, e.empno, e.emp_name, d.deptname, p.position_name, " +
-                     "NVL(s.base_salary, p.salary) AS salary, " +
-                     "(NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100) AS bonus, " +
-                     "s.actual_salary, e.hire_date, " +
-                     "t.income_tax, t.local_tax, t.national_tax, t.health_tax, t.emp_tax, t.longterm_tax, " +
-                     "(NVL(s.base_salary, p.salary) * (t.income_tax + t.local_tax + t.national_tax + t.health_tax + t.emp_tax + t.longterm_tax) / 100) AS total_deduction " +
-                     "FROM salary s " +
-                     "JOIN employee e ON s.empno = e.empno " +
-                     "JOIN department d ON e.deptno = d.deptno " +
-                     "JOIN position p ON e.position_id = p.position_id " +
-                     "JOIN tax_rate t ON 1 = 1 " +
-                     "WHERE e.empno = ? ORDER BY s.payday desc, e.empno asc";
+                "NVL(s.base_salary, p.salary) AS salary, " +
+                "(CASE WHEN TO_CHAR(s.payday, 'MM') = '04' THEN NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100 ELSE 0 END) AS bonus, " +
+                "s.actual_salary, e.hire_date, " +
+                "t.income_tax, t.local_tax, t.national_tax, t.health_tax, t.emp_tax, t.longterm_tax, " +
+                "(NVL(s.base_salary, p.salary) * (t.income_tax + t.local_tax + t.national_tax + t.health_tax + t.emp_tax + t.longterm_tax) / 100) AS total_deduction " +
+                "FROM salary s " +
+                "JOIN employee e ON s.empno = e.empno " +
+                "JOIN department d ON e.deptno = d.deptno " +
+                "JOIN position p ON e.position_id = p.position_id " +
+                "JOIN tax_rate t ON 1 = 1 " +
+                "WHERE e.empno = ? ORDER BY s.payday desc, e.empno asc";
+
 
         try (Connection conn = DbConnection.getInstance().getConn();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -138,17 +141,17 @@ public class PayrollDAO {
         }
 
         String sql = "SELECT TO_CHAR(s.payday, 'YYYY-MM-DD') AS payday, e.empno, e.emp_name, d.deptname, p.position_name, " +
-                "NVL(s.base_salary, p.salary) AS salary, " +
-                "(NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100) AS bonus, " +
-                "s.income_tax, s.local_tax, s.national_tax, " +
-                "s.health_tax, s.emp_tax, s.longterm_tax, " +
-                "s.total_deduction, s.actual_salary, e.hire_date " +
-                "FROM salary s " +
-                "JOIN employee e ON s.empno = e.empno " +
-                "JOIN department d ON e.deptno = d.deptno " +
-                "JOIN position p ON e.position_id = p.position_id " +
-                "WHERE e.empno = ? AND TRUNC(s.payday) = TO_DATE(?, 'YYYY-MM-DD')"+
-                "ORDER BY s.payday desc, e.empno asc";
+        	    "NVL(s.base_salary, p.salary) AS salary, " +
+        	    "(CASE WHEN TO_CHAR(s.payday, 'MM') = '04' THEN NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100 ELSE 0 END) AS bonus, " +
+        	    "s.income_tax, s.local_tax, s.national_tax, " +
+        	    "s.health_tax, s.emp_tax, s.longterm_tax, " +
+        	    "s.total_deduction, s.actual_salary, e.hire_date " +
+        	    "FROM salary s " +
+        	    "JOIN employee e ON s.empno = e.empno " +
+        	    "JOIN department d ON e.deptno = d.deptno " +
+        	    "JOIN position p ON e.position_id = p.position_id " +
+        	    "WHERE e.empno = ? AND TRUNC(s.payday) = TO_DATE(?, 'YYYY-MM-DD') " +
+        	    "ORDER BY s.payday desc, e.empno asc";
 
 
         try (Connection conn = DbConnection.getInstance().getConn();
@@ -226,4 +229,26 @@ public class PayrollDAO {
         }
         return list;
     }
+    
+    public List<String> getYearsByEmpno(String empno) {
+        List<String> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT TO_CHAR(payday, 'YYYY') AS year "
+                   + "FROM salary WHERE empno = ? ORDER BY year DESC";
+
+        try (Connection conn = DbConnection.getInstance().getConn();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, empno);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString("year"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }

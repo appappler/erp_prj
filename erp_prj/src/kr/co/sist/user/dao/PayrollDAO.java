@@ -27,21 +27,23 @@ public class PayrollDAO {
         StringBuilder sql = new StringBuilder();
 
         sql.append("SELECT TO_CHAR(s.payday, 'YYYY-MM-DD') AS payday, ")
-           .append("e.empno, e.emp_name, d.deptname, p.position_name, ")
-           .append("NVL(s.base_salary, p.salary) AS salary, ")
-           .append("(NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100) AS bonus, ")
-           .append("s.actual_salary, ")
-           .append("e.hire_date, ")
-           .append("s.income_tax, s.local_tax, s.national_tax, ")
-           .append("s.health_tax, s.emp_tax, s.longterm_tax, ")
-           .append("s.total_deduction ")
-           .append("FROM salary s ")
-           .append("JOIN employee e ON s.empno = e.empno ")
-           .append("JOIN department d ON e.deptno = d.deptno ")
-           .append("JOIN position p ON e.position_id = p.position_id ")
-           .append("WHERE s.empno = ? ")
-           .append("AND TO_CHAR(s.payday, 'YYYY') = ? ")
-           .append("ORDER BY s.payday DESC");
+        .append("e.empno, e.emp_name, d.deptname, p.position_name, ")
+        .append("NVL(s.base_salary, p.salary) AS salary, ")
+        .append("(CASE WHEN TO_CHAR(s.payday, 'MM') = '04' ")
+        .append(" THEN NVL(s.base_salary, p.salary) * NVL(d.bonus_rate, 0) / 100 ELSE 0 END) AS bonus, ")
+        .append("s.actual_salary, ")
+        .append("e.hire_date, ")
+        .append("s.income_tax, s.local_tax, s.national_tax, ")
+        .append("s.health_tax, s.emp_tax, s.longterm_tax, ")
+        .append("s.total_deduction ")
+        .append("FROM salary s ")
+        .append("JOIN employee e ON s.empno = e.empno ")
+        .append("JOIN department d ON e.deptno = d.deptno ")
+        .append("JOIN position p ON e.position_id = p.position_id ")
+        .append("WHERE s.empno = ? ")
+        .append("AND TO_CHAR(s.payday, 'YYYY') = ? ")
+        .append("ORDER BY s.payday DESC");
+
 
 
 

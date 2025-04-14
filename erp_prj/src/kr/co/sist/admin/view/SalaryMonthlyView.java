@@ -1,19 +1,18 @@
-
-
 package kr.co.sist.admin.view;
-
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import kr.co.sist.admin.vo.PayrollVO;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.Comparator;
+
+import kr.co.sist.admin.vo.PayrollVO;
 
 public class SalaryMonthlyView extends JPanel {
-    private JLabel lblEmpInfo = new JLabel();  
+    private JLabel lblEmpInfo = new JLabel();
     private JComboBox<String> cbYear = new JComboBox<>();
     private JTable table;
     private DefaultTableModel model;
@@ -22,7 +21,7 @@ public class SalaryMonthlyView extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // 🔹 상단 - 사원정보 + 연도 선택
+        // 🔹 상단 패널
         JPanel topPanel = new JPanel(new GridBagLayout());
         topPanel.setBorder(BorderFactory.createTitledBorder("사원 정보"));
 
@@ -72,10 +71,6 @@ public class SalaryMonthlyView extends JPanel {
         if (!list.isEmpty()) {
             PayrollVO first = list.get(0);
             lblEmpInfo.setText(first.getEmp_name() + " (" + first.getEmpno() + ")");
-
-            cbYear.removeAllItems();
-            String year = first.getPayDate().substring(0, 4);
-            cbYear.addItem(year);
         }
 
         for (PayrollVO vo : list) {
@@ -90,15 +85,13 @@ public class SalaryMonthlyView extends JPanel {
         }
     }
 
-    public JComboBox<String> getCbYear() {
-        return cbYear;
+    public void populateYearComboBox(List<String> years) {
+        cbYear.removeAllItems();
+        for (String year : years) cbYear.addItem(year);
     }
 
-    public DefaultTableModel getTableModel() {
-        return model;
-    }
-
-    public JTable getTable() {
-        return table;
-    }
+    // Getter
+    public JComboBox<String> getCbYear() { return cbYear; }
+    public DefaultTableModel getTableModel() { return model; }
+    public JTable getTable() { return table; }
 }

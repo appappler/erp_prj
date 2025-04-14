@@ -1,16 +1,14 @@
 package kr.co.sist.admin.evt;
 
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.*;
+import java.util.List;
 
 import kr.co.sist.admin.service.PayrollService;
 import kr.co.sist.admin.view.SalaryMonthlyView;
 import kr.co.sist.admin.view.SalaryParticularView;
 import kr.co.sist.admin.vo.PayrollVO;
-
-import java.awt.event.*;
-import java.util.List;
 
 public class SalaryMonthlyEvt implements ActionListener {
     private SalaryMonthlyView view;
@@ -20,8 +18,18 @@ public class SalaryMonthlyEvt implements ActionListener {
         this.view = view;
         this.empno = empno;
 
+        // 콤보박스 초기화
+        List<String> years = PayrollService.getInstance().getYearsByEmpno(empno);
+        view.populateYearComboBox(years);
+
+        // 리스너 등록
         view.getCbYear().addActionListener(this);
         registerTableDoubleClick();
+
+        // 기본값 자동 선택
+        if (!years.isEmpty()) {
+            view.getCbYear().setSelectedIndex(0); // 자동 조회
+        }
     }
 
     @Override
@@ -54,7 +62,6 @@ public class SalaryMonthlyEvt implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && view.getTable().getSelectedRow() != -1) {
                     int row = view.getTable().getSelectedRow();
-
                     String monthText = view.getTable().getValueAt(row, 0).toString();
                     String payMonth = monthText.replace("월", "");
                     if (payMonth.length() == 1) payMonth = "0" + payMonth;
@@ -92,9 +99,8 @@ public class SalaryMonthlyEvt implements ActionListener {
                         monthlyFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         monthlyFrame.setVisible(true);
                     });
-                    
-                    new SalaryParticularEvt(detailView, empno);
 
+                    new SalaryParticularEvt(detailView, empno);
                     detailView.loadData(vo);
 
                     JFrame frame = new JFrame("급여 상세 보기");
