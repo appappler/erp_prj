@@ -44,6 +44,8 @@ public class PayrollDAO {
         if (name != null && !name.equals("이름") && !name.trim().isEmpty()) {
             sql.append(" AND REPLACE(LOWER(e.emp_name), ' ', '') LIKE ? ");
         }
+        
+        sql.append("ORDER BY s.payday desc, e.empno asc");
 
         try (Connection conn = DbConnection.getInstance().getConn();
              PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
@@ -91,7 +93,7 @@ public class PayrollDAO {
                      "JOIN department d ON e.deptno = d.deptno " +
                      "JOIN position p ON e.position_id = p.position_id " +
                      "JOIN tax_rate t ON 1 = 1 " +
-                     "WHERE e.empno = ? ORDER BY s.payday";
+                     "WHERE e.empno = ? ORDER BY s.payday desc, e.empno asc";
 
         try (Connection conn = DbConnection.getInstance().getConn();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -146,7 +148,7 @@ public class PayrollDAO {
                 "JOIN department d ON e.deptno = d.deptno " +
                 "JOIN position p ON e.position_id = p.position_id " +
                 "WHERE e.empno = ? AND TRUNC(s.payday) = TO_DATE(?, 'YYYY-MM-DD')"+
-                "ORDER BY s.payday";
+                "ORDER BY s.payday desc, e.empno asc";
 
 
         try (Connection conn = DbConnection.getInstance().getConn();
