@@ -136,16 +136,19 @@ public class DashBoardView extends JPanel{
         JLabel lblAttendance = new JLabel("출근 0명", SwingConstants.CENTER);
         JLabel lblLeave = new JLabel("퇴근 0명", SwingConstants.CENTER);
         JLabel lblAbsent = new JLabel("결근 0명", SwingConstants.CENTER);
+        JLabel lblEarly = new JLabel("조퇴 0명", SwingConstants.CENTER);
         JLabel lblDate = new JLabel(new SimpleDateFormat("yyyy년 MM월 dd일").format(new Date()), SwingConstants.CENTER);
 
         lblAttendance.setFont(new Font("Dialog", Font.BOLD, 20));
         lblLeave.setFont(new Font("Dialog", Font.BOLD, 20));
         lblAbsent.setFont(new Font("Dialog", Font.BOLD, 20));
+        lblEarly.setFont(new Font("Dialog", Font.BOLD, 20));
         lblDate.setFont(new Font("Dialog", Font.BOLD, 20));
         
         lblAttendance.setForeground(new Color(8, 60, 80));
         lblLeave.setForeground(new Color(8, 60, 80));
         lblAbsent.setForeground(new Color(8, 60, 80));
+        lblEarly.setForeground(new Color(8, 60, 80));
         lblDate.setForeground(new Color(8, 60, 80));
         
 //        // 🔹 로그아웃 버튼
@@ -163,7 +166,8 @@ public class DashBoardView extends JPanel{
         statusPanel.setPreferredSize(new Dimension(1000, 40));
         statusPanel.add(lblAttendance);
         statusPanel.add(lblLeave);
-        statusPanel.add(lblAbsent);
+//        statusPanel.add(lblAbsent);
+        statusPanel.add(lblEarly);
         statusPanel.add(lblDate);
 //        statusPanel.add(logoutButton);
 
@@ -173,7 +177,7 @@ public class DashBoardView extends JPanel{
 
         // 🔹 데이터 로드
 //        new AttendanceEvt(tableModel, lblAttendance, lblLeave, lblAbsent).loadAttendanceData();
-        AttendanceEvt ae=new AttendanceEvt(tableModel, lblAttendance, lblLeave, lblAbsent);
+        AttendanceEvt ae=new AttendanceEvt(tableModel, lblAttendance, lblLeave, lblAbsent, lblEarly);
         
         Thread thread=new Thread( ae );
         thread.start();

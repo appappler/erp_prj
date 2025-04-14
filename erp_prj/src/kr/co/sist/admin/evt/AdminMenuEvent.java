@@ -1,6 +1,7 @@
 package kr.co.sist.admin.evt;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -269,7 +270,6 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.getJpRankView().setVisible(true);//직급관리JPanel
 			apf.getJpDeptView().setVisible(false);//부서관리JPanel
 			apf.getJpAdminShareView().setVisible(false);
-			new RankEvt(apf.getJpRankView()).loadRankTable();
 			
 			System.out.println(getSelection().toString());
 		}//end if
@@ -312,7 +312,9 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.setResizable(false);
 			
 			apf.getJpTitleSquare().setSize(1000, 60);
-			apf.getJpView().setSize(1100, 642);
+//			apf.getJpView().setSize(1100, 642);
+//			apf.getJpView().setSize(1300, 742);
+			apf.getJpView().setPreferredSize(new Dimension(1230, 600));
 			
 			apf.getJbtnLogout().setBounds(1080, 35, 90, 30);
 			

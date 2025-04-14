@@ -121,7 +121,7 @@ public class AttEvent implements ActionListener{
 
     // "상태" 열에 콤보박스(Cell Editor)를 적용
     private void setStatusCellEditor() {
-        String[] statusItems = {"출근", "지각", "조퇴", "퇴근", "휴가", "결근"};
+        String[] statusItems = {"출근","조퇴", "퇴근"};
         JComboBox<String> comboBox = new JComboBox<>(statusItems);
         view.getTable().getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(comboBox));
     }

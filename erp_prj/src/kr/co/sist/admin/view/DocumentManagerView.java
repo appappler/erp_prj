@@ -66,18 +66,17 @@ public class DocumentManagerView extends JPanel{
 	
 	 public DocumentManagerView() {
 //	        setTitle("문서 공유 시스템");
-//		 	setPreferredSize(new Dimension(800, 700));
-	        setSize(1200, 700);
+//		 	setPreferredSize(new Dimension(900, 600));
+	        setSize(1300, 700);
 //	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        setLayout(new GridLayout(1, 2, 10, 10));
 
 	        // 왼쪽 (부서 문서함)
 	        ManagerPanel = createManagerPanel("부서별 공유 문서함", new String[]{"번호", "등록인", "부서명" , "등록일", "파일명", "공유여부", "문서번호"});
 	        
-	        
+	        ManagerPanel.setBounds(0,0, 1200, 800);
 	    
 
-	        
 	        //이벤트처리
 //	        DocumentShareViewEvt dsve = new DocumentShareViewEvt(this);
 //	        docuConfirmButton.addActionListener(dsve);

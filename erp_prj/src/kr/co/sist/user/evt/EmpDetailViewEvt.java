@@ -181,6 +181,9 @@ public class EmpDetailViewEvt implements ActionListener {
         detailView.getBtnModify().setVisible(true);
         detailView.getBtnSave().setVisible(false);
         detailView.getJbtnResetEmp().setVisible(false);
+        
+        detailView.getJbtnEditPass().setVisible(false);
+        
     }
     
     
