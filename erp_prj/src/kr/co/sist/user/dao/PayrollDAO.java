@@ -25,7 +25,7 @@ public class PayrollDAO {
         
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT s.payday, e.empno, e.emp_name, d.deptname, p.position_name, ")
+        sql.append("SELECT TO_CHAR(s.payday, 'YYYY-MM-DD') AS payday, e.empno, e.emp_name, d.deptname, p.position_name, ")
         .append("p.salary, ")
         .append("CASE WHEN TO_CHAR(s.payday, 'MM') = '04' ")
         .append("     THEN (p.salary * NVL(d.bonus_rate,0) / 100) ")
