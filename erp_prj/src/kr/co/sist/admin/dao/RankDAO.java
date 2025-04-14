@@ -36,7 +36,7 @@ public class RankDAO {
 		try {
 			con = dbConn.getConn();
 			StringBuilder selectRank = new StringBuilder();
-			selectRank.append("select position_name, salary from position group by position_name, salary order by salary");
+			selectRank.append("select position_name, salary from position group by position_name, salary order by salary desc");
 
 			pstmt = con.prepareStatement(selectRank.toString());
  
@@ -55,31 +55,41 @@ public class RankDAO {
 	}
 
 	public List<RankVO> selectSalary() throws SQLException {
-		List<RankVO> list = new ArrayList<RankVO>();
-		
-		DbConnection dbConn = DbConnection.getInstance();
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			con = dbConn.getConn();
-			StringBuilder selectSalary = new StringBuilder();
-			selectSalary.append("select position_name, count(position_name) from position group by position_name");
-			pstmt = con.prepareStatement(selectSalary.toString());
-			
-			rs = pstmt.executeQuery();
-			RankVO rVO = null;
-			while (rs.next()) {
-				rVO = new RankVO(rs.getString("position_name"),0,rs.getInt("count(position_name)"));
-				list.add(rVO);
-			}
-		} finally {
-			dbConn.closeDB(rs, pstmt, con);
-		}
-		
-		return list;
+	    List<RankVO> list = new ArrayList<>();
+
+	    DbConnection dbConn = DbConnection.getInstance();
+	    Connection con = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        con = dbConn.getConn();
+	        StringBuilder sql = new StringBuilder();
+	        sql.append("SELECT p.position_name, NVL(COUNT(e.empno), 0) AS cnt, p.salary ")
+	           .append("FROM position p ")
+	           .append("LEFT JOIN employee e ON p.position_id = e.position_id ")
+	           .append("GROUP BY p.position_name, p.salary ")
+	           .append("ORDER BY p.salary DESC");
+
+	        pstmt = con.prepareStatement(sql.toString());
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            RankVO rVO = new RankVO(
+	                rs.getString("position_name"),
+	                rs.getInt("salary"),
+	                rs.getInt("cnt")
+	            );
+	            list.add(rVO);
+	        }
+	    } finally {
+	        dbConn.closeDB(rs, pstmt, con);
+	    }
+
+	    return list;
 	}
+
+
 	
 	public static void main(String[] args) {
 //		try {

@@ -26,7 +26,7 @@ public class DeptInfoView extends JPanel {
 	@SuppressWarnings("serial")
 	public DeptInfoView() {
 
-    	setPreferredSize(new Dimension(900, 800));
+    	setPreferredSize(new Dimension(900, 700));
 		setLayout(null);
 
 		jtfSearch = new JTextField();
@@ -40,7 +40,7 @@ public class DeptInfoView extends JPanel {
 		add(jbtSearch);
 
 		deptScroll = new JScrollPane();
-		deptScroll.setBounds(50, 80, 800, 400);
+		deptScroll.setBounds(50, 80, 820, 320);
 		add(deptScroll);
 
 		jtDept = new JTable(new DefaultTableModel(
@@ -52,21 +52,23 @@ public class DeptInfoView extends JPanel {
 			}
 		});
 		
+		jtDept.setRowHeight(23);
+		
+		
         JTableHeader jthTable = jtDept.getTableHeader();
-        jthTable.setFont(new Font("Dialog", Font.BOLD, 16));
+        jthTable.setFont(new Font("Dialog", Font.BOLD, 12));
         jthTable.setForeground(Color.white);
         jthTable.setBackground(new Color(8, 60, 80));
-        jthTable.setPreferredSize(new Dimension(jthTable.getWidth(), 36));
-        jtDept.setRowHeight(30);
 
-		deptScroll.setViewportView(jtDept);
+        deptScroll.setViewportView(jtDept);
 
+		
 		jbtnAdd = new JButton("부서 등록");
-		jbtnAdd.setBounds(438, 350, 100, 30);
+		jbtnAdd.setBounds(638, 500, 100, 30);
 		add(jbtnAdd);
 
 		jbtnDelete = new JButton("삭제");
-		jbtnDelete.setBounds(548, 350, 100, 30);
+		jbtnDelete.setBounds(748, 500, 100, 30);
 		add(jbtnDelete);
 
 	}// DeptInfoView

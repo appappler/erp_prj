@@ -41,11 +41,11 @@ public class RankView extends JPanel{
 
 	public RankView() {
 		
-    	setPreferredSize(new Dimension(600, 880));
+    	setPreferredSize(new Dimension(600, 1000));
     	
     	
 		frame = new JPanel();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 450, 800);
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 
@@ -69,7 +69,7 @@ public class RankView extends JPanel{
         jthTable.setBackground(new Color(8, 60, 80));
         jthTable.setPreferredSize(new Dimension(jthTable.getWidth(), 40));
         
-        jtbRank.setRowHeight(40);
+        jtbRank.setRowHeight(36);
         jtbRank.setFont(new Font("Dialog", Font.BOLD, 20));
         
 	    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();

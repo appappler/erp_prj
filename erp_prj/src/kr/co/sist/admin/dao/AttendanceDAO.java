@@ -15,8 +15,8 @@ import kr.co.sist.admin.vo.AttendanceVO;
  */
 public class AttendanceDAO {
     private static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-    private static final String USER = "c##comodo";
-    private static final String PASSWORD = "dragon";
+    private static final String USER = "scott";
+    private static final String PASSWORD = "tiger";
 
     public List<AttendanceVO> getAllEmployees() {
         List<AttendanceVO> employees = new ArrayList<>();

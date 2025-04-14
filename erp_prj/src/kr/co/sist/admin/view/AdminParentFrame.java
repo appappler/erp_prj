@@ -136,7 +136,7 @@ public class AdminParentFrame extends JFrame{
 		jpLeft.setLayout(null);
 		
 		jpView.setOpaque(false);
-		jpView.setBounds(190, 75, 1100, 710);
+		jpView.setBounds(190, 75, 1100, 800);
 		
 		jpDashBoardView = new DashBoardView();
 		jpEmpViewPanel = new EmpView();

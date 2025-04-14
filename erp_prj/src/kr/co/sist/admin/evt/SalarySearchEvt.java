@@ -14,9 +14,8 @@ import kr.co.sist.admin.view.SalaryParticularView;
 import kr.co.sist.admin.view.SalarySearchView;
 import kr.co.sist.admin.vo.PayrollVO;
 
-/**
- * 
- */
+import javax.swing.*;
+
 public class SalarySearchEvt implements ActionListener {
     private SalarySearchView view;
     private PayrollService service;
@@ -47,15 +46,10 @@ public class SalarySearchEvt implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String dept = (String) view.getCbDept().getSelectedItem();
-        String pos = (String) view.getCbPosition().getSelectedItem();
-        String year = (String) view.getCbYear().getSelectedItem();
-        String name = view.getTfName().getText().trim();
-
-        dept = "부서".equals(dept) ? null : dept;
-        pos = "직급".equals(pos) ? null : pos;
-        year = "년도".equals(year) ? null : year;
-        name = name.isEmpty() ? null : name;
+        String dept = view.getSelectedDept();
+        String pos = view.getSelectedPos();
+        String year = view.getSelectedYear();
+        String name = view.getEnteredName(); // placeholder '사원명' 무시하는 안전한 방식
 
         List<PayrollVO> result = service.searchPayroll(dept, pos, year, name);
 
@@ -69,7 +63,7 @@ public class SalarySearchEvt implements ActionListener {
                 vo.getEmp_name(),
                 vo.getDeptname(),
                 vo.getPosition_name(),
-                vo.getSalary(),
+                vo.getBaseSalary(),
                 vo.getBonus(),
                 vo.getTotal_deduction(),
                 vo.getActualSalary()
@@ -78,7 +72,13 @@ public class SalarySearchEvt implements ActionListener {
     }
 
     private void openSalaryParticularWindow(String empno, String payday) {
-        PayrollVO vo = service.getPayrollDetail(empno, payday);
+        PayrollVO vo = service.getPayrollDetailFreshFromDB(empno, payday);
+
+        if (vo == null) {
+            JOptionPane.showMessageDialog(view.getTable(), "해당 급여 내역을 찾을 수 없습니다.");
+            return;
+        }
+
         SalaryParticularView detailView = new SalaryParticularView(null);
         detailView.loadData(vo);
         new SalaryParticularEvt(detailView, empno);
@@ -90,5 +90,5 @@ public class SalarySearchEvt implements ActionListener {
         detailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         detailFrame.setVisible(true);
     }
-    
-}//class
+
+}

@@ -66,7 +66,8 @@ public class DocumentManagerView extends JPanel{
 	
 	 public DocumentManagerView() {
 //	        setTitle("문서 공유 시스템");
-	        setSize(1000, 500);
+//		 	setPreferredSize(new Dimension(800, 700));
+	        setSize(1200, 700);
 //	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        setLayout(new GridLayout(1, 2, 10, 10));
 

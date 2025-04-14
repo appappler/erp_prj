@@ -222,6 +222,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			
 			apf.getJpTitleSquare().setSize(520, 60);
 			apf.getJpView().setSize(520, 642);
+//			apf.getJpView().setSize(520, 900);
 			
 			apf.getJbtnLogout().setBounds(600, 35, 90, 30);
 			
@@ -310,7 +311,7 @@ public class AdminMenuEvent extends WindowAdapter implements ActionListener{
 			apf.setResizable(false);
 			
 			apf.getJpTitleSquare().setSize(1000, 60);
-			apf.getJpView().setSize(1000, 642);
+			apf.getJpView().setSize(1100, 642);
 			
 			apf.getJbtnLogout().setBounds(1080, 35, 90, 30);
 			
