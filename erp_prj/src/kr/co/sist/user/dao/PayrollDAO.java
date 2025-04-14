@@ -25,12 +25,14 @@ public class PayrollDAO {
         
 
         StringBuilder sql = new StringBuilder();
-//        sql.append("SELECT * FROM v_salary_report WHERE 1=1 ");
         sql.append("SELECT s.payday, e.empno, e.emp_name, d.deptname, p.position_name, ")
-        .append("p.salary, (p.salary * NVL(d.bonus_rate,0) / 100) AS bonus, ")
-        .append("p.income_tax, p.local_tax, p.national_tax, p.health_tax, p.emp_tax, p.longterm_tax, ")
-        .append("(p.income_tax + p.local_tax + p.national_tax + p.health_tax + ")
-        .append("p.emp_tax + p.longterm_tax) AS total_deduction, ")
+        .append("p.salary, ")
+        .append("CASE WHEN TO_CHAR(s.payday, 'MM') = '04' ")
+        .append("     THEN (p.salary * NVL(d.bonus_rate,0) / 100) ")
+        .append("     ELSE 0 END AS bonus, ")
+        .append("s.income_tax, s.local_tax, s.national_tax, s.health_tax, s.emp_tax, s.longterm_tax, ")
+        .append("(s.income_tax + s.local_tax + s.national_tax + s.health_tax + ")
+        .append("s.emp_tax + s.longterm_tax) AS total_deduction, ")
         .append("s.actual_salary, ")
         .append("e.hire_date ")
         .append("FROM salary s, employee e, department d, position p ")
@@ -38,8 +40,10 @@ public class PayrollDAO {
         .append("AND e.deptno = d.deptno ")
         .append("AND e.position_id = p.position_id ")
         .append("AND s.empno = ? ")
-        .append("AND TO_CHAR(payday, 'YYYY') = ? ")
-        .append(" Order by payday DESC");
+        .append("AND TO_CHAR(s.payday, 'YYYY') = ? ")
+        .append("ORDER BY s.payday DESC");
+
+
         
        
 
