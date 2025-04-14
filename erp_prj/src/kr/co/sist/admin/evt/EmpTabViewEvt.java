@@ -49,58 +49,77 @@ public class EmpTabViewEvt extends MouseAdapter implements ActionListener {
     public void setTrainingDialog(AddTrainingDialog dlg) { this.trainingDialog = dlg; }
 
     public void showEduDialog() {
-        if (eduDialog == null) {
-            eduDialog = new AddEduDialog(ev, this);
-            eduDialog.getEduDialogCancel().addActionListener(e -> {
-                eduDialog.dispose();
-                eduDialog = null;
-            });
-            eduDialog.setVisible(true);
+        if (eduDialog != null) {
+            eduDialog.dispose();
+            eduDialog = null;
         }
+
+        eduDialog = new AddEduDialog(ev, this);
+        eduDialog.getEduDialogCancel().addActionListener(e -> {
+            eduDialog.dispose();
+            eduDialog = null;
+        });
+        eduDialog.setVisible(true);
     }
+
 
     public void showCareerDialog() {
-        if (careerDialog == null) {
-            careerDialog = new AddCareerDialog(ev, this);
-            careerDialog.getBtnCancel().addActionListener(e -> {
-                careerDialog.dispose();
-                careerDialog = null;
-            });
-            careerDialog.setVisible(true);
+        if (careerDialog != null) {
+            careerDialog.dispose();
+            careerDialog = null;
         }
+
+        careerDialog = new AddCareerDialog(ev, this);
+        careerDialog.getBtnCancel().addActionListener(e -> {
+            careerDialog.dispose();
+            careerDialog = null;
+        });
+        careerDialog.setVisible(true);
     }
+
 
     public void showCertDialog() {
-        if (certDialog == null) {
-            certDialog = new AddCertDialog(ev, this);
-            certDialog.getBtnCancel().addActionListener(e -> {
-                certDialog.dispose();
-                certDialog = null;
-            });
-            certDialog.setVisible(true);
+        if (certDialog != null) {
+            certDialog.dispose();
+            certDialog = null;
         }
+
+        certDialog = new AddCertDialog(ev, this);
+        certDialog.getBtnCancel().addActionListener(e -> {
+            certDialog.dispose();
+            certDialog = null;
+        });
+        certDialog.setVisible(true);
     }
+
 
     public void showPersonnelDialog() {
-        if (personnelDialog == null) {
-            personnelDialog = new AddPersonnelDialog(ev, this);
-            personnelDialog.getBtnCancel().addActionListener(e -> {
-                personnelDialog.dispose();
-                personnelDialog = null;
-            });
-            personnelDialog.setVisible(true);
+        if (personnelDialog != null) {
+            personnelDialog.dispose();
+            personnelDialog = null;
         }
+
+        personnelDialog = new AddPersonnelDialog(ev, this);
+        personnelDialog.getBtnCancel().addActionListener(e -> {
+            personnelDialog.dispose();
+            personnelDialog = null;
+        });
+        personnelDialog.setVisible(true);
     }
 
+
     public void showTrainingDialog() {
-        if (trainingDialog == null) {
-            trainingDialog = new AddTrainingDialog(ev, this);
-            trainingDialog.getBtnCancel().addActionListener(e -> {
-                trainingDialog.dispose();
-                trainingDialog = null;
-            });
-            trainingDialog.setVisible(true);
+        if (trainingDialog != null) {
+            trainingDialog.dispose();
+            trainingDialog = null;
         }
+
+        trainingDialog = new AddTrainingDialog(ev, this);
+        trainingDialog.getBtnCancel().addActionListener(e -> {
+            trainingDialog.dispose();
+            trainingDialog = null;
+        });
+        trainingDialog.setVisible(true);
     }
 
     @Override
