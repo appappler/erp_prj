@@ -169,6 +169,12 @@ public class EmpView extends JPanel {
         personnelTabPanel.getBtnSave().setVisible(false);
         trainingTabPanel.getBtnSave().setVisible(false);
         
+        eduTabPanel.setTableEditable(false);
+        careerTabPanel.setTableEditable(false);
+        certTabPanel.setTableEditable(false);
+        personnelTabPanel.setTableEditable(false);
+        trainingTabPanel.setTableEditable(false);
+        
         hideIdColumn(eduTabPanel);
         hideIdColumn(careerTabPanel);
         hideIdColumn(certTabPanel);

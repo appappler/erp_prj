@@ -40,8 +40,21 @@ public class SubTabPanel extends JPanel {
     // 📌 테이블 초기화
     private void initTable(String[] columnNames) {
         tableModel = new DefaultTableModel(columnNames, 0);
-        table = new JTable(tableModel);
-        
+        table = new JTable(tableModel) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // editable 여부를 내부 플래그로 제어
+                return false;  // 모든 셀에 대해 직접 수정 불가
+            }
+
+            @Override
+            public boolean editCellAt(int row, int column, java.util.EventObject e) {
+                return false;  // 더블클릭 시에도 편집 시작되지 않도록 차단
+            }
+        };
+
+
         JTableHeader jthTable = table.getTableHeader();
         jthTable.setFont(new Font("Dialog", Font.BOLD, 14));
         jthTable.setForeground(Color.white);
@@ -83,8 +96,20 @@ public class SubTabPanel extends JPanel {
 
     // 📌 테이블 수정 가능 여부 설정
     public void setTableEditable(boolean editable) {
-        table.setDefaultEditor(Object.class, editable ? new DefaultCellEditor(new JTextField()) : null);
+        if (!editable) {
+            for (int i = 0; i < table.getColumnCount(); i++) {
+                Class<?> columnClass = table.getColumnClass(i);
+                table.setDefaultEditor(columnClass, null);
+            }
+        } else {
+            DefaultCellEditor editor = new DefaultCellEditor(new JTextField());
+            for (int i = 0; i < table.getColumnCount(); i++) {
+                Class<?> columnClass = table.getColumnClass(i);
+                table.setDefaultEditor(columnClass, editor);
+            }
+        }
     }
+
     
     public void resetTable() {
         tableModel.setRowCount(0);

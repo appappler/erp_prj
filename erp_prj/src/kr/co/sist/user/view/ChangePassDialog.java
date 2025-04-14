@@ -19,9 +19,9 @@ public class ChangePassDialog extends JDialog {
 	private static final long serialVersionUID = -4834582046506201580L;
 	public enum Mode { REGISTER, CHANGE }
 
-    private JTextField oldPassField;
-    private JTextField newPassField;
-    private JTextField confirmPassField;
+    private JPasswordField oldPassField;
+    private JPasswordField newPassField;
+    private JPasswordField confirmPassField;
     private JButton btnOk, btnCancel;
 
     private Mode mode;
@@ -34,9 +34,9 @@ public class ChangePassDialog extends JDialog {
         JLabel lblNew = new JLabel("새 비밀번호:");
         JLabel lblConfirm = new JLabel("새 비밀번호 확인:");
 
-        oldPassField = new JTextField(15);
-        newPassField = new JTextField(15);
-        confirmPassField = new JTextField(15);
+        oldPassField = new JPasswordField(15);
+        newPassField = new JPasswordField(15);
+        confirmPassField = new JPasswordField(15);
 
         // 🔧 숨김 또는 읽기 전용 처리
         if (mode == Mode.CHANGE) {
@@ -63,15 +63,15 @@ public class ChangePassDialog extends JDialog {
 
 
     public String getOldPassword() {
-        return new String(oldPassField.getText()).trim();
+        return new String(oldPassField.getPassword()).trim();
     }
 
     public String getNewPassword() {
-        return new String(newPassField.getText()).trim();
+        return new String(newPassField.getPassword()).trim();
     }
 
     public String getConfirmPassword() {
-        return new String(confirmPassField.getText()).trim();
+        return new String(confirmPassField.getPassword()).trim();
     }
 
     public JButton getBtnOk() {

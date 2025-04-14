@@ -61,6 +61,8 @@ public class EmpDetailViewEvt implements ActionListener {
 	                // 👇 핵심 추가
 	                File chosen = detailView.getSelectedFile(); // 이미 chooseImage 내부에서 설정됨
 	                detailView.setSelectedFile(chosen); // 명시적 재지정 (안 하면 null로 인식됨)
+        }else if (src == detailView.getJbtnEditPass()) {
+            showPasswordDialog();
         }
 
 
@@ -85,7 +87,7 @@ public class EmpDetailViewEvt implements ActionListener {
         detailView.getJtfBirthDate().setEditable(false);
         detailView.getJtfHireDate().setEditable(false);
         
-        detailView.getJtfPass().setEditable(false);
+        detailView.getJpfPass().setEditable(false);
         detailView.getJcbDept().setEnabled(false);
         detailView.getJcbPosition().setEnabled(false);
 
@@ -110,7 +112,7 @@ public class EmpDetailViewEvt implements ActionListener {
     private void saveChanges() {
         try {
             String empnoStr = detailView.getJtfEmpno().getText().trim();
-            String pass = detailView.getJtfPass().getText().trim();
+            String pass = new String(detailView.getJpfPass().getPassword()).trim();
             String contact = detailView.getJtfContact().getText().trim();
             String email = detailView.getJtfEmail().getText().trim();
             String address = detailView.getJtfAddress().getText().trim();
@@ -186,7 +188,7 @@ public class EmpDetailViewEvt implements ActionListener {
     	Window parent = SwingUtilities.getWindowAncestor(detailView);
 
         ChangePassDialog dialog = new ChangePassDialog(parent, ChangePassDialog.Mode.CHANGE);
-        String currentPw = detailView.getJtfPass().getText().trim();
+        String currentPw = new String(detailView.getJpfPass().getPassword()).trim();
         dialog.setOldPassword(currentPw);
 
         dialog.getBtnOk().addActionListener(e -> {
@@ -205,6 +207,11 @@ public class EmpDetailViewEvt implements ActionListener {
                 JOptionPane.showMessageDialog(detailView, "새 비밀번호가 일치하지 않습니다.");
                 return;
             }
+            
+            if (newPw.equals(oldPw)) {
+                JOptionPane.showMessageDialog(detailView, "기존 비밀번호와 동일한 비밀번호는 사용할 수 없습니다.");
+                return;
+            }
 
             int empno = Integer.parseInt(detailView.getJtfEmpno().getText().trim());
             EmpService service = new EmpService();
@@ -218,7 +225,7 @@ public class EmpDetailViewEvt implements ActionListener {
                 boolean changed = service.changePassword(empno, newPw);
                 if (changed) {
                     JOptionPane.showMessageDialog(detailView, "비밀번호가 성공적으로 변경되었습니다.");
-                    detailView.getJtfPass().setText(newPw); // ✅ 화면 반영
+                    detailView.getJpfPass().setText(newPw); // ✅ 화면 반영
                     dialog.dispose();
                 } else {
                     JOptionPane.showMessageDialog(detailView, "비밀번호 변경 실패: DB 오류");

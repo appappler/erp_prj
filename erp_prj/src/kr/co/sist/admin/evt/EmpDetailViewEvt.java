@@ -286,6 +286,11 @@ public class EmpDetailViewEvt implements ActionListener {
                 JOptionPane.showMessageDialog(detailView, "새 비밀번호가 일치하지 않습니다.");
                 return;
             }
+            
+            if (newPw.equals(oldPw)) {
+                JOptionPane.showMessageDialog(detailView, "기존 비밀번호와 동일한 비밀번호는 사용할 수 없습니다.");
+                return;
+            }
 
             int empno = Integer.parseInt(detailView.getJtfEmpno().getText().trim());
             EmpService service = new EmpService();
