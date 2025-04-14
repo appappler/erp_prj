@@ -1,33 +1,17 @@
 package kr.co.sist.admin.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 import kr.co.sist.admin.vo.PayrollVO;
 
-/**
- * 
- */
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
+import java.awt.event.ActionListener;
+
 public class SalaryParticularView extends JPanel {
-	
-    private static final long serialVersionUID = -2801245594438332842L;
-	private JLabel lblEmpNo = new JLabel();
+    private JLabel lblEmpNo = new JLabel();
     private JLabel lblEmpName = new JLabel();
     private JLabel lblDept = new JLabel();
     private JLabel lblPosition = new JLabel();
@@ -38,18 +22,21 @@ public class SalaryParticularView extends JPanel {
     private JLabel lblTotalDeduction = new JLabel();
     private JLabel lblActualSalary = new JLabel();
     private JButton btnMonthly = new JButton("월별 급여 보기");
+    private JButton btnEdit = new JButton("수정하기");
+    private JTextField tfBaseSalary = new JTextField();
+    
+    public String getPayDate() {
+        return lblPayDate.getText().trim();
+    }
 
     public SalaryParticularView(ActionListener monthlyListener) {
-    	
-//    	setBackground(new Color(196,208,216));
-    	setOpaque(false);
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // 🔹 상단 - 사원 정보
         JPanel infoPanel = new JPanel(new GridLayout(3, 4, 10, 10));
         infoPanel.setBorder(BorderFactory.createTitledBorder("사원 기본 정보"));
-        infoPanel.setPreferredSize(new Dimension(100, 120));  // 높이 확장
+        infoPanel.setPreferredSize(new Dimension(100, 120));
 
         infoPanel.add(new JLabel("사원번호")); infoPanel.add(lblEmpNo);
         infoPanel.add(new JLabel("성명")); infoPanel.add(lblEmpName);
@@ -72,16 +59,19 @@ public class SalaryParticularView extends JPanel {
         JPanel centerPanel = new JPanel(new GridLayout(1, 2, 20, 10));
         centerPanel.add(wrapTableWithTitle("공제 내역", tableDeduction));
         centerPanel.add(wrapTableWithTitle("수령 내역", tablePayment));
+
         add(centerPanel, BorderLayout.CENTER);
 
         // 🔹 하단 - 총액 + 버튼
         JPanel bottomPanel = new JPanel(new BorderLayout());
 
-        JPanel amountPanel = new JPanel(new GridLayout(1, 4, 10, 10));
+        JPanel amountPanel = new JPanel(new GridLayout(2, 4, 10, 10));
         amountPanel.setBorder(BorderFactory.createTitledBorder("합계"));
-        amountPanel.setPreferredSize(new Dimension(100, 80));  // 높이 확장
+        amountPanel.setPreferredSize(new Dimension(100, 100));
         amountPanel.add(new JLabel("공제 총액")); amountPanel.add(lblTotalDeduction);
         amountPanel.add(new JLabel("실수령액")); amountPanel.add(lblActualSalary);
+        amountPanel.add(new JLabel("급여 수정")); amountPanel.add(tfBaseSalary);
+        amountPanel.add(new JLabel(" ")); amountPanel.add(btnEdit);
 
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnMonthly.addActionListener(monthlyListener);
@@ -91,27 +81,13 @@ public class SalaryParticularView extends JPanel {
         bottomPanel.add(btnPanel, BorderLayout.SOUTH);
 
         add(bottomPanel, BorderLayout.SOUTH);
-        
-        infoPanel.setOpaque(false);
-        centerPanel.setOpaque(false);
-        amountPanel.setOpaque(false);
-        btnPanel.setOpaque(false);
-        bottomPanel.setOpaque(false);
-        
     }
-    
 
     private void styleTable(JTable table) {
         table.setRowHeight(24);
         table.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
         table.getTableHeader().setFont(new Font("맑은 고딕", Font.BOLD, 13));
         table.setDefaultEditor(Object.class, null);
-        
-		JTableHeader header = table.getTableHeader();
-		header.setFont(new Font("Dialog", Font.BOLD, 13));
-		header.setForeground(Color.white);
-		header.setBackground(new Color(8, 60, 80));
-		header.setPreferredSize(new Dimension(header.getWidth(), 30));
 
         DefaultTableCellRenderer center = new DefaultTableCellRenderer();
         center.setHorizontalAlignment(SwingConstants.CENTER);
@@ -124,10 +100,6 @@ public class SalaryParticularView extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createTitledBorder(title));
         panel.add(new JScrollPane(table), BorderLayout.CENTER);
-        
-        
-        panel.setOpaque(false);
-        
         return panel;
     }
 
@@ -139,8 +111,10 @@ public class SalaryParticularView extends JPanel {
         lblHireDate.setText(vo.getHireDate());
         lblPayDate.setText(vo.getPayDate());
 
+        tfBaseSalary.setText(String.valueOf(vo.getBaseSalary()));
+        tfBaseSalary.setEditable(false);
+
         DefaultTableModel deductionModel = (DefaultTableModel) tableDeduction.getModel();
-        
         deductionModel.setRowCount(0);
         deductionModel.addRow(new Object[]{"소득세", vo.getIncomeTax()});
         deductionModel.addRow(new Object[]{"지방소득세", vo.getLocalIncomeTax()});
@@ -151,7 +125,7 @@ public class SalaryParticularView extends JPanel {
 
         DefaultTableModel payModel = (DefaultTableModel) tablePayment.getModel();
         payModel.setRowCount(0);
-        payModel.addRow(new Object[]{"급여", vo.getSalary()});
+        payModel.addRow(new Object[]{"급여", vo.getBaseSalary()});
         payModel.addRow(new Object[]{"상여금", vo.getBonus()});
 
         lblTotalDeduction.setText(String.format("%,d 원", vo.getTotal_deduction()));
@@ -160,5 +134,13 @@ public class SalaryParticularView extends JPanel {
 
     public JButton getBtnMonthly() {
         return btnMonthly;
+    }
+
+    public JButton getBtnEdit() {
+        return btnEdit;
+    }
+
+    public JTextField getTfBaseSalary() {
+        return tfBaseSalary;
     }
 }

@@ -1,134 +1,94 @@
 package kr.co.sist.admin.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.table.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 import kr.co.sist.admin.service.PayrollService;
 
-/**
- * 
- */
 public class SalarySearchView extends JPanel {
-	
+
     private static final long serialVersionUID = 2120720178854949797L;
-	private JComboBox<String> cbDept, cbPosition, cbYear;
+    private static SalarySearchView instance;
+
+    private JComboBox<String> cbDept, cbPosition, cbYear;
     private JTextField tfName;
     private JButton btnSearch;
     private JTable table;
     private DefaultTableModel model;
 
     public SalarySearchView() {
+        instance = this;
         setLayout(new BorderLayout(10, 10));
-        setPreferredSize(new Dimension(1000, 630));//***패널전체 사이즈 조절
+        setPreferredSize(new Dimension(900, 480));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // 🔹 검색 필터 영역
         JPanel searchPanel = new JPanel(new GridBagLayout());
         searchPanel.setOpaque(false);
         searchPanel.setBorder(BorderFactory.createTitledBorder("검색 조건"));
-
         Insets insets = new Insets(5, 10, 5, 10);
 
-        // 부서
-        GridBagConstraints gbcDeptLabel = new GridBagConstraints();
-        gbcDeptLabel.gridx = 0; gbcDeptLabel.gridy = 0;
-        gbcDeptLabel.insets = insets; gbcDeptLabel.fill = GridBagConstraints.HORIZONTAL;
-        searchPanel.add(new JLabel("부서"), gbcDeptLabel);
-
-        GridBagConstraints gbcDeptCombo = new GridBagConstraints();
-        gbcDeptCombo.gridx = 1; gbcDeptCombo.gridy = 0;
-        gbcDeptCombo.insets = insets; gbcDeptCombo.fill = GridBagConstraints.HORIZONTAL;
         cbDept = new JComboBox<>(new String[]{"부서"});
-        searchPanel.add(cbDept, gbcDeptCombo);
+        addSearchField(searchPanel, "", 0, 0, cbDept, insets);
 
-        // 직급
-        GridBagConstraints gbcPosLabel = new GridBagConstraints();
-        gbcPosLabel.gridx = 2; gbcPosLabel.gridy = 0;
-        gbcPosLabel.insets = insets; gbcPosLabel.fill = GridBagConstraints.HORIZONTAL;
-        searchPanel.add(new JLabel("직급"), gbcPosLabel);
-
-        GridBagConstraints gbcPosCombo = new GridBagConstraints();
-        gbcPosCombo.gridx = 3; gbcPosCombo.gridy = 0;
-        gbcPosCombo.insets = insets; gbcPosCombo.fill = GridBagConstraints.HORIZONTAL;
         cbPosition = new JComboBox<>(new String[]{"직급"});
-        searchPanel.add(cbPosition, gbcPosCombo);
+        addSearchField(searchPanel, "", 2, 0, cbPosition, insets);
 
-        // 년도
-        GridBagConstraints gbcYearLabel = new GridBagConstraints();
-        gbcYearLabel.gridx = 0; gbcYearLabel.gridy = 1;
-        gbcYearLabel.insets = insets; gbcYearLabel.fill = GridBagConstraints.HORIZONTAL;
-        searchPanel.add(new JLabel("년도"), gbcYearLabel);
-
-        GridBagConstraints gbcYearCombo = new GridBagConstraints();
-        gbcYearCombo.gridx = 1; gbcYearCombo.gridy = 1;
-        gbcYearCombo.insets = insets; gbcYearCombo.fill = GridBagConstraints.HORIZONTAL;
         cbYear = new JComboBox<>(new String[]{"년도"});
-        searchPanel.add(cbYear, gbcYearCombo);
+        addSearchField(searchPanel, "", 0, 1, cbYear, insets);
 
-        // 이름
-        GridBagConstraints gbcNameLabel = new GridBagConstraints();
-        gbcNameLabel.gridx = 2; gbcNameLabel.gridy = 1;
-        gbcNameLabel.insets = insets; gbcNameLabel.fill = GridBagConstraints.HORIZONTAL;
-        searchPanel.add(new JLabel("이름"), gbcNameLabel);
+        tfName = new JTextField("사원명", 10);
+        tfName.setForeground(Color.GRAY);
+        tfName.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if ("사원명".equals(tfName.getText())) {
+                    tfName.setText("");
+                    tfName.setForeground(Color.BLACK);
+                }
+            }
 
-        GridBagConstraints gbcNameField = new GridBagConstraints();
-        gbcNameField.gridx = 3; gbcNameField.gridy = 1;
-        gbcNameField.insets = insets; gbcNameField.fill = GridBagConstraints.HORIZONTAL;
-        tfName = new JTextField(10);
-        searchPanel.add(tfName, gbcNameField);
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (tfName.getText().trim().isEmpty()) {
+                    tfName.setText("사원명");
+                    tfName.setForeground(Color.GRAY);
+                }
+            }
+        });
+        addSearchField(searchPanel, "", 2, 1, tfName, insets);
 
-        // 검색 버튼
-        GridBagConstraints gbcBtn = new GridBagConstraints();
-        gbcBtn.gridx = 4; gbcBtn.gridy = 0;
-        gbcBtn.gridheight = 2;
-        gbcBtn.insets = insets;
-        gbcBtn.anchor = GridBagConstraints.CENTER;
         btnSearch = new JButton("검색");
+        GridBagConstraints gbcBtn = new GridBagConstraints();
+        gbcBtn.gridx = 4; gbcBtn.gridy = 0; gbcBtn.gridheight = 2;
+        gbcBtn.insets = insets; gbcBtn.anchor = GridBagConstraints.CENTER;
         searchPanel.add(btnSearch, gbcBtn);
 
         add(searchPanel, BorderLayout.NORTH);
 
-        // 🔹 테이블
-        String[] columns = {"지급일자", "사원번호", "성명", "부서", "직급", "급여", "상여금", "공제총액", "실수령액"};
-        model = new DefaultTableModel(columns, 0) {
-            private static final long serialVersionUID = 8059914616836205435L;
+        String[] columns = {
+            "지급일자", "사원번호", "성명", "부서", "직급",
+            "기본급", "상여금", "공제총액", "실수령액"
+        };
 
-			public boolean isCellEditable(int row, int col) {
+        model = new DefaultTableModel(columns, 0) {
+            public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
 
         table = new JTable(model);
-        
-        //***테이블사이즈 조절
-		JTableHeader header = table.getTableHeader();
-		header.setFont(new Font("Dialog", Font.BOLD, 22));
-		header.setForeground(Color.white);
-		header.setBackground(new Color(8, 60, 80));
-		header.setPreferredSize(new Dimension(header.getWidth(), 30));
-		
-        table.setRowHeight(24);
         table.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-        table.getTableHeader().setFont(new Font("맑은 고딕", Font.BOLD, 13));
+        table.setRowHeight(24);
         table.setDefaultEditor(Object.class, null);
+
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Dialog", Font.BOLD, 14));
+        header.setForeground(Color.white);
+        header.setBackground(new Color(8, 60, 80));
+        header.setPreferredSize(new Dimension(100, 35));
 
         DefaultTableCellRenderer center = new DefaultTableCellRenderer();
         center.setHorizontalAlignment(SwingConstants.CENTER);
@@ -136,12 +96,24 @@ public class SalarySearchView extends JPanel {
             table.getColumnModel().getColumn(i).setCellRenderer(center);
         }
 
-        // ❌ 더블클릭 리스너는 제거됨 (이벤트 클래스에서 처리)
-
-        add(new JScrollPane(table), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(1250, 450));
+        add(scrollPane, BorderLayout.CENTER);
     }
 
-    // 🔹 콤보박스 항목을 외부에서 PayrollService를 통해 세팅하는 메서드
+    private void addSearchField(JPanel panel, String label, int x, int y, JComponent input, Insets insets) {
+        GridBagConstraints lbl = new GridBagConstraints();
+        lbl.gridx = x; lbl.gridy = y; lbl.insets = insets; lbl.anchor = GridBagConstraints.WEST;
+        if (!label.isEmpty()) {
+            panel.add(new JLabel(label), lbl);
+        }
+
+        GridBagConstraints field = new GridBagConstraints();
+        field.gridx = x + 1; field.gridy = y;
+        field.insets = insets; field.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(input, field);
+    }
+
     public void populateComboBoxes(PayrollService service) {
         cbDept.removeAllItems(); cbDept.addItem("부서");
         for (String d : service.getAllDepartments()) cbDept.addItem(d);
@@ -153,33 +125,32 @@ public class SalarySearchView extends JPanel {
         for (String y : service.getAllYears()) cbYear.addItem(y);
     }
 
-    // 🔹 getter 메서드들 (이벤트 클래스에서 사용 가능)
-    public JButton getBtnSearch() {
-        return btnSearch;
+    public static SalarySearchView getInstanceIfExists() { return instance; }
+    public JButton getBtnSearch() { return btnSearch; }
+    public JComboBox<String> getCbDept() { return cbDept; }
+    public JComboBox<String> getCbPosition() { return cbPosition; }
+    public JComboBox<String> getCbYear() { return cbYear; }
+    public JTextField getTfName() { return tfName; }
+    public JTable getTable() { return table; }
+    public DefaultTableModel getTableModel() { return model; }
+
+    public String getSelectedDept() {
+        String dept = (String) cbDept.getSelectedItem();
+        return "부서".equals(dept) ? null : dept;
     }
 
-    public JComboBox<String> getCbDept() {
-        return cbDept;
+    public String getSelectedPos() {
+        String pos = (String) cbPosition.getSelectedItem();
+        return "직급".equals(pos) ? null : pos;
     }
 
-    public JComboBox<String> getCbPosition() {
-        return cbPosition;
+    public String getSelectedYear() {
+        String year = (String) cbYear.getSelectedItem();
+        return "년도".equals(year) ? null : year;
     }
 
-    public JComboBox<String> getCbYear() {
-        return cbYear;
+    public String getEnteredName() {
+        String name = tfName.getText().trim();
+        return ("사원명".equals(name) || name.isEmpty()) ? null : name;
     }
-
-    public JTextField getTfName() {
-        return tfName;
-    }
-
-    public DefaultTableModel getTableModel() {
-        return model;
-    }
-
-    public JTable getTable() {
-        return table;
-    }
-    
-}//class
+}

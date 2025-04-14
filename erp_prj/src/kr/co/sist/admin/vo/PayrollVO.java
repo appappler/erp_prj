@@ -3,6 +3,7 @@ package kr.co.sist.admin.vo;
 /**
  * 
  */
+
 public class PayrollVO {
     private String empno;
     private String emp_name;
@@ -23,8 +24,18 @@ public class PayrollVO {
 
     private int total_deduction;
     private int actualSalary;
+    private int baseSalary;
 
     // 🔹 Getter & Setter
+    
+    public int getBaseSalary() {
+        return baseSalary;
+    }
+
+    public void setBaseSalary(int baseSalary) {
+        this.baseSalary = baseSalary;
+    }
+    
     public String getEmpno() {
         return empno;
     }
@@ -152,5 +163,4 @@ public class PayrollVO {
     public void setActualSalary(int actualSalary) {
         this.actualSalary = actualSalary;
     }
-    
-}//class
+}
