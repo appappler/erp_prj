@@ -1,4 +1,4 @@
-# 사원관리 프로그램
+# ERP_Project : 사원관리 프로그램
 
 <br/>
 
@@ -57,18 +57,18 @@
 
 <h2 id="erd">💾 ERD</h2>
 
-<img width="1544" height="998" alt="4조_ERD" src="https://github.com/user-attachments/assets/a5965185-85be-4bd9-ac6f-481ba5d4da9b" />
+<img width="800" height="600" alt="4조_ERD" src="https://github.com/user-attachments/assets/a5965185-85be-4bd9-ac6f-481ba5d4da9b" />
 
 <br/>
 
 <h2 id="ClassDiagram">🔗 ClassDiagram</h2>
 
 ### 👥 사용자 클래스 다이어그램
-<img width="5341" height="3887" alt="4조_사원_클다" src="https://github.com/user-attachments/assets/c13b28bb-0793-4062-8a66-09c57fbbc27a" />
+<img width="800" height="600" alt="4조_사원_클다" src="https://github.com/user-attachments/assets/c13b28bb-0793-4062-8a66-09c57fbbc27a" />
 
 
 ### 👨‍💼 관리자 클래스 다이어그램
-<img width="8273" height="5063" alt="4조_관리자_클다" src="https://github.com/user-attachments/assets/734fc4c7-d878-4ad7-89e8-8fdea1f24dec" />
+<img width="800" height="600" alt="4조_관리자_클다" src="https://github.com/user-attachments/assets/734fc4c7-d878-4ad7-89e8-8fdea1f24dec" />
 
 
 <br/>
@@ -94,10 +94,10 @@
 <h2 id="ui">🎬 시연 화면</h2>
 
 ### 👥 사용자 화면
-<img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/a678c562-5efa-488f-a96c-e950f81b0779" /><img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/5ae4b8f3-7dbb-4533-a776-8e0b51a8d61e" /><img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/c8f25e9c-34c8-449c-8d84-ce8a1bfb7f3d" /><img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/daf3dbbe-5740-42cc-8560-aaf7d1ec7759" />
+<img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/a678c562-5efa-488f-a96c-e950f81b0779" /><img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/5ae4b8f3-7dbb-4533-a776-8e0b51a8d61e" /><img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/c8f25e9c-34c8-449c-8d84-ce8a1bfb7f3d" /><img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/daf3dbbe-5740-42cc-8560-aaf7d1ec7759" />
 
 ### 👨‍💼 관리자 화면
-<img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/a46daac8-4081-4b0f-bcca-e570c0069a03" /><img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/ec54b5f4-9291-4e18-be45-0e26a615f7fa" /><img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/0bf987c1-d5e6-4353-b635-e63e056021a2" /><img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/2e9471b9-6746-4ccb-ba68-93c838472a6c" />
+<img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/a46daac8-4081-4b0f-bcca-e570c0069a03" /><img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/ec54b5f4-9291-4e18-be45-0e26a615f7fa" /><img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/0bf987c1-d5e6-4353-b635-e63e056021a2" /><img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/2e9471b9-6746-4ccb-ba68-93c838472a6c" />
 
 <br/>
 
